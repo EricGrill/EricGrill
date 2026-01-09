@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "About | Eric Grill",
-  description: "Builder. Pilot. Grappler. Learn more about Eric Grill.",
+  description: "Building complex systems across AI, Bitcoin, and decentralized protocols.",
 };
 
 const SKILLS = [
@@ -118,9 +118,8 @@ export default function AboutPage() {
               </p>
 
               <p className="text-text-secondary leading-relaxed mt-4">
-                This blog is where I share thoughts on AI, aviation, jiu jitsu,
-                blockchain, and programming. I write to clarify my thinking and
-                hopefully help others along the way.
+                This blog is where I document experiments, hard-earned lessons, and
+                ideas before they vanish.
               </p>
             </div>
 

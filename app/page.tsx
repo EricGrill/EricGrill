@@ -61,13 +61,14 @@ export default function Home() {
                 Builder. Pilot. Grappler.
               </p>
 
-              <p className="text-lg text-text-secondary mb-8 max-w-xl">
-                Writing about{" "}
+              <p className="text-lg text-text-secondary mb-2 max-w-xl">
+                Building complex systems across{" "}
                 <span className="text-accent-cyan">AI</span>,{" "}
-                <span className="text-accent-magenta">aviation</span>,{" "}
-                <span className="text-accent-green">jiu jitsu</span>,{" "}
-                <span className="text-accent-cyan">blockchain</span>, and{" "}
-                <span className="text-accent-magenta">programming</span>.
+                <span className="text-accent-magenta">Bitcoin</span>, and{" "}
+                <span className="text-accent-green">decentralized protocols</span>.
+              </p>
+              <p className="text-lg text-text-secondary mb-8 max-w-xl opacity-80">
+                Here I document experiments, hard-earned lessons, and ideas before they vanish.
               </p>
 
               {/* Tech badges */}
