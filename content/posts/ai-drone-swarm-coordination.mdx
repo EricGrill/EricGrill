@@ -1,0 +1,200 @@
+---
+title: "Teaching AI Agents to Fly Drones in Formation: A Swarm Coordination Experiment"
+date: "2026-01-09"
+topics: ["ai", "programming", "aviation"]
+excerpt: "I connected Claude Code agents to a drone swarm using PX4 and Python. Tell it to form a heart shape in the sky, and it figures out the rest. Here's how visual feedback made it work like Blue Angels pilots."
+---
+
+> **Get the tools:** [agents-skills-plugins](https://github.com/EricGrill/agents-skills-plugins)
+
+# From Chat to Airspace
+
+Here's something I've been working on: getting AI agents to control drone swarms. Not just one drone—multiple drones, coordinating in formation, responding to high-level objectives like "form a heart shape in the sky."
+
+And it works.
+
+## The Stack
+
+The architecture is simpler than you'd expect:
+
+**PX4** - The open-source flight control protocol. It handles the low-level stuff: motor control, stabilization, GPS navigation. Battle-tested, well-documented, runs on most commercial drone hardware.
+
+**Python Server** - I wrapped PX4 communication in a Python server that exposes clean endpoints. The AI doesn't need to know about MAVLink message IDs or attitude quaternions. It just sends commands like "move to position" or "hold altitude."
+
+**AI Agents** - Claude Code agents with custom skills for geospatial trajectory planning. They receive the objective, calculate the math, and issue commands to each drone.
+
+```python
+# The bridge between AI intent and drone reality
+class DroneSwarmController:
+    def __init__(self, drone_ids: list[str]):
+        self.drones = {
+            id: PX4Connection(id) for id in drone_ids
+        }
+
+    async def execute_formation(
+        self,
+        formation: Formation,
+        center: GPSCoordinate,
+        altitude: float
+    ):
+        # Calculate position for each drone
+        positions = formation.calculate_positions(
+            num_drones=len(self.drones),
+            center=center,
+            altitude=altitude
+        )
+
+        # Command each drone to its position
+        tasks = [
+            drone.goto(pos)
+            for drone, pos in zip(self.drones.values(), positions)
+        ]
+        await asyncio.gather(*tasks)
+```
+
+## The Heart in the Sky
+
+The first real test: "Form a heart shape at 50 meters altitude."
+
+I have a geospatial trajectory skill that handles the geometry. Given a shape, it calculates:
+- The coordinates for each point on the shape
+- How to distribute N drones across those points
+- The GPS positions relative to a center point
+- Safe approach vectors so drones don't collide en route
+
+```typescript
+// The skill calculates where each drone needs to be
+interface FormationPoint {
+  droneId: string;
+  targetPosition: {
+    lat: number;
+    lon: number;
+    altMeters: number;
+  };
+  approachVector: {
+    heading: number;
+    speed: number;
+  };
+}
+
+// "Heart shape, 5 drones, centered at current position, 50m up"
+const formation = calculateFormation({
+  shape: 'heart',
+  numDrones: 5,
+  center: currentGPS,
+  altitude: 50,
+  scale: 20 // meters across
+});
+```
+
+The AI takes the high-level command, runs it through the skill, and translates it into specific GPS coordinates for each drone. Then the Python server pushes those to PX4.
+
+## The Visual Feedback Loop
+
+Here's where it gets interesting. The drones have cameras. Those cameras feed back to the system.
+
+Each drone's visual feed gets encoded and analyzed. The AI can *see* the formation from each drone's perspective. It can verify: "Am I where I should be relative to my neighbors?"
+
+This is exactly how the Blue Angels fly. They're not staring at instruments. They're looking at each other. Visual reference. Spatial awareness. Constant micro-adjustments based on what they see.
+
+```python
+# Visual verification loop
+async def verify_formation(self):
+    while self.in_formation:
+        for drone in self.drones.values():
+            # Get visual feed
+            frame = await drone.get_camera_frame()
+
+            # Encode and analyze
+            analysis = await self.ai.analyze_formation_position(
+                frame=frame,
+                expected_neighbors=drone.expected_visual_references
+            )
+
+            # Micro-adjust if needed
+            if analysis.drift_detected:
+                await drone.adjust_position(
+                    analysis.correction_vector
+                )
+
+        await asyncio.sleep(0.1)  # 10Hz update rate
+```
+
+My Tesla does the same thing. It's not just following GPS waypoints. It's *looking* at lane markers, other cars, obstacles. Vision plus positioning plus intent.
+
+The drones work the same way now. GPS tells them where they should be. Vision tells them where they actually are relative to the swarm. The AI reconciles the difference.
+
+## Why This Matters
+
+Drone swarms are usually programmed with rigid choreography. Every movement scripted. Every position hard-coded.
+
+This is different. I can tell the swarm:
+- "Form a heart"
+- "Now transition to a circle"
+- "Follow that car"
+- "Spread out and search this area"
+
+The AI figures out the execution. The trajectory skill handles the math. The visual feedback handles the real-world corrections. PX4 handles the flying.
+
+High-level intent in, coordinated swarm behavior out.
+
+## The Agent Architecture
+
+Multiple specialized agents working together:
+
+**Mission Planner Agent** - Receives the objective, breaks it into phases, handles timing
+
+**Trajectory Agent** - Calculates formations, transitions, safe paths
+
+**Visual Agent** - Processes camera feeds, detects drift, verifies positions
+
+**Safety Agent** - Monitors battery, weather, geofences, abort conditions
+
+```python
+# Agent coordination
+class SwarmMission:
+    def __init__(self):
+        self.planner = MissionPlannerAgent()
+        self.trajectory = TrajectoryAgent()
+        self.visual = VisualAgent()
+        self.safety = SafetyAgent()
+
+    async def execute(self, objective: str):
+        # Plan the mission
+        plan = await self.planner.create_plan(objective)
+
+        # Safety check
+        if not await self.safety.approve(plan):
+            return MissionResult.ABORTED
+
+        # Execute phases
+        for phase in plan.phases:
+            formation = await self.trajectory.calculate(phase)
+            await self.controller.execute_formation(formation)
+            await self.visual.verify_until_stable()
+
+        return MissionResult.SUCCESS
+```
+
+## Mission Success
+
+The heart formation held. Five drones, hovering in position, each using visual feedback to maintain spacing. From the ground, it looked like a heart. From each drone's camera, you could see the neighbors exactly where they should be.
+
+Then I said "transition to a line." The AI calculated new positions, safe transition paths, and the swarm morphed. No collisions. No confusion. Just coordinated movement.
+
+This is what happens when you give AI agents the right tools and let them reason about objectives instead of scripting every movement.
+
+## What's Next
+
+- More complex formations (3D shapes, dynamic patterns)
+- Following moving targets
+- Collaborative search patterns
+- Integration with the [Lightning message queue](/blog/lightning-encrypted-message-queue) for secure swarm communication
+
+The hard part wasn't the flying. PX4 handles that. The hard part was the coordination layer—getting multiple agents to share state, plan together, and verify each other's work.
+
+Turns out, the same patterns I use for [agent orchestration](/blog/agent-orchestration-plugin) in software work pretty well for physical systems too.
+
+---
+
+**Building drone systems?** I'm exploring this at [Chainbytes](https://chainbytes.com) and sharing tools at [agents-skills-plugins](https://github.com/EricGrill/agents-skills-plugins). The aviation and AI topics keep converging.
