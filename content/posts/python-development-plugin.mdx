@@ -1,0 +1,302 @@
+---
+title: "Python-Development: The Plugin That Made Me Stop Fighting My Backend"
+date: "2025-10-16"
+topics: ["ai", "programming"]
+excerpt: "How I went from copy-pasting async patterns and Django boilerplate to having a specialist on call. Django, FastAPI, async Python, uv, ruff - all the modern Python tooling, encoded into skills."
+---
+
+> **Get the tool:** [python-development](https://github.com/EricGrill/agents-skills-plugins/tree/main/python-development)
+
+## The ATM Software Incident
+
+Last month I was building backend services for [chainbytes.com](https://chainbytes.com) - Bitcoin ATM software that needs to handle concurrent transactions, talk to payment processors, manage device state, and not lose anyone's money. No pressure.
+
+I started with FastAPI because async seemed right for the job. Then I hit reality.
+
+My first attempt at handling concurrent ATM sessions looked like this:
+
+```python
+async def process_transaction(transaction_id: str):
+    # Get the transaction
+    transaction = await db.get(transaction_id)
+    # Do some processing
+    await asyncio.sleep(0.1)  # Simulate work
+    # Update the transaction
+    transaction.status = "completed"
+    await db.save(transaction)  # Race condition. Whoops.
+```
+
+See the bug? No? Neither did I. For three days.
+
+Two ATMs submitted transactions simultaneously. Both read the same state. Both updated it. One update vanished. The logs showed everything working perfectly. The customer's Bitcoin did not.
+
+This is when I realized I needed help. Not just "ask Claude" help - I needed expertise loaded and ready to go. Enter the python-development plugin.
+
+## What Python-Development Actually Is
+
+It's a collection of specialized agents and skills for Python development. Not generic "write me some Python" help, but deep expertise in specific domains:
+
+**Three Agents:**
+- `django-pro` - Django 5.x, DRF, Celery, Django Channels
+- `fastapi-pro` - Async APIs, SQLAlchemy 2.0, Pydantic V2
+- `python-pro` - Modern Python 3.12+, the 2024/2025 ecosystem
+
+**Five Skills:**
+- `async-python-patterns` - asyncio, concurrent programming, producer-consumer
+- `uv-package-manager` - The blazing-fast package manager from Astral
+- `python-testing-patterns` - pytest, fixtures, mocking, TDD
+- `python-packaging` - pyproject.toml, PyPI publishing, wheels
+- `python-performance-optimization` - Profiling, bottleneck identification
+
+The agents are heavy-weight - they load comprehensive domain knowledge. The skills are targeted references you invoke when you need specific guidance.
+
+## The Race Condition Fix
+
+After installing the plugin, I invoked the async-python-patterns skill:
+
+```
+/async-python-patterns
+```
+
+Then I described my concurrent transaction problem. What came back wasn't just a fix - it was an explanation of why my code was broken and three different patterns for handling it:
+
+```python
+import asyncio
+from typing import Optional
+
+class TransactionManager:
+    """Manages concurrent transaction access with locks."""
+
+    def __init__(self):
+        self._locks: dict[str, asyncio.Lock] = {}
+        self._lock_lock = asyncio.Lock()
+
+    async def get_lock(self, transaction_id: str) -> asyncio.Lock:
+        """Get or create a lock for a specific transaction."""
+        async with self._lock_lock:
+            if transaction_id not in self._locks:
+                self._locks[transaction_id] = asyncio.Lock()
+            return self._locks[transaction_id]
+
+    async def process_transaction(self, transaction_id: str):
+        """Process transaction with proper locking."""
+        lock = await self.get_lock(transaction_id)
+
+        async with lock:
+            transaction = await db.get(transaction_id)
+            # Now we're safe - no other coroutine can modify
+            # this transaction while we hold the lock
+            await self._do_processing(transaction)
+            transaction.status = "completed"
+            await db.save(transaction)
+```
+
+The skill didn't just give me code. It explained the lock hierarchy problem (acquiring locks on locks), showed me the producer-consumer pattern for high-throughput scenarios, and pointed out that for really critical operations I should be using database-level locking anyway.
+
+## Django or FastAPI? Both.
+
+Here's a confession: the chainbytes backend ended up being a hybrid. FastAPI for the async endpoints that talk to ATM hardware. Django for the admin interface and background job processing with Celery.
+
+The django-pro and fastapi-pro agents handled the context switching. When I was working on the FastAPI side:
+
+```
+@fastapi-pro Design an endpoint that handles ATM status polling
+from multiple machines simultaneously
+```
+
+What I got back used proper dependency injection, Pydantic models with validation, and showed me how to structure the response for efficient polling:
+
+```python
+from fastapi import FastAPI, Depends, HTTPException
+from pydantic import BaseModel, Field
+from typing import Optional
+from datetime import datetime
+
+class ATMStatus(BaseModel):
+    machine_id: str
+    online: bool = True
+    last_heartbeat: datetime
+    current_transaction: Optional[str] = None
+    cash_level: int = Field(ge=0, le=100)
+
+    model_config = {"from_attributes": True}
+
+class StatusUpdate(BaseModel):
+    machine_id: str
+    cash_level: int
+    error_code: Optional[int] = None
+
+app = FastAPI()
+
+@app.post("/atm/status", response_model=ATMStatus)
+async def update_status(
+    update: StatusUpdate,
+    session: AsyncSession = Depends(get_session),
+):
+    """Update ATM status with proper async session handling."""
+    atm = await session.get(ATM, update.machine_id)
+    if not atm:
+        raise HTTPException(status_code=404, detail="ATM not found")
+
+    atm.cash_level = update.cash_level
+    atm.last_heartbeat = datetime.utcnow()
+
+    if update.error_code:
+        await handle_error(session, atm, update.error_code)
+
+    await session.commit()
+    await session.refresh(atm)
+
+    return ATMStatus.model_validate(atm)
+```
+
+Then when I switched to the Django admin and Celery tasks:
+
+```
+@django-pro Create a Celery task that reconciles transaction
+records between the ATM logs and the payment processor
+```
+
+The django-pro agent understood the context switch. It showed me how to structure Celery tasks with proper retry logic, how to use Django's ORM efficiently in background jobs, and reminded me about database connection handling in long-running tasks.
+
+## The uv Revelation
+
+I was still using pip. I know, I know.
+
+The python-development plugin includes a skill for uv, the Rust-based package manager that's 10-100x faster than pip. After running `/uv-package-manager`, I migrated the project in about an hour:
+
+```bash
+# Old way (pip)
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+# ... wait ...
+# ... still waiting ...
+# 47 seconds later, environment ready
+
+# New way (uv)
+uv venv
+uv add fastapi uvicorn sqlalchemy pydantic
+# 2.3 seconds. Done.
+```
+
+But the speed isn't even the best part. The lockfile support means reproducible builds:
+
+```bash
+# Generate lockfile
+uv lock
+
+# Install exact versions everywhere
+uv sync --frozen
+
+# CI/CD is now deterministic
+```
+
+The skill also showed me how to structure pyproject.toml properly, separate dev dependencies, and set up uv in GitHub Actions. My CI went from 90 seconds to 15 seconds just from the dependency installation speedup.
+
+## Testing Async Code
+
+This is where I really suffered before the plugin. Testing async Python is confusing. pytest-asyncio has its own decorators. Fixtures can be async. Mocking async functions requires different patterns.
+
+The python-testing-patterns skill broke it all down:
+
+```python
+import pytest
+from unittest.mock import AsyncMock, patch
+
+@pytest.fixture
+async def mock_payment_processor():
+    """Async fixture for payment processor."""
+    processor = AsyncMock()
+    processor.charge.return_value = {"status": "success", "tx_id": "abc123"}
+    return processor
+
+@pytest.mark.asyncio
+async def test_transaction_success(mock_payment_processor):
+    """Test successful transaction flow."""
+    with patch("app.services.get_processor", return_value=mock_payment_processor):
+        result = await process_purchase(
+            amount=100,
+            customer_id="cust_123"
+        )
+
+        assert result.status == "completed"
+        mock_payment_processor.charge.assert_called_once_with(
+            amount=100,
+            customer="cust_123"
+        )
+
+@pytest.mark.asyncio
+async def test_transaction_retry_on_timeout():
+    """Test that transactions retry on processor timeout."""
+    processor = AsyncMock()
+    processor.charge.side_effect = [
+        asyncio.TimeoutError(),  # First call fails
+        {"status": "success"}     # Second call succeeds
+    ]
+
+    with patch("app.services.get_processor", return_value=processor):
+        result = await process_purchase(amount=50, customer_id="cust_456")
+
+        assert result.status == "completed"
+        assert processor.charge.call_count == 2
+```
+
+The pattern of `AsyncMock` with `side_effect` for simulating flaky services saved me. Payment processors time out. Networks fail. ATM hardware is weird. The tests now cover these cases.
+
+## The Compound Effect
+
+What I didn't expect was how these tools would work together.
+
+Start a FastAPI project with uv. Add Django for the admin. Use async patterns for concurrent operations. Test everything with pytest-asyncio. Package it all with pyproject.toml.
+
+Each skill builds on the others. The python-pro agent understands the whole stack. When I ask it about something, it considers the tools I'm using, the patterns I've established, the structure of my project.
+
+I'm not constantly context-switching between "how does asyncio work" and "what's the pytest syntax again" and "wait, how do I install this." The knowledge is loaded when I need it, specialized for my use case.
+
+## Getting Started
+
+Install the plugin from [agents-skills-plugins](https://github.com/EricGrill/agents-skills-plugins).
+
+Start with the basics:
+
+```bash
+# For a FastAPI project
+@fastapi-pro
+
+# For Django work
+@django-pro
+
+# For general Python excellence
+@python-pro
+```
+
+Then dive into specific skills when you need them:
+
+```bash
+/async-python-patterns     # Concurrent programming
+/uv-package-manager        # Modern dependency management
+/python-testing-patterns   # Pytest and TDD
+/python-packaging          # Publishing to PyPI
+/python-performance        # Profiling and optimization
+```
+
+The agents are proactive - they'll catch issues and suggest improvements. The skills are reference material - invoke them when you need specific guidance.
+
+## The Honest Ending
+
+Did the plugin make me a better Python developer? Probably not.
+
+Did it make me a more productive Python developer? Absolutely.
+
+The chainbytes ATM backend ships transactions without race conditions now. The test suite runs in CI. Dependencies install in seconds instead of minutes. I know how to structure async code properly because the patterns are in my muscle memory after seeing them explained correctly a hundred times.
+
+The python-development plugin isn't magic. It's expertise, encoded and ready. The same knowledge you'd get from reading the asyncio docs, the pytest documentation, the FastAPI guides, the Django deep-dives - but loaded into context when you need it, not sitting in browser tabs you'll definitely read later (you won't).
+
+For more tools like this, check out the [agents-skills-plugins](https://github.com/EricGrill/agents-skills-plugins) repo.
+
+---
+
+*"The best async code is code that doesn't race. The second best is code that knows when it's racing."*
+
+Ship Python. Ship it fast. Don't lose anyone's Bitcoin.

@@ -1,0 +1,208 @@
+---
+title: "I Used to Dread Writing Tests. Now AI Does the Heavy Lifting."
+date: "2025-10-13"
+topics: ["ai", "programming"]
+excerpt: "How the unit-testing plugin turned test generation from a chore into a conversation. AI-powered test automation, debugging, and TDD workflows that actually make testing enjoyable."
+---
+
+> **Get the tool:** [unit-testing](https://github.com/EricGrill/agents-skills-plugins/tree/main/unit-testing)
+
+## The Confession
+
+I have a confession. For years, I treated testing like flossing - I knew it was important, I agreed it was a best practice, and I absolutely did not do it as often as I should.
+
+It's not that I didn't understand the value. I've felt the pain of shipping bugs that a single unit test would have caught. I've stared at legacy code wondering what it was supposed to do, wishing past-me had written tests as documentation. I've been that developer nodding along during discussions about TDD while secretly thinking "yeah, but who has time?"
+
+The honest truth? Writing tests felt like extra work. The feature was done. It worked (on my machine). And now I had to write a bunch of boilerplate to prove what I already knew?
+
+Then I discovered the unit-testing plugin for Claude Code. And something shifted.
+
+## What Changed
+
+The unit-testing plugin comes with two agents and a command that fundamentally changed how I think about testing:
+
+**The test-automator agent** - An AI test automation engineer that understands modern frameworks, TDD practices, and generates comprehensive test suites.
+
+**The debugger agent** - A specialist in root cause analysis for test failures and unexpected behavior.
+
+**The `/test-generate` command** - Analyzes your code and creates ready-to-run tests with proper mocking and edge case coverage.
+
+Here's the thing that shifted my perspective: I wasn't skipping tests because I'm lazy. I was skipping tests because the activation energy was too high. Figuring out what to mock, remembering the assertion syntax, covering edge cases I hadn't thought of - by the time I'd done all that, my momentum was gone.
+
+The unit-testing plugin removes that friction entirely.
+
+## Test Generation That Actually Works
+
+The `/test-generate` command scans your code and creates comprehensive test suites. It's not just slapping together basic assertions - it analyzes your functions, identifies edge cases, and generates proper mocks for dependencies.
+
+Here's what it produces for a Python function:
+
+```python
+# Your code
+def calculate_discount(price: float, user_tier: str) -> float:
+    """Apply discount based on user tier."""
+    discounts = {"bronze": 0.05, "silver": 0.10, "gold": 0.15}
+    if price < 0:
+        raise ValueError("Price cannot be negative")
+    return price * (1 - discounts.get(user_tier, 0))
+
+# Generated tests
+import pytest
+from your_module import calculate_discount
+
+class TestCalculateDiscount:
+    """Test suite for calculate_discount function."""
+
+    def test_bronze_tier_applies_five_percent_discount(self):
+        assert calculate_discount(100.0, "bronze") == 95.0
+
+    def test_silver_tier_applies_ten_percent_discount(self):
+        assert calculate_discount(100.0, "silver") == 90.0
+
+    def test_gold_tier_applies_fifteen_percent_discount(self):
+        assert calculate_discount(100.0, "gold") == 85.0
+
+    def test_unknown_tier_applies_no_discount(self):
+        assert calculate_discount(100.0, "platinum") == 100.0
+
+    def test_negative_price_raises_value_error(self):
+        with pytest.raises(ValueError, match="Price cannot be negative"):
+            calculate_discount(-50.0, "gold")
+
+    def test_zero_price_returns_zero(self):
+        assert calculate_discount(0.0, "gold") == 0.0
+```
+
+Notice what happened there. It caught the edge cases: unknown tier, negative price, zero price. It understood the discount logic and tested each branch. It even used proper pytest idioms with class organization and descriptive test names.
+
+For JavaScript/TypeScript, it generates Jest tests with the same thoroughness:
+
+```typescript
+// Generated Jest tests for a React hook
+import { renderHook, act } from '@testing-library/react';
+import { useDebounce } from './useDebounce';
+
+describe('useDebounce', () => {
+  beforeEach(() => {
+    jest.useFakeTimers();
+  });
+
+  afterEach(() => {
+    jest.runOnlyPendingTimers();
+    jest.useRealTimers();
+  });
+
+  it('returns initial value immediately', () => {
+    const { result } = renderHook(() => useDebounce('initial', 500));
+    expect(result.current).toBe('initial');
+  });
+
+  it('delays value update by specified milliseconds', () => {
+    const { result, rerender } = renderHook(
+      ({ value, delay }) => useDebounce(value, delay),
+      { initialProps: { value: 'first', delay: 500 } }
+    );
+
+    rerender({ value: 'second', delay: 500 });
+    expect(result.current).toBe('first');
+
+    act(() => {
+      jest.advanceTimersByTime(500);
+    });
+
+    expect(result.current).toBe('second');
+  });
+});
+```
+
+It handled the fake timers setup. It knew to use `act()` for timer advancement. It tested the actual debounce behavior, not just that the hook exists.
+
+## The Debugger Agent: When Tests Fail
+
+Here's where it gets interesting. Tests fail. That's the point - they're supposed to catch problems. But debugging failing tests can be its own rabbit hole.
+
+The debugger agent follows a structured approach:
+
+1. Capture error messages and stack traces
+2. Identify reproduction steps
+3. Isolate failure location
+4. Implement minimal fix
+5. Verify the solution
+
+When a test fails, I invoke the debugger and it does something I never did consistently: it forms hypotheses and tests them methodically. It examines recent code changes, adds strategic debug logging, inspects variable states. It's doing the debugging process I knew I should do but often shortcut.
+
+The output isn't just "here's a fix." It's:
+- Root cause explanation
+- Evidence supporting the diagnosis
+- Specific code fix
+- How to test the fix works
+- How to prevent this in the future
+
+That last part - prevention recommendations - is gold. It's turning individual bugs into systematic improvements.
+
+## TDD Actually Becomes Possible
+
+The test-automator agent understands Test-Driven Development properly. Not just the concept, but the actual methodologies:
+
+- **Red-green-refactor cycle** - Write failing test, make it pass, clean up
+- **Chicago School** - State-based testing, verify outputs
+- **London School** - Interaction-based, verify collaborations with mocks
+- **Property-based TDD** - Generate properties that should always hold
+
+I always understood TDD intellectually. Tests first, code second. But in practice, I'd write the code, promise myself I'd add tests, then... not.
+
+Now I start with `/test-generate` on my function signature or interface. I get a suite of failing tests that define the behavior I'm implementing. Then I write code until they pass. The AI did the test-writing part that was blocking me.
+
+It's TDD with training wheels - and honestly, I'm not ashamed. If the result is more tested code, who cares how I got there?
+
+## Framework Support That's Actually Comprehensive
+
+The plugin handles the frameworks I actually use:
+
+- **Python**: pytest with fixtures, parametrization, mocking
+- **JavaScript/TypeScript**: Jest, React Testing Library
+- **Web automation**: Playwright, Selenium
+- **API testing**: REST Assured, Postman collections
+- **Performance**: K6, JMeter patterns
+
+And it integrates with CI/CD. It generates tests that work with GitHub Actions, GitLab CI, Jenkins - whatever pipeline you're running. Parallel execution, dynamic test selection, containerized environments.
+
+This isn't a toy that generates `assert True == True`. It's production-grade test automation.
+
+## The Shift
+
+Here's what actually changed in my workflow:
+
+**Before**: Feature done -> consider writing tests -> decide it's probably fine -> ship it -> pray
+
+**After**: Feature started -> generate test scaffolding -> implement until green -> ship with confidence
+
+The difference isn't discipline. I didn't suddenly become a better person who values testing more. The difference is friction. The unit-testing plugin made test generation fast enough that it fits naturally into my workflow instead of feeling like a separate project.
+
+The test-automator handles the boilerplate. The debugger helps when things break. The `/test-generate` command turns "I should write tests" into "I have tests."
+
+## Getting Started
+
+Install the plugin from the [agents-skills-plugins](https://github.com/EricGrill/agents-skills-plugins) marketplace:
+
+```bash
+/plugin install unit-testing@agents-skills-plugins
+```
+
+Then try it on your most untested function:
+
+```bash
+/test-generate path/to/your/file.py
+```
+
+Watch it analyze your code, identify edge cases, generate mocks, and produce a complete test suite. Then run those tests and see what breaks.
+
+For more tools that actually change how you work, check out [chainbytes.com](https://chainbytes.com). And the full agents-skills-plugins collection at [github.com/EricGrill/agents-skills-plugins](https://github.com/EricGrill/agents-skills-plugins).
+
+---
+
+I spent years feeling guilty about not writing enough tests. Turns out the problem wasn't motivation - it was tooling. The right tool doesn't make you want to test more. It makes testing feel like less of a thing you're forcing yourself to do.
+
+Tests aren't a chore when AI handles the tedious parts. They're just... how you verify your code works.
+
+*"The best test is the one that exists."*

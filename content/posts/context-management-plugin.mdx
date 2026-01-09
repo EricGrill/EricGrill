@@ -1,0 +1,180 @@
+---
+title: "Never Lose Your Place Again: Session Persistence for Claude Code"
+date: "2025-10-22"
+topics: ["ai", "programming"]
+excerpt: "How the context-management plugin solved my biggest frustration with AI assistants: starting every conversation from scratch."
+---
+
+> **Get the tool:** [context-management](https://github.com/EricGrill/agents-skills-plugins/tree/main/context-management)
+
+## The Frustration That Broke Me
+
+I was three days into a complex refactoring project. Claude Code and I had built up this beautiful shared understanding. It knew my codebase intimately. It understood why that weird utility function existed. It remembered our architectural decisions from Tuesday.
+
+Then I closed my terminal.
+
+New session. Clean slate. All that context? Gone.
+
+"Hey Claude, remember that middleware we were refactoring?"
+
+Of course it didn't remember. How could it? Each session is an island. Every conversation starts at zero.
+
+I spent the next 40 minutes re-explaining the codebase structure, our naming conventions, the decisions we'd made, the traps we'd identified. By the time Claude was back up to speed, I'd lost the momentum I had before closing that terminal.
+
+This happened three more times that week. Each time, the same ritual. Each time, that sinking feeling of starting over.
+
+There had to be a better way.
+
+## Enter Context Management
+
+The context-management plugin does one thing well: it remembers.
+
+Two commands. That's all it takes:
+
+- `/context-save` - Capture the current session's context
+- `/context-restore` - Bring that context back in a new session
+
+Here's what it looks like in practice:
+
+```bash
+# End of a productive session
+> /context-save
+
+Saved context: refactoring-auth-middleware
+- 12 key files identified
+- 8 architectural decisions captured
+- Current task state preserved
+- Custom conventions documented
+
+# Next day, new session
+> /context-restore refactoring-auth-middleware
+
+Context restored. Resuming from:
+- Working on: Auth middleware refactor, step 4 of 7
+- Last action: Extracted token validation logic
+- Next task: Migrate session handling
+- Active files: src/middleware/auth.ts, src/utils/tokens.ts
+```
+
+That's it. No 40-minute re-onboarding. No explaining the codebase architecture again. Just pick up where you left off.
+
+## How It Actually Works
+
+The plugin captures the essential elements of your working context:
+
+**Project state** - What files you're working with, what changes have been made, what's pending
+
+**Architectural understanding** - The decisions you've made, the patterns you're following, the constraints you're working within
+
+**Task progress** - Where you are in a multi-step process, what's been completed, what's next
+
+**Custom conventions** - Project-specific patterns, naming schemes, and preferences that Claude has learned during the session
+
+When you restore, this context gets loaded back into the conversation. Claude isn't starting from scratch—it's resuming from a checkpoint.
+
+Think of it like saving a game. You don't want to replay the tutorial every time you load up. You want to pick up from where the action actually is.
+
+## Setting It Up
+
+The setup is minimal. If you're already using plugins from [agents-skills-plugins](https://github.com/EricGrill/agents-skills-plugins), you're halfway there:
+
+```bash
+# Install the plugin
+/plugin install context-management@agents-skills-plugins
+```
+
+That's the basic installation. The plugin creates a `.claude/contexts/` directory in your project where saved contexts live as structured files:
+
+```
+.claude/
+└── contexts/
+    ├── refactoring-auth-middleware.json
+    ├── feature-user-dashboard.json
+    └── bugfix-race-condition.json
+```
+
+Each context file captures the session state in a format that's both machine-readable and human-reviewable. You can version control these, share them with teammates, or just keep them around for when you inevitably need to revisit that feature six months later.
+
+## The Workflow I've Landed On
+
+After a few weeks of using this, I've developed a rhythm:
+
+**Start of session**: Check if there's a relevant context to restore
+
+```bash
+> /context-restore
+
+Available contexts:
+1. feature-search-api (2 hours ago)
+2. refactoring-database-layer (yesterday)
+3. bugfix-auth-timeout (3 days ago)
+
+> /context-restore feature-search-api
+```
+
+**During work**: Keep Claude updated on significant decisions. The plugin is good at tracking what's happening, but explicitly noting "we decided X because Y" helps preserve the *reasoning*, not just the actions.
+
+**End of session**: Save before closing
+
+```bash
+> /context-save feature-search-api
+
+Updated existing context with:
+- 3 new files modified
+- 2 decisions documented
+- Task progress: 60% -> 75%
+```
+
+The key insight: context management isn't just about technical state. It's about preserving the *relationship* you've built with Claude during a working session. The understanding. The shorthand. The accumulated knowledge.
+
+## Why This Matters for Long-Term Collaboration
+
+There's a mental shift happening in how I think about Claude Code. It's not a tool I use. It's a collaborator I work with.
+
+But collaboration requires continuity. You don't introduce yourself to a colleague every morning. You don't re-explain the project from scratch at the start of each meeting. The relationship builds. Context accumulates.
+
+AI assistants have had this fundamental discontinuity problem. Every session was a first meeting. Every conversation started with "let me explain our codebase."
+
+The context-management plugin fixes that discontinuity. It lets Claude Code be what it should be: a long-term collaborator who knows your projects, remembers your decisions, and picks up where you left off.
+
+## Part of a Bigger Ecosystem
+
+This plugin works well on its own, but it's even better alongside the other tools in [agents-skills-plugins](https://github.com/EricGrill/agents-skills-plugins). The agent orchestration patterns, the skills for systematic debugging, the hooks for automated guardrails—they all benefit from persistent context.
+
+An agent that explores your codebase today can save its findings. Tomorrow's session can build on that exploration instead of repeating it.
+
+A skill that learns your project's conventions can preserve that knowledge across sessions.
+
+The ecosystem compounds. Each piece makes the others more valuable.
+
+I've been building these patterns for projects at [chainbytes.com](https://chainbytes.com), and the productivity gains are real. Not incremental improvements—fundamental changes in how work flows.
+
+## The Honest Limitations
+
+Context management isn't magic. There are constraints:
+
+**Context windows still matter** - You can't restore more context than Claude can hold. The plugin is smart about prioritizing what to restore, but massive projects with years of history won't fit in a single session.
+
+**Drift happens** - If the codebase changes significantly between sessions, saved context might reference files or patterns that no longer exist. The plugin handles this gracefully, but you'll occasionally need to rebuild context from scratch.
+
+**It's not version control** - This complements git, it doesn't replace it. Save your contexts, but also commit your code.
+
+These are real limitations, but they're manageable. The baseline without context management—starting fresh every session—is so much worse that even imperfect persistence is a massive improvement.
+
+## Try It
+
+If you're frustrated by the amnesia problem—if you've ever felt that sinking feeling of re-explaining your project for the third time in a week—give context-management a shot.
+
+Install it. Save a context at the end of your next session. Restore it tomorrow.
+
+That moment when Claude picks up exactly where you left off? When it remembers the decision you made about error handling, the pattern you established for API endpoints, the bug you found but haven't fixed yet?
+
+That moment feels like the future finally arrived.
+
+---
+
+*"The best conversations don't start over. They continue."*
+
+Build context. Save it. Restore it. Let Claude Code be the collaborator it's meant to be.
+
+**More tools for AI-assisted development at [github.com/EricGrill/agents-skills-plugins](https://github.com/EricGrill/agents-skills-plugins). More experiments at [chainbytes.com](https://chainbytes.com).**
