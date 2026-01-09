@@ -2,7 +2,8 @@ backend:
   name: github
   repo: EricGrill/ericgrill
   branch: master
-  base_url: https://decap-oauth.netlify.app
+  base_url: https://ericgrill.com
+  auth_endpoint: /api/auth
 
 media_folder: public/images
 public_folder: /images
