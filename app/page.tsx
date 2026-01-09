@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getAllPosts } from "@/lib/posts";
 import { PostCard } from "@/components/PostCard";
+import { NewsletterForm } from "@/components/NewsletterForm";
 
 export default function Home() {
   const posts = getAllPosts().slice(0, 3);
@@ -48,6 +49,21 @@ export default function Home() {
           </div>
         </section>
       )}
+
+      {/* Newsletter Section */}
+      <section className="py-16 px-6 md:px-12">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-2xl md:text-3xl font-bold text-text-primary mb-4">
+            Stay in the loop
+          </h2>
+          <p className="text-text-secondary mb-6">
+            Get notified when I publish new posts. No spam, unsubscribe anytime.
+          </p>
+          <div className="flex justify-center">
+            <NewsletterForm />
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

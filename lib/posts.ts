@@ -2,10 +2,11 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import readingTime from "reading-time";
+import { Topic } from "./topics";
 
 const postsDirectory = path.join(process.cwd(), "content/posts");
 
-export type Topic = "ai" | "aviation" | "jiu-jitsu" | "blockchain" | "programming";
+export type { Topic };
 
 export interface PostMeta {
   slug: string;
@@ -73,10 +74,5 @@ export function getPostsByTopic(topic: Topic): PostMeta[] {
   return getAllPosts().filter((post) => post.topics.includes(topic));
 }
 
-export const TOPICS: { value: Topic; label: string }[] = [
-  { value: "ai", label: "AI" },
-  { value: "aviation", label: "Aviation" },
-  { value: "jiu-jitsu", label: "Jiu Jitsu" },
-  { value: "blockchain", label: "Blockchain" },
-  { value: "programming", label: "Programming" },
-];
+// Re-export TOPICS from topics.ts for backward compatibility
+export { TOPICS } from "./topics";

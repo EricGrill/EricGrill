@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { TOPICS } from "@/lib/posts";
+import { TOPICS } from "@/lib/topics";
 
 export function TopicFilter() {
   const router = useRouter();
