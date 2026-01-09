@@ -33,80 +33,168 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="py-16 px-6 md:px-12">
-      <div className="max-w-2xl mx-auto">
-        <h1 className="text-4xl md:text-5xl font-bold text-text-primary mb-4">
-          Contact
-        </h1>
-        <p className="text-text-secondary mb-8">
-          Have a question, idea, or opportunity? I'd love to hear from you.
-        </p>
+    <div className="py-16 px-6 md:px-12 relative min-h-screen">
+      {/* Background */}
+      <div className="absolute inset-0 circuit-bg opacity-10 pointer-events-none" />
+      <div className="absolute top-20 right-10 w-64 h-64 bg-accent-cyan/5 rounded-full blur-[100px] pointer-events-none" />
+
+      <div className="max-w-2xl mx-auto relative z-10">
+        {/* Header */}
+        <div className="mb-12">
+          <span className="font-mono text-sm text-accent-cyan mb-4 block">
+            {"// "}contact
+          </span>
+          <h1 className="font-mono text-4xl md:text-5xl font-bold text-text-primary mb-4">
+            Get in <span className="text-accent-magenta">Touch</span>
+          </h1>
+          <p className="text-text-secondary">
+            Have a question, idea, or opportunity? I&apos;d love to hear from you.
+          </p>
+        </div>
 
         {status === "success" ? (
-          <div className="bg-green-50 border border-green-200 rounded-lg p-6">
-            <p className="text-green-800">
-              Thanks for reaching out! I'll get back to you soon.
+          <div className="p-8 border border-accent-green bg-accent-green/5">
+            <span className="font-mono text-accent-green text-lg block mb-2">
+              {"✓ "} message_sent
+            </span>
+            <p className="text-text-secondary">
+              Thanks for reaching out! I&apos;ll get back to you soon.
             </p>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <label htmlFor="name" className="block text-sm font-medium text-text-primary mb-2">
-                Name
-              </label>
-              <input
-                type="text"
-                id="name"
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                required
-                className="w-full px-4 py-3 rounded-lg border border-border bg-white text-text-primary focus:outline-none focus:ring-2 focus:ring-accent"
-              />
+            {/* Terminal header */}
+            <div className="p-4 border border-border bg-background-card">
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-3 h-3 rounded-full bg-red-500" />
+                <div className="w-3 h-3 rounded-full bg-yellow-500" />
+                <div className="w-3 h-3 rounded-full bg-green-500" />
+                <span className="font-mono text-xs text-text-secondary ml-2">
+                  contact_form.sh
+                </span>
+              </div>
+
+              <div className="space-y-6">
+                {/* Name field */}
+                <div>
+                  <label
+                    htmlFor="name"
+                    className="font-mono text-sm text-text-secondary mb-2 block"
+                  >
+                    <span className="text-accent-green">$</span> name:
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    value={formData.name}
+                    onChange={(e) =>
+                      setFormData({ ...formData, name: e.target.value })
+                    }
+                    required
+                    className="cyber-input w-full"
+                    placeholder="John Doe"
+                  />
+                </div>
+
+                {/* Email field */}
+                <div>
+                  <label
+                    htmlFor="email"
+                    className="font-mono text-sm text-text-secondary mb-2 block"
+                  >
+                    <span className="text-accent-green">$</span> email:
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    value={formData.email}
+                    onChange={(e) =>
+                      setFormData({ ...formData, email: e.target.value })
+                    }
+                    required
+                    className="cyber-input w-full"
+                    placeholder="john@example.com"
+                  />
+                </div>
+
+                {/* Message field */}
+                <div>
+                  <label
+                    htmlFor="message"
+                    className="font-mono text-sm text-text-secondary mb-2 block"
+                  >
+                    <span className="text-accent-green">$</span> message:
+                  </label>
+                  <textarea
+                    id="message"
+                    rows={6}
+                    value={formData.message}
+                    onChange={(e) =>
+                      setFormData({ ...formData, message: e.target.value })
+                    }
+                    required
+                    className="cyber-input w-full resize-none"
+                    placeholder="Your message here..."
+                  />
+                </div>
+              </div>
             </div>
 
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-text-primary mb-2">
-                Email
-              </label>
-              <input
-                type="email"
-                id="email"
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                required
-                className="w-full px-4 py-3 rounded-lg border border-border bg-white text-text-primary focus:outline-none focus:ring-2 focus:ring-accent"
-              />
+            {/* Submit button */}
+            <div className="flex items-center gap-4">
+              <button
+                type="submit"
+                disabled={status === "loading"}
+                className="cyber-button disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {status === "loading" ? (
+                  <span className="animate-pulse">Transmitting...</span>
+                ) : (
+                  "Send message"
+                )}
+              </button>
+
+              {status === "error" && (
+                <span className="font-mono text-sm text-red-500">
+                  {"[ "} error: transmission_failed {" ]"}
+                </span>
+              )}
             </div>
-
-            <div>
-              <label htmlFor="message" className="block text-sm font-medium text-text-primary mb-2">
-                Message
-              </label>
-              <textarea
-                id="message"
-                rows={5}
-                value={formData.message}
-                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                required
-                className="w-full px-4 py-3 rounded-lg border border-border bg-white text-text-primary focus:outline-none focus:ring-2 focus:ring-accent resize-none"
-              />
-            </div>
-
-            <button
-              type="submit"
-              disabled={status === "loading"}
-              className="px-6 py-3 bg-accent text-white rounded-lg font-medium hover:bg-accent/90 transition-colors disabled:opacity-50"
-            >
-              {status === "loading" ? "Sending..." : "Send message"}
-            </button>
-
-            {status === "error" && (
-              <p className="text-red-600 text-sm">
-                Something went wrong. Please try again.
-              </p>
-            )}
           </form>
         )}
+
+        {/* Alternative contact */}
+        <div className="mt-12 pt-8 border-t border-border">
+          <span className="font-mono text-xs text-text-secondary block mb-4">
+            {"// "}alternative_methods
+          </span>
+          <div className="flex flex-wrap gap-4">
+            <a
+              href="https://twitter.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-mono text-sm text-text-secondary hover:text-accent-cyan transition-colors"
+            >
+              [Twitter]
+            </a>
+            <a
+              href="https://linkedin.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-mono text-sm text-text-secondary hover:text-accent-cyan transition-colors"
+            >
+              [LinkedIn]
+            </a>
+            <a
+              href="https://github.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-mono text-sm text-text-secondary hover:text-accent-cyan transition-colors"
+            >
+              [GitHub]
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   );

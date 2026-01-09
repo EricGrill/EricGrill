@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { getAllPosts, getPostBySlug } from "@/lib/posts";
+import { NewsletterForm } from "@/components/NewsletterForm";
 
 interface PostPageProps {
   params: Promise<{ slug: string }>;
@@ -31,43 +32,99 @@ export default async function PostPage({ params }: PostPageProps) {
   }
 
   return (
-    <article className="py-16 px-6 md:px-12">
-      <div className="max-w-3xl mx-auto">
+    <article className="py-16 px-6 md:px-12 relative">
+      {/* Background */}
+      <div className="absolute inset-0 circuit-bg opacity-5 pointer-events-none" />
+
+      <div className="max-w-3xl mx-auto relative z-10">
         {/* Header */}
-        <div className="mb-8">
-          <div className="flex flex-wrap gap-2 mb-4">
+        <header className="mb-12">
+          {/* Back link */}
+          <Link
+            href="/blog"
+            className="inline-flex items-center gap-2 font-mono text-sm text-text-secondary hover:text-accent-cyan transition-colors mb-8"
+          >
+            <span>←</span>
+            <span>back_to_archive</span>
+          </Link>
+
+          {/* Topic tags */}
+          <div className="flex flex-wrap gap-2 mb-6">
             {post.topics.map((topic) => (
               <Link
                 key={topic}
                 href={`/blog?topic=${topic}`}
-                className="text-xs font-medium text-accent bg-accent/10 px-2 py-1 rounded hover:bg-accent/20 transition-colors"
+                className="topic-pill"
               >
                 {topic.replace("-", " ")}
               </Link>
             ))}
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold text-text-primary mb-4">
+
+          {/* Title */}
+          <h1 className="font-mono text-3xl md:text-4xl lg:text-5xl font-bold text-text-primary mb-6 leading-tight">
             {post.title}
           </h1>
-          <p className="text-text-secondary">
-            {post.date} · {post.readingTime}
-          </p>
-        </div>
+
+          {/* Meta */}
+          <div className="flex items-center gap-4 font-mono text-sm text-text-secondary">
+            <span className="text-accent-green">&gt;</span>
+            <span>{post.date}</span>
+            <span className="text-border">|</span>
+            <span>{post.readingTime}</span>
+          </div>
+        </header>
 
         {/* Content */}
-        <div className="prose prose-lg max-w-none prose-headings:text-text-primary prose-p:text-text-primary prose-a:text-accent prose-strong:text-text-primary prose-code:text-accent prose-code:bg-background-alt prose-code:px-1 prose-code:rounded">
+        <div className="prose-cyber prose prose-lg max-w-none">
           <MDXRemote source={post.content} />
         </div>
 
-        {/* Back link */}
-        <div className="mt-12 pt-8 border-t border-border">
-          <Link
-            href="/blog"
-            className="text-accent hover:underline"
-          >
-            ← Back to all posts
-          </Link>
-        </div>
+        {/* Footer */}
+        <footer className="mt-16 pt-8 border-t border-border">
+          {/* Tags again */}
+          <div className="mb-8">
+            <span className="font-mono text-xs text-text-secondary block mb-3">
+              {"// "}topics
+            </span>
+            <div className="flex flex-wrap gap-2">
+              {post.topics.map((topic) => (
+                <Link
+                  key={topic}
+                  href={`/blog?topic=${topic}`}
+                  className="topic-pill"
+                >
+                  {topic.replace("-", " ")}
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          {/* Newsletter CTA */}
+          <div className="p-8 border border-border bg-background-card/50 backdrop-blur-sm">
+            <span className="font-mono text-sm text-accent-green mb-4 block">
+              {"$ "}<span className="text-text-primary">subscribe</span> --newsletter
+            </span>
+            <h3 className="font-mono text-xl font-bold text-text-primary mb-2">
+              Enjoyed this transmission?
+            </h3>
+            <p className="text-text-secondary mb-6">
+              Subscribe to get notified when I publish new posts.
+            </p>
+            <NewsletterForm />
+          </div>
+
+          {/* Navigation */}
+          <div className="mt-8">
+            <Link
+              href="/blog"
+              className="inline-flex items-center gap-2 font-mono text-sm text-accent-cyan hover:text-accent-magenta transition-colors"
+            >
+              <span>←</span>
+              <span>view_all_transmissions</span>
+            </Link>
+          </div>
+        </footer>
       </div>
     </article>
   );

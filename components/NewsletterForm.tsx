@@ -17,26 +17,47 @@ export function NewsletterForm() {
     setEmail("");
   };
 
+  if (status === "success") {
+    return (
+      <div className="text-center p-6 border border-accent-green bg-accent-green/5">
+        <span className="font-mono text-accent-green text-sm block mb-2">
+          {"✓ "} subscription_confirmed
+        </span>
+        <p className="text-text-secondary text-sm">
+          You&apos;re in! Watch your inbox for updates.
+        </p>
+      </div>
+    );
+  }
+
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-md">
-      <input
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder="your@email.com"
-        required
-        className="flex-1 px-4 py-3 rounded-lg border border-border bg-white text-text-primary placeholder:text-text-secondary focus:outline-none focus:ring-2 focus:ring-accent"
-      />
-      <button
-        type="submit"
-        disabled={status === "loading"}
-        className="px-6 py-3 bg-accent text-white rounded-lg font-medium hover:bg-accent/90 transition-colors disabled:opacity-50"
-      >
-        {status === "loading" ? "..." : "Subscribe"}
-      </button>
-      {status === "success" && (
-        <p className="text-green-600 text-sm mt-2 sm:mt-0 sm:ml-2 self-center">Subscribed!</p>
-      )}
+    <form onSubmit={handleSubmit} className="w-full max-w-md mx-auto">
+      <div className="flex flex-col sm:flex-row gap-3">
+        <div className="relative flex-1">
+          <span className="absolute left-4 top-1/2 -translate-y-1/2 font-mono text-accent-cyan text-sm">
+            {"$ "}
+          </span>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="your@email.com"
+            required
+            className="cyber-input w-full pl-8"
+          />
+        </div>
+        <button
+          type="submit"
+          disabled={status === "loading"}
+          className="cyber-button disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {status === "loading" ? (
+            <span className="animate-pulse">Processing...</span>
+          ) : (
+            "Subscribe"
+          )}
+        </button>
+      </div>
     </form>
   );
 }

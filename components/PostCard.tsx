@@ -7,25 +7,45 @@ interface PostCardProps {
 
 export function PostCard({ post }: PostCardProps) {
   return (
-    <article className="group">
-      <Link href={`/blog/${post.slug}`} className="block">
-        <div className="flex flex-wrap gap-2 mb-2">
+    <article className="cyber-card group p-6 h-full flex flex-col">
+      <Link href={`/blog/${post.slug}`} className="block flex-1 flex flex-col">
+        {/* Topic tags */}
+        <div className="flex flex-wrap gap-2 mb-4">
           {post.topics.map((topic) => (
             <span
               key={topic}
-              className="text-xs font-medium text-accent bg-accent/10 px-2 py-1 rounded"
+              className="topic-pill"
             >
               {topic.replace("-", " ")}
             </span>
           ))}
         </div>
-        <h2 className="text-xl font-semibold text-text-primary group-hover:text-accent transition-colors mb-2">
+
+        {/* Title */}
+        <h2 className="font-mono text-lg font-semibold text-text-primary group-hover:text-accent-cyan transition-colors mb-3">
           {post.title}
         </h2>
-        <p className="text-text-secondary text-sm mb-2">
-          {post.date} · {post.readingTime}
+
+        {/* Meta */}
+        <p className="font-mono text-xs text-text-secondary mb-3 flex items-center gap-2">
+          <span className="text-accent-green">&gt;</span>
+          {post.date}
+          <span className="text-border">|</span>
+          {post.readingTime}
         </p>
-        <p className="text-text-secondary">{post.excerpt}</p>
+
+        {/* Excerpt */}
+        <p className="text-text-secondary text-sm flex-1">
+          {post.excerpt}
+        </p>
+
+        {/* Read more indicator */}
+        <div className="mt-4 pt-4 border-t border-border">
+          <span className="font-mono text-xs text-accent-cyan group-hover:text-accent-magenta transition-colors flex items-center gap-2">
+            <span>read_more</span>
+            <span className="group-hover:translate-x-1 transition-transform">→</span>
+          </span>
+        </div>
       </Link>
     </article>
   );
