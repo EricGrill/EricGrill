@@ -1,0 +1,240 @@
+---
+title: "Building a Secure Message Queue on Bitcoin Lightning with Claude Code"
+date: "2026-01-09"
+topics: ["blockchain", "programming", "ai"]
+excerpt: "How I used Claude Code's brainstorming agent and custom skills to build an encrypted message queue on Lightning Network. Messages anyone can see, but only the recipient can read."
+---
+
+> **Get the tools:** [agents-skills-plugins](https://github.com/EricGrill/agents-skills-plugins)
+
+# The Idea: Public Messages, Private Content
+
+Here's a concept that sounds contradictory until it clicks: a message queue where every message is publicly visible on the Bitcoin Lightning Network, but only the intended recipient can decrypt and read the contents.
+
+Think about it. Traditional message queues require trust in a central server. The server sees everything. The server can be compromised. The server can be subpoenaed.
+
+But what if the "server" was the Lightning Network itself? Messages are just data attached to payments. Anyone can see a payment happened. Nobody can read what's inside without the private key.
+
+Today I'm walking through how I built this using Claude Code, specifically leveraging the brainstorming agent and custom agents I've developed in my [agents-skills-plugins](https://github.com/EricGrill/agents-skills-plugins) repository.
+
+## Starting with Brainstorming
+
+Before writing a single line of code, I fired up the brainstorming skill:
+
+```bash
+/brainstorming
+```
+
+The brainstorming agent asked the questions I would have skipped:
+
+**"What's the threat model?"**
+
+I hadn't thought about this carefully. After working through it:
+- Messages should be encrypted end-to-end
+- The Lightning Network is the transport layer, not the trust layer
+- Recipients need to discover messages meant for them without revealing their identity
+- Senders shouldn't need to know if the recipient is online
+
+**"What's your key exchange mechanism?"**
+
+This led to using ECDH (Elliptic Curve Diffie-Hellman) with the recipient's Lightning node public key. The sender encrypts with a shared secret derived from their ephemeral key and the recipient's public key.
+
+**"How does the recipient discover messages?"**
+
+This was the hardest question. We settled on a "mailbox" pattern: recipients poll known routing nodes for payments with specific memo prefixes. The memo contains encrypted data that only the recipient can decrypt to verify it's meant for them.
+
+The brainstorming session produced a design document that became my implementation roadmap.
+
+## The Architecture
+
+Here's what we designed:
+
+```typescript
+interface EncryptedMessage {
+  // Visible to everyone
+  recipientHint: string;      // First 8 chars of recipient pubkey hash
+  ephemeralPubKey: string;    // Sender's one-time public key
+  encryptedPayload: string;   // AES-256-GCM encrypted message
+  nonce: string;              // Encryption nonce
+
+  // Payment metadata
+  paymentHash: string;
+  amountSats: number;
+}
+```
+
+The `recipientHint` is clever. It's enough for the recipient to know "this might be for me" without revealing to observers who the actual recipient is. Only by attempting decryption with their private key can they confirm.
+
+## Custom Agents for the Heavy Lifting
+
+I used several custom agents from my toolkit:
+
+### The Crypto Agent
+
+For all the encryption operations, I have a crypto-focused agent that understands:
+- ECDH key derivation
+- AES-GCM encryption/decryption
+- Secure random number generation
+- Key serialization formats
+
+```typescript
+// Encryption using ECDH shared secret
+async function encryptMessage(
+  message: string,
+  recipientPubKey: string
+): Promise<EncryptedMessage> {
+  // Generate ephemeral keypair
+  const ephemeral = generateKeyPair();
+
+  // Derive shared secret using ECDH
+  const sharedSecret = deriveSharedSecret(
+    ephemeral.privateKey,
+    recipientPubKey
+  );
+
+  // Encrypt with AES-256-GCM
+  const nonce = randomBytes(12);
+  const encrypted = aesGcmEncrypt(
+    Buffer.from(message),
+    sharedSecret,
+    nonce
+  );
+
+  return {
+    recipientHint: hash(recipientPubKey).slice(0, 8),
+    ephemeralPubKey: ephemeral.publicKey,
+    encryptedPayload: encrypted.toString('base64'),
+    nonce: nonce.toString('base64'),
+    paymentHash: '', // Set when payment is made
+    amountSats: 1    // Minimum payment to carry the message
+  };
+}
+```
+
+### The Lightning Agent
+
+For interacting with Lightning Network nodes:
+
+```typescript
+// Send encrypted message via Lightning payment
+async function sendMessage(
+  message: EncryptedMessage,
+  routingNode: string
+): Promise<string> {
+  const invoice = await createInvoice({
+    amountSats: message.amountSats,
+    memo: serializeMessage(message),
+    expiry: 3600 // 1 hour
+  });
+
+  const payment = await payInvoice(invoice, {
+    maxFee: 10, // sats
+    timeout: 60  // seconds
+  });
+
+  return payment.paymentHash;
+}
+```
+
+## The Recipient Side
+
+Here's where it gets interesting. The recipient polls for messages:
+
+```typescript
+async function checkForMessages(
+  privateKey: string,
+  routingNodes: string[]
+): Promise<DecryptedMessage[]> {
+  const myPubKey = derivePubKey(privateKey);
+  const myHint = hash(myPubKey).slice(0, 8);
+
+  const messages: DecryptedMessage[] = [];
+
+  for (const node of routingNodes) {
+    const payments = await getRecentPayments(node);
+
+    for (const payment of payments) {
+      const msg = parseMessage(payment.memo);
+
+      // Quick check: could this be for us?
+      if (msg.recipientHint !== myHint) continue;
+
+      // Try to decrypt
+      try {
+        const sharedSecret = deriveSharedSecret(
+          privateKey,
+          msg.ephemeralPubKey
+        );
+
+        const decrypted = aesGcmDecrypt(
+          Buffer.from(msg.encryptedPayload, 'base64'),
+          sharedSecret,
+          Buffer.from(msg.nonce, 'base64')
+        );
+
+        messages.push({
+          content: decrypted.toString(),
+          from: msg.ephemeralPubKey,
+          timestamp: payment.timestamp
+        });
+      } catch {
+        // Decryption failed - not for us
+        continue;
+      }
+    }
+  }
+
+  return messages;
+}
+```
+
+The beauty: failed decryption attempts are silent. An observer can't tell if you're the recipient or just checking.
+
+## What Claude Code Made Possible
+
+Building this without Claude Code would have taken weeks. With the brainstorming agent and custom skills:
+
+1. **Design in hours, not days** - The brainstorming agent forced me to think through edge cases before coding
+
+2. **Crypto expertise on demand** - My crypto agent knows the difference between ECDH and ECDSA, when to use GCM vs CBC, and how to handle key derivation properly
+
+3. **Lightning integration** - The Lightning agent understands the LND and CLN APIs, invoice formats, and payment flows
+
+4. **Iterative refinement** - When I realized the original design leaked recipient identity through payment amounts, Claude helped me redesign to use fixed 1-sat payments
+
+## The Skills That Made It Happen
+
+From my [agents-skills-plugins](https://github.com/EricGrill/agents-skills-plugins) repo:
+
+- **superpowers/brainstorming** - Initial design session
+- **blockchain-web3** - Lightning Network integration patterns
+- **python-development** - For the cryptography implementation
+- **unit-testing** - Testing encryption/decryption cycles
+
+## Security Considerations
+
+A few things to keep in mind:
+
+1. **Traffic analysis** - While message content is hidden, payment patterns could reveal communication relationships
+2. **Routing node trust** - The routing node sees encrypted memos but can't read them
+3. **Key management** - Losing your private key means losing access to all messages
+4. **Forward secrecy** - Each message uses a new ephemeral key, so compromising one doesn't compromise others
+
+## Try It Yourself
+
+The full implementation is more complex than what I've shown here, but the core concept is straightforward:
+
+1. Use Lightning payments as a transport layer
+2. Encrypt messages with ECDH using recipient's node pubkey
+3. Include enough metadata for recipients to find their messages
+4. Let the network do the heavy lifting
+
+If you're interested in building something similar, start with the brainstorming skill. It'll save you from the design mistakes I would have made without it.
+
+The future of private communication might not be about hiding that communication happened. It might be about making the content unreadable to everyone except the intended recipient.
+
+And that future runs on Lightning.
+
+---
+
+**Building on Lightning?** Check out my [agents-skills-plugins](https://github.com/EricGrill/agents-skills-plugins) for Claude Code skills that understand blockchain development. And if you're working on Bitcoin infrastructure, we're always building at [Chainbytes](https://chainbytes.com).
