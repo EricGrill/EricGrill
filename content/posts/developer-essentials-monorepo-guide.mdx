@@ -1,0 +1,152 @@
+---
+title: "My Monorepo Builds Took 47 Minutes. Then I Discovered Developer-Essentials."
+date: "2026-01-09"
+excerpt: "A confession about build times, wasted coffee breaks, and the Claude Code plugin that finally made me understand my own dependency graph. (Draft)"
+topics: ["ai", "programming"]
+---
+
+## The Meditation I Didn't Ask For
+
+I thought monorepos would make my life easier. Shared code! Unified tooling! One repo to rule them all!
+
+Instead, I gained a new hobby: staring at terminal output.
+
+There's something almost spiritual about watching a progress bar crawl across your screen while your CI pipeline rebuilds packages that haven't changed since the Obama administration. You start to notice things. The rhythm of the dots. The way "compiling" appears and disappears. The slow erosion of your will to live.
+
+Every "small change" triggered rebuilding the universe. Changed a button color? Rebuild everything. Fixed a typo in a comment? Rebuild everything. Breathed near the keyboard? You guessed it.
+
+Enter the developer-essentials plugin for Claude Code, specifically the monorepo-architect agent and turborepo-caching skill. Tools that actually understand dependency graphs so your CI doesn't have to rebuild 47 packages because you added a semicolon.
+
+## The 47-Minute Build: A Horror Story
+
+Let me paint you a picture.
+
+Our monorepo had 12 packages. Reasonable, right? A shared UI library, some utility functions, a few microservices, the usual suspects. One afternoon, I made a one-line CSS change. Adjusted some padding. Nothing crazy.
+
+The build took 47 minutes.
+
+*Forty-seven minutes.*
+
+I could have learned to juggle. I could have called my mom. I could have started and abandoned three side projects. Instead, I watched green text scroll by like some kind of masochistic screensaver.
+
+**The problem wasn't the monorepo. The problem was me.**
+
+- No intelligent caching - every build started fresh like it had amnesia
+- No understanding of what actually changed - the build system treated every commit like a nuclear event
+- The dependency graph was a mystery wrapped in a `package.json` wrapped in my tears
+
+**Old me** would have:
+- Added more RAM (the developer's equivalent of "have you tried turning it off and on again")
+- Complained on Twitter
+- Accepted this as my fate
+
+**New me** tried the developer-essentials plugin. It started asking questions I'd been aggressively ignoring:
+
+"Which packages actually depend on this change?"
+
+*Narrator: He had never checked.*
+
+"What's already cached from the last build?"
+
+*Narrator: Nothing. Nothing was cached.*
+
+"Do you really need to rebuild your authentication service because you changed button padding?"
+
+*Narrator: He did not. He absolutely did not.*
+
+## The Practical Stuff: From 47 Minutes to 3
+
+Here's what developer-essentials actually does, for those of you who skipped to the "how do I fix this" section (respect):
+
+### The monorepo-architect Agent
+
+This agent analyzes your repo structure and identifies optimization opportunities. It's like having a senior engineer look at your setup and politely explain all the ways you've been making your own life harder.
+
+It examines:
+- Your dependency graph (who actually needs what)
+- Build configurations (what's redundant, what's missing)
+- Task pipelines (what can run in parallel vs. what's blocking everything)
+
+### The turborepo-caching Skill
+
+This is where the magic happens. Turborepo understands that if Package A hasn't changed, and none of its dependencies have changed, you don't need to rebuild Package A. Revolutionary concept, I know.
+
+```json
+// turbo.json - the config that changed my life
+{
+  "pipeline": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**", ".next/**"]
+    },
+    "test": {
+      "dependsOn": ["build"],
+      "outputs": []
+    },
+    "lint": {
+      "outputs": []
+    }
+  }
+}
+```
+
+The plugin helped me set this up by asking:
+- "What are your actual build outputs?" (I didn't know)
+- "Which tasks depend on other tasks completing first?" (I had guesses, mostly wrong)
+- "Why is your test task rebuilding everything?" (personal attack)
+
+### The Beautiful Moment
+
+The first time I ran a build after proper configuration and saw this:
+
+```bash
+$ turbo run build
+
+ Tasks:    12 successful, 12 total
+ Cached:   11 cached, 12 total
+ Time:     3.2s
+
+>>> FULL TURBO
+```
+
+*FULL TURBO.*
+
+Eleven packages cached. One actually rebuilt (the one I changed). Three seconds instead of 47 minutes. I nearly cried.
+
+### The Real Insight
+
+The plugin didn't write my config for me. It asked questions I'd been ignoring because answering them required understanding my own codebase. Turns out, "I'll figure out the build system later" is a lie we tell ourselves, and "later" means "when it takes 47 minutes."
+
+## When Should You Use Developer-Essentials?
+
+- **Your builds take longer than your coffee break** - if you're timing bathroom breaks by build progress, it's time
+- **You've added packages without updating build configs** - we've all done it, no judgment
+- **"It works on my machine" has become your catchphrase** - caching inconsistencies are real
+- **You're scared to touch shared packages** - when changing utility code feels like defusing a bomb
+- **Your CI bill is... concerning** - faster builds = cheaper builds = happier accountants
+
+## The Honest Ending
+
+Did I get our builds down to 3 minutes? Yes.
+
+Did I immediately add 4 more packages because "now we have room"? Also yes.
+
+Did those 4 packages eventually slow things down again because I got lazy with the configs? I plead the fifth.
+
+Some lessons take longer to learn. But at least now I know *why* things are slow. I understand my dependency graph. I can look at a build and know what's cached and what's not. I'm not just hoping the terminal stops scrolling eventually.
+
+The developer-essentials plugin didn't just fix my builds. It taught me how my monorepo actually works. And honestly, that's worth more than the 44 minutes I'm saving per build.
+
+(Okay, the 44 minutes is also really nice.)
+
+If your monorepo builds have become a meditation practice you didn't sign up for, grab developer-essentials. Let the monorepo-architect agent judge your dependency graph. Set up turborepo caching properly. Feel the joy of seeing "FULL TURBO" for the first time.
+
+Your future self—the one who isn't watching progress bars—will thank you.
+
+Now if you'll excuse me, I have a remote cache to configure. Should only take a few minutes.
+
+Famous last words.
+
+---
+
+**Ready to fix your builds?** The developer-essentials plugin is available now. Start with the monorepo-architect agent and prepare to feel personally attacked by how obvious the optimizations are.
