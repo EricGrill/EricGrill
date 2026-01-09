@@ -25,14 +25,14 @@ export function Footer() {
 
           {/* Social/Links */}
           <div className="flex items-center gap-6">
+            <FooterLink href="https://www.linkedin.com/in/ericgrill/" external>
+              LinkedIn
+            </FooterLink>
             <FooterLink href="https://x.com/EricGrill" external>
               X
             </FooterLink>
             <FooterLink href="https://github.com/EricGrill" external>
               GitHub
-            </FooterLink>
-            <FooterLink href="/contact">
-              Contact
             </FooterLink>
           </div>
         </div>
