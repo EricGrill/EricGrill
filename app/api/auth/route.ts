@@ -35,20 +35,24 @@ export async function GET(request: NextRequest) {
     if (tokenData.error) {
       return new NextResponse(
         `<html><body><script>
-          window.opener.postMessage({ error: "${tokenData.error_description || tokenData.error}" }, "*");
+          window.opener.postMessage(
+            "authorization:github:error:${tokenData.error_description || tokenData.error}",
+            window.opener.location.origin
+          );
           window.close();
         </script></body></html>`,
         { headers: { "Content-Type": "text/html" } }
       );
     }
 
-    // Send token back to CMS
+    // Send token back to CMS in Decap's expected format
+    const message = JSON.stringify({ token: tokenData.access_token, provider: "github" });
     return new NextResponse(
       `<html><body><script>
-        window.opener.postMessage({
-          token: "${tokenData.access_token}",
-          provider: "github"
-        }, "*");
+        window.opener.postMessage(
+          "authorization:github:success:${message.replace(/"/g, '\\"')}",
+          window.opener.location.origin
+        );
         window.close();
       </script></body></html>`,
       { headers: { "Content-Type": "text/html" } }
@@ -56,7 +60,10 @@ export async function GET(request: NextRequest) {
   } catch (error) {
     return new NextResponse(
       `<html><body><script>
-        window.opener.postMessage({ error: "Authentication failed" }, "*");
+        window.opener.postMessage(
+          "authorization:github:error:Authentication failed",
+          window.opener.location.origin
+        );
         window.close();
       </script></body></html>`,
       { headers: { "Content-Type": "text/html" } }
