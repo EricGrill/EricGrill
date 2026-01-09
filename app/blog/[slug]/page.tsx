@@ -3,12 +3,13 @@ import Link from "next/link";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { getAllPosts, getPostBySlug } from "@/lib/posts";
 import { NewsletterForm } from "@/components/NewsletterForm";
-import { SocialShare, CodeBlock, Pre } from "@/components/blog";
+import { SocialShare, CodeBlock, Pre, VideoEmbed } from "@/components/blog";
 
 // Custom MDX components with copy-to-clipboard for code blocks
 const mdxComponents = {
   pre: Pre,
   code: CodeBlock,
+  VideoEmbed: VideoEmbed,
 };
 
 interface PostPageProps {

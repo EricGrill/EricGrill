@@ -17,3 +17,4 @@ export { PostMatrix } from "./PostMatrix";
 export { SocialShare } from "./SocialShare";
 export { ViewModeSelector, type ViewMode } from "./ViewModeSelector";
 export { CodeBlock, Pre } from "./CodeBlock";
+export { VideoEmbed } from "./VideoEmbed";
