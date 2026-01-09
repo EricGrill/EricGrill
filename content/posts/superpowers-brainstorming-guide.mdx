@@ -1,0 +1,131 @@
+---
+title: "Stop Coding, Start Thinking: How Claude Code's Brainstorming Superpower Saved Me From Myself"
+date: "2026-01-09"
+excerpt: "Confessions of a developer who launches features first and plans never. How the superpowers plugin's brainstorming skill finally got me to think before I code. (Draft)"
+topics: ["ai", "programming"]
+---
+
+## The Confession Nobody Wants to Make
+
+It's 2am. You're three commits deep into a feature that started as "just add a button." That button now needs a modal. The modal needs state management. State management needs a database schema you didn't think about. Suddenly you're refactoring components that were supposed to be finished yesterday, and your codebase has developed a personality disorder.
+
+This is my autobiography.
+
+I've shipped maybe three finished projects and started approximately 47 others. Not because I lack skill—I know how to code. I lack what I desperately need: the superpower to *think before I code*.
+
+Enter: the Claude Code superpowers plugin, specifically the brainstorming skill. And honestly? It might be the intervention I didn't know I needed.
+
+## The Flight Log Tracker: A Case Study in Avoidable Chaos
+
+Last week, I got an idea: a flight log tracker for my personal site. Simple, right? Track flights, log hours, maybe show a map. Slap it on the website. Ship it.
+
+**Old me** would have:
+- Created a React component
+- Built a form without knowing the schema
+- Realized halfway through I needed a backend
+- Spent three hours debugging why data isn't persisting
+- Abandoned project #48
+
+**New me** tried something radical. I opened the Claude Code brainstorming skill before writing a single line of code.
+
+The plugin asked me things I'd normally ignore:
+
+**Me:** "I want to build a flight log tracker."
+
+**Claude:** "What data do you actually need to track?"
+
+*Narrator: He had not considered this.*
+
+Turns out, there's a difference between "flights I've been on" and "flights *I've piloted*." One needs departure/arrival airports and flight duration. The other needs aircraft type, tail number, and certification hours. Completely different schemas. A question that took 30 seconds to answer would have cost me hours in refactoring.
+
+**Claude:** "Where will this data live?"
+
+I mumbled something about "probably local storage?" Claude didn't let me off easy. Local storage has limits. If this grows, local storage becomes a liability. A simple design decision upfront—JSON file with a backend API, or go straight to a database—became clear instead of emergent through chaos.
+
+**Claude:** "What's your MVP?"
+
+This is where I felt personally attacked. MVP means the *minimum* viable product. Not "every feature I might want someday." Not "a feature-complete Flightradar24 competitor." Just: can I log a flight and see past flights?
+
+A map can wait. Analytics can wait. That fancy D3 visualization of flight paths? *Definitely* can wait.
+
+The output was a simple design document that actually made sense. More importantly, I knew *why* each decision was made, instead of discovering decisions I'd made badly at 2am while staring at a TypeScript error that defies logic.
+
+## The Practical Walkthrough: From "Just Add a Button" to "Actually Planned"
+
+Here's how it actually works:
+
+**Step 1: Install superpowers**
+
+```bash
+npm install claude-code-superpowers
+# or if you're using the CLI directly
+claude code --plugin superpowers
+```
+
+**Step 2: Run the brainstorming skill**
+
+```bash
+/brainstorm
+```
+
+The plugin launches an interactive session. It's not a generic "tell me about your idea" chatbot. It asks *specific* questions based on what you're building:
+
+- Data requirements and schema design
+- Architecture and storage decisions
+- MVP boundaries and scope
+- Technology choices and constraints
+- User flows and edge cases
+- Integration points and dependencies
+
+**Step 3: Have an actual conversation**
+
+You don't just answer. You push back. You clarify. You discover things about your own idea that weren't clear five minutes ago.
+
+The magic isn't that Claude is smarter than you. It's that Claude is asking questions *you forgot to ask yourself*. There's something about hearing your half-formed thoughts reflected back that makes you think harder.
+
+**Step 4: Capture the output**
+
+Brainstorming generates a structured design document. Not a 47-page spec that nobody reads. Just enough clarity to know what you're building and why.
+
+For my flight tracker, that meant:
+
+- A clear data schema (flights table with: date, departure, arrival, aircraft, hours, notes)
+- A decision to build a simple Node/Express backend with SQLite (overkill? Maybe. But it's clear.)
+- An MVP scope: list flights, add flights, delete flights. Nothing else.
+- A tech stack decision that I could actually justify if someone asked
+
+## The Real Payoff: You Actually Know What You're Building
+
+Did I finish the flight log tracker? No. I've got 44 other unfinished projects demanding attention.
+
+But here's the thing: **I know what I'm building now.** I have a design I believe in. I'm not going to hit 2am and realize I made a fundamental architecture mistake because I skipped the thinking phase.
+
+That's not nothing.
+
+The brainstorming skill isn't about AI writing your code for you. Plenty of tools do that. This is different. It's about AI *stopping you from writing the wrong code* in the first place. It's about forcing you to confront design decisions before they're baked into five thousand lines of spaghetti.
+
+### When Should You Use Brainstorming?
+
+- **Starting a new project or major feature** - obvious one
+- **Before picking a tech stack** - clarity helps here
+- **When scope feels fuzzy** - "I want to build X but also Y and also Z..." is a brainstorm waiting to happen
+- **Before doing the refactor you've been dreading** - turns out, having a design helps
+- **When you're stuck mid-implementation** - sometimes stepping back and brainstorming is faster than pushing forward
+
+## The Honest Ending
+
+The superpowers plugin changed how I approach building things. Not because it's magic. Because it's the minimum viable friction to force me to *think* before I build.
+
+Am I going to finish 47 projects now? Absolutely not. I'm still me.
+
+But I'm going to start fewer projects, and finish more of them. I'm going to make fewer catastrophic architecture decisions at 2am. I'm going to know, with reasonable confidence, what I'm actually building before I start building it.
+
+If you're like me—caffeinated, idea-driven, perpetually mid-spaghetti-code—grab the Claude Code superpowers plugin. Start with brainstorming. Ask yourself the questions you'd normally skip.
+
+Your future self at 2am will thank you.
+
+Now if you'll excuse me, I have approximately 44 unfinished projects to reconsider.
+
+---
+
+**Ready to brainstorm your next project?** The superpowers plugin is available now. Start with `/brainstorm` and see what questions you've been avoiding.
