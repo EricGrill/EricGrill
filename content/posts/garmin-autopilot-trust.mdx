@@ -1,0 +1,142 @@
+---
+title: "What Clicking 'AP' at 3,000 Feet Taught Me About Trusting AI in Code"
+date: "2025-11-25"
+topics: ["aviation", "programming"]
+excerpt: "A private pilot's perspective on automation trust—from the Garmin G5 in my cockpit to the AI agents in my codebase. Sometimes you have to let go of the yoke."
+---
+
+> **Explore my tools:** [agents-skills-plugins](https://github.com/EricGrill/agents-skills-plugins)
+
+# Trusting Automation at 3,000 Feet
+
+The first time I engaged the autopilot, I didn't trust it.
+
+I was 3,000 feet over central Texas, hand-flying a Cessna 172 with a Garmin GFC 500 autopilot system. My CFI had been telling me for weeks to use it. "It's there for a reason," he said. "It reduces workload. Let it do its job."
+
+But my hands stayed on the yoke. My eyes stayed on the attitude indicator. The autopilot was flying the plane, but I was ready to take over at any moment. I was "monitoring"—which is pilot-speak for "not actually trusting the system."
+
+Sound familiar? It should if you've ever watched an AI assistant write code while hovering over the "stop generating" button.
+
+## The Garmin Philosophy
+
+Garmin's autopilot systems are brilliant pieces of engineering. The GFC 500 in particular does something clever: it doesn't try to replace the pilot. It augments them.
+
+At its core, autopilot handles the boring stuff. Hold this heading. Maintain this altitude. Track this GPS course. It frees up cognitive bandwidth for the pilot to do what humans do best: make decisions, scan for traffic, manage the bigger picture.
+
+```typescript
+// Garmin's autopilot philosophy, translated to code
+interface AutopilotMode {
+  heading: number;      // HDG mode - hold this heading
+  altitude: number;     // ALT mode - maintain this altitude
+  verticalSpeed: number; // VS mode - climb/descend at this rate
+  navSource: 'GPS' | 'VOR' | 'LOC';  // NAV mode - track this course
+}
+
+// The pilot still decides WHAT to do
+// The autopilot handles HOW to do it
+function engageAutopilot(mode: AutopilotMode): void {
+  // Automation handles the tedious pitch/roll corrections
+  // Human handles strategy, decisions, emergencies
+}
+```
+
+This is exactly how I think about AI agents in development. Not replacement. Augmentation.
+
+## The Night It Clicked
+
+I was flying back from a night cross-country—San Marcos to Georgetown, about a 45-minute flight. The weather was clear, the air was smooth, and I was exhausted from a long day of work at [Chainbytes](https://chainbytes.com).
+
+Halfway through the flight, I realized something: I'd been fighting the autopilot for months.
+
+Not literally. But cognitively. Every time I engaged it, part of my brain stayed in "flying" mode. Constantly checking. Constantly second-guessing. Never actually letting go.
+
+That night, I made a choice. I engaged HDG and ALT mode, set my course, and actually *trusted* the system. I shifted my attention to radio calls, traffic scanning, and planning my approach into Georgetown.
+
+The plane didn't fall out of the sky. Garmin's engineers had done their job. The autopilot held altitude within 20 feet. It tracked the heading perfectly. It did exactly what it was designed to do.
+
+When I landed, I was less fatigued than usual. Because I'd finally let the automation carry some weight.
+
+## Same Lesson, Different Cockpit
+
+I had the same realization building [agents-skills-plugins](https://github.com/EricGrill/agents-skills-plugins).
+
+At first, I treated AI assistants like I treated the autopilot. Constant supervision. Ready to override. Never quite trusting the output.
+
+The code would be fine. The suggestions would be reasonable. But I'd rewrite them anyway. Not because they were wrong, but because I hadn't written them myself. I was "monitoring"—hovering over the keyboard, not actually letting the AI reduce my workload.
+
+The shift came when I started thinking about AI agents the same way I think about autopilot modes:
+
+```typescript
+// Agentic development: define the mission, trust the execution
+interface AgentTask {
+  objective: string;        // What needs to be done
+  constraints: string[];    // Boundaries and requirements
+  successCriteria: string;  // How we know it worked
+}
+
+async function delegateToAgent(task: AgentTask): Promise<Result> {
+  // Like engaging NAV mode on the autopilot:
+  // - Set the destination
+  // - Define the parameters
+  // - Let the system handle the path
+
+  // The human monitors for:
+  // - Unexpected situations
+  // - Strategic changes
+  // - Final verification
+
+  return await agent.execute(task);
+}
+```
+
+You still verify. You still review. But you're not hand-flying every line of code. You're managing the mission, not the control surfaces.
+
+## When to Hand-Fly
+
+Here's the thing about autopilot: good pilots know when to disconnect it.
+
+Turbulence. Unusual attitudes. Complex approaches. Emergency situations. There are times when human judgment and adaptability matter more than algorithmic precision.
+
+Same with AI. There are moments when you need to hand-fly the code:
+
+- Novel architectural decisions
+- Security-critical implementations
+- Debugging subtle, context-dependent issues
+- Anything where "good enough" isn't good enough
+
+The skill isn't choosing between full automation and no automation. It's knowing which mode to use when.
+
+## Trust, But Verify
+
+Every pilot learns the phrase "trust, but verify." You trust your instruments, but you cross-check them. You trust ATC, but you maintain situational awareness. You trust the autopilot, but you monitor its performance.
+
+I apply the same principle to AI-assisted development:
+
+- Let the agent handle boilerplate and repetitive tasks
+- Review the output, don't just accept it
+- Keep your mental model of the system active
+- Know when to take back the controls
+
+The autopilot isn't flying the plane *for* me. It's flying the plane *with* me. The AI isn't writing code *for* me. It's writing code *with* me.
+
+## The Bigger Picture
+
+There's a reason I keep coming back to aviation metaphors. Flying teaches you to manage complex systems under uncertainty. It teaches you that automation is a tool, not a crutch. It teaches you that the best outcomes come from human-machine collaboration, not competition.
+
+When I'm building tools for agentic development, I'm trying to create that same dynamic. Systems that augment human capability. That handle the tedious stuff so developers can focus on the interesting problems. That you can trust—because they've been designed to be trustworthy.
+
+The Garmin GFC 500 doesn't have opinions about where I should fly. It just helps me get there safely and with less fatigue. That's the kind of AI tooling I want to build. And that's what I'm working toward with the [agents-skills-plugins](https://github.com/EricGrill/agents-skills-plugins) project.
+
+## Clear Skies
+
+These days, I engage the autopilot without hesitation. Not because I've stopped paying attention, but because I've learned to pay attention to the right things. The autopilot handles the pitch and roll. I handle the decisions.
+
+Same with code. The AI agents handle the implementation details. I handle the architecture, the edge cases, the stuff that requires human judgment.
+
+It took getting comfortable at 3,000 feet to get comfortable with AI in my editor. But once I made the connection, everything clicked.
+
+Sometimes you have to let go of the yoke to fly better.
+
+> "Aviate, navigate, communicate." — Pilot's priority mantra. First fly the plane, then figure out where you're going, then tell someone about it. The autopilot helps with step one so you can focus on steps two and three.
+
+Blue skies and tailwinds.

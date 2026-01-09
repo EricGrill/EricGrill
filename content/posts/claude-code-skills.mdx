@@ -1,0 +1,302 @@
+---
+title: "Claude Code Skills: The Missing Manual for Building Reusable AI Workflows"
+date: "2025-12-05"
+topics: ["ai", "programming"]
+excerpt: "A deep dive into Claude Code skills - what they are, how to build them, and why they're the secret weapon for scaling your AI-assisted development."
+---
+
+> **Get the tools:** [agents-skills-plugins](https://github.com/EricGrill/agents-skills-plugins)
+
+## The Problem With Copy-Pasting Prompts
+
+Here's my confession: for months, I had a text file called `claude-prompts.txt` sitting on my desktop. Every time I needed Claude to do something specific - review my TypeScript, analyze a dependency graph, brainstorm a feature - I'd copy-paste from this growing monstrosity.
+
+It worked. Sort of. Until it didn't.
+
+The prompts got longer. They accumulated context. Some had prerequisites ("first run this command, then paste the output"). Others had edge cases I'd forgotten I'd handled. My "simple" prompt file became 2,000 lines of spaghetti instructions.
+
+Then I discovered Claude Code skills, and suddenly all those prompts became *composable, versioned, shareable* workflows. Everything changed.
+
+## What Actually Is a Skill?
+
+A skill is a reusable prompt or workflow that lives inside a Claude Code plugin. You invoke it with a `/slash` command, and Claude loads the skill's instructions into context before responding.
+
+Think of skills as *persistent expertise* you can summon on demand.
+
+Here's the simplest possible skill structure:
+
+```bash
+my-plugin/
+├── .claude-plugin/
+│   └── plugin.json
+└── skills/
+    └── code-review/
+        └── SKILL.md
+```
+
+And a minimal `SKILL.md` file:
+
+```markdown
+---
+name: Code Review
+description: Perform thorough code review with focus on maintainability
+version: 1.0.0
+---
+
+When reviewing code, analyze:
+
+1. **Correctness** - Does it do what it claims?
+2. **Clarity** - Can another developer understand it in 30 seconds?
+3. **Edge cases** - What breaks this?
+4. **Performance** - Any obvious bottlenecks?
+
+Provide specific line-by-line feedback, not vague suggestions.
+```
+
+That's it. Run `/code-review` and Claude now has opinionated, consistent instructions for reviewing code. No more copy-pasting. No more remembering which version of the prompt was the good one.
+
+## The Anatomy of a Real Skill
+
+Let me walk you through a skill I actually use daily from [agents-skills-plugins](https://github.com/EricGrill/agents-skills-plugins).
+
+The **brainstorming** skill doesn't just ask "what do you want to build?" It forces structured thinking:
+
+```markdown
+---
+name: Brainstorming
+description: Use when starting any new feature, project, or significant code change
+version: 2.1.0
+---
+
+## Before Any Code Gets Written
+
+Stop. You're about to build something. First, answer these questions:
+
+### 1. What Problem Are You Actually Solving?
+Not "what feature are you adding" - what *problem* exists that this solves?
+
+### 2. Who Has This Problem?
+If the answer is "me, right now" - that's valid. But write it down.
+
+### 3. What's the Smallest Version That Works?
+Your MVP is probably still too big. Cut it in half. Now cut it again.
+
+### 4. What Data Do You Need?
+- What's the schema?
+- Where does it live?
+- Who can access it?
+
+### 5. What Could Go Wrong?
+List three ways this feature could fail. Now build defenses for each.
+
+## Output Format
+
+Produce a design document with:
+- Problem statement (2 sentences max)
+- Proposed solution (what, not how)
+- Data requirements
+- MVP scope
+- Known risks
+```
+
+This skill has saved me from myself more times than I can count. It's the structured thinking I never do naturally, automated into a slash command.
+
+## Skills vs. Hooks vs. Agents: When to Use What
+
+Here's where people get confused. Claude Code plugins have three major components, and they serve different purposes:
+
+### Skills = Reusable Knowledge
+
+Use skills when you want Claude to *know how to do something* on demand.
+
+- `/brainstorm` - Structured feature planning
+- `/code-review` - Consistent review criteria
+- `/debug` - Systematic debugging workflow
+
+Skills are **invoked explicitly**. You choose when to apply them.
+
+```yaml
+# skills/debugging/SKILL.md
+---
+name: Systematic Debugging
+description: Methodical approach to finding and fixing bugs
+version: 1.0.0
+---
+
+## The Debugging Protocol
+
+1. **Reproduce** - Can you make it fail consistently?
+2. **Isolate** - What's the smallest code that triggers the bug?
+3. **Hypothesize** - What do you think is wrong?
+4. **Test** - Write a test that fails because of the bug
+5. **Fix** - Make the test pass
+6. **Verify** - Confirm the original issue is resolved
+```
+
+### Hooks = Automatic Guardrails
+
+Use hooks when you want something to happen *automatically* before or after Claude takes action.
+
+- **PreToolUse** - Validate before Claude writes code
+- **PostToolUse** - Check results after commands run
+- **Stop** - Verify completion before Claude finishes
+
+Hooks are **triggered by events**, not explicit invocation.
+
+```json
+{
+  "PreToolUse": [
+    {
+      "matcher": "Write|Edit",
+      "hooks": [
+        {
+          "type": "prompt",
+          "prompt": "Before modifying this file, verify it follows TypeScript strict mode conventions."
+        }
+      ]
+    }
+  ]
+}
+```
+
+### Agents = Autonomous Specialists
+
+Use agents when you want Claude to operate **autonomously** on a larger task, potentially using multiple tools and making decisions.
+
+- `monorepo-architect` - Analyzes and optimizes build systems
+- `skill-reviewer` - Validates skill quality and structure
+- `security-auditor` - Comprehensive security review
+
+Agents are **delegated to**. You give them a goal, they figure out the steps.
+
+### The Decision Tree
+
+- Need Claude to follow specific instructions when *you* ask? **Use a skill.**
+- Need automatic validation *every time* Claude does something? **Use a hook.**
+- Need Claude to autonomously complete a multi-step goal? **Use an agent.**
+
+## Building Skills That Actually Get Used
+
+After building dozens of skills and watching most of them collect dust, I've learned what makes a skill *sticky*:
+
+### 1. Solve One Problem Well
+
+Bad: "General code improvement skill"
+Good: "TypeScript strict null check migration skill"
+
+Specificity wins. A skill that does one thing brilliantly beats a skill that does ten things adequately.
+
+### 2. Include Examples
+
+Your skill's markdown body should show Claude what good output looks like:
+
+```markdown
+---
+name: Commit Message Writer
+description: Generate conventional commit messages
+version: 1.0.0
+---
+
+Write commit messages following Conventional Commits.
+
+## Format
+
+type(scope): description
+
+[optional body]
+
+## Examples
+
+Good:
+```
+feat(auth): add OAuth2 login flow
+fix(api): handle null response in user endpoint
+refactor(components): extract Button into shared library
+```
+
+Bad:
+```
+fixed stuff
+updates
+wip
+```
+```
+
+### 3. Progressive Disclosure
+
+Don't dump everything into `SKILL.md`. Use the `references/` directory for detailed docs Claude can load when needed:
+
+```bash
+skills/
+└── typescript-migration/
+    ├── SKILL.md                    # Core instructions
+    └── references/
+        ├── strict-null-checks.md   # Deep dive on null handling
+        ├── type-narrowing.md       # Advanced patterns
+        └── common-errors.md        # Troubleshooting guide
+```
+
+Your main `SKILL.md` stays focused. Supporting details live nearby but don't bloat the primary context.
+
+### 4. Test Your Skills
+
+I'm serious. Write a test case. Run your skill against known inputs and verify the output matches expectations:
+
+```bash
+# scripts/test-commit-message.sh
+#!/bin/bash
+
+# Test the commit message skill with a known diff
+git diff HEAD~1 | claude "/commit-message" > output.txt
+
+# Verify format
+if grep -q "^feat\|fix\|refactor" output.txt; then
+    echo "PASS: Conventional format detected"
+else
+    echo "FAIL: Output doesn't match expected format"
+    exit 1
+fi
+```
+
+## Skills I Use Every Day
+
+From the [agents-skills-plugins](https://github.com/EricGrill/agents-skills-plugins) collection, these are my regulars:
+
+**`/brainstorm`** - Before starting any feature. Forces me to think before I code.
+
+**`/systematic-debugging`** - When something's broken and I'm tempted to just "try things." The skill enforces methodical investigation.
+
+**`/tdd`** - Test-driven development workflow. Write the test, watch it fail, make it pass. The skill keeps me honest.
+
+**`/code-review`** - Before every PR. Catches issues I'd miss when I'm too close to the code.
+
+**`/verification`** - Before claiming anything is "done." Requires running actual verification commands, not just saying it works.
+
+## The Bigger Picture
+
+Skills aren't just about convenience. They're about *scaling expertise*.
+
+Every time you solve a problem, you can encode that solution into a skill. Every debugging session, every architectural decision, every hard-won insight becomes reusable.
+
+I've been building skills for projects at [chainbytes.com](https://chainbytes.com), and the compound effect is real. Problems I solved six months ago stay solved. New team members get access to accumulated knowledge on day one.
+
+Your prompts shouldn't live in a text file. They should live in version-controlled skills that evolve alongside your codebase.
+
+## Getting Started
+
+If you want to explore skills, start here:
+
+1. Clone [agents-skills-plugins](https://github.com/EricGrill/agents-skills-plugins)
+2. Install a plugin: `/plugin install superpowers@agents-skills-plugins`
+3. Run a skill: `/brainstorm`
+4. Build your own: Create a `skills/` directory and write your first `SKILL.md`
+
+The best skill is the one that solves your specific problem. Start with the workflows you repeat most often. Encode them. Version them. Share them.
+
+Your future self will thank you. Probably around 2am when you're debugging something and the `/systematic-debugging` skill saves you from spiraling.
+
+---
+
+*"The best code is code you don't have to write. The best prompts are prompts you don't have to remember."*
+
+Build skills. Ship faster. Sleep better.

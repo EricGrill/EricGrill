@@ -1,0 +1,208 @@
+---
+title: "Spawn an Army: How Claude Code Agents Changed the Way I Think About Coding"
+date: "2025-12-20"
+topics: ["ai", "programming"]
+excerpt: "What happens when your AI assistant can create specialized subagents on the fly? A deep dive into Claude Code's agent architecture and why autonomous workers might be the future of development."
+---
+
+> **Get the tools:** [agents-skills-plugins](https://github.com/EricGrill/agents-skills-plugins)
+
+## The Moment It Clicked
+
+I was knee-deep in a refactoring nightmare. Three services needed updating, a database schema had grown appendages I didn't recognize, and somewhere in the chaos, I'd broken authentication. Again.
+
+That's when I spawned my first agent.
+
+Not Claude. Not the main conversation I'd been having for an hour. A *separate* autonomous worker that went off to investigate the auth problem while I kept working on the schema. It came back twenty minutes later with a diagnosis, suggested fixes, and a summary of what it found.
+
+I didn't wait for it. I didn't babysit it. I just... kept working.
+
+That's the moment I understood what Claude Code agents actually are. And why they're fundamentally different from everything else in the plugin ecosystem.
+
+## Agents Are Not Skills. Agents Are Not Hooks.
+
+Let me clear something up before we go further, because I confused this for weeks.
+
+**Skills** are interactive scripts. You invoke them, they guide you through something, they produce output. Think wizards, workflows, structured conversations. Skills are synchronous—you're engaged the whole time.
+
+**Hooks** are event listeners. Something happens (a tool runs, a session starts, a prompt gets submitted), and your hook reacts. Hooks are reactive—they respond to events in the main conversation.
+
+**Agents** are autonomous subprocesses. You spawn them with a mission, and they go do it. They have their own conversation with Claude, their own tool access, their own context window. Agents are independent—they work in parallel with you.
+
+The difference matters. Skills teach you. Hooks guard you. Agents *work alongside you*.
+
+## The Anatomy of an Agent
+
+Here's what a basic agent looks like in a Claude Code plugin:
+
+```yaml
+# agents/code-reviewer.md
+---
+name: code-reviewer
+description: Reviews code changes and provides detailed feedback on quality, patterns, and potential issues
+tools:
+  - Bash
+  - Read
+  - Grep
+  - Glob
+model: claude-sonnet-4-20250514
+---
+
+You are a senior code reviewer. Your job is to:
+
+1. Analyze the provided code changes or files
+2. Check for common issues: security vulnerabilities, performance problems, code smells
+3. Suggest improvements with specific examples
+4. Be constructive but honest
+
+When reviewing, consider:
+- Is the code readable and maintainable?
+- Are there edge cases not handled?
+- Does it follow the project's existing patterns?
+- Are there tests? Should there be?
+
+Provide your review in a structured format with severity levels (critical, warning, suggestion).
+```
+
+That's it. A markdown file with YAML frontmatter and a system prompt. The `tools` array controls what the agent can access. The `model` field lets you pick the right Claude model for the job (Sonnet for speed, Opus for complex analysis).
+
+When you invoke this agent, Claude Code spawns a separate conversation. That conversation has its own context, its own tool calls, its own thinking. It runs until it completes its task, then reports back.
+
+## Why This Changes Everything
+
+Traditional AI coding assistants are single-threaded. You ask, they answer, you ask again. It's a conversation.
+
+But real development isn't a conversation. It's orchestration. You're juggling multiple concerns, switching contexts, holding state in your head for three different problems simultaneously.
+
+Agents let Claude Code match how you actually think.
+
+Working on a feature? Spawn an agent to explore the codebase while you draft the implementation. Debugging something weird? Send an agent to investigate logs while you trace the code path. Planning a refactor? Have an agent analyze dependencies while you sketch the new architecture.
+
+It's not about Claude being faster. It's about Claude being *parallel*.
+
+## The Agents I Actually Use
+
+I've built a collection of agents for [agents-skills-plugins](https://github.com/EricGrill/agents-skills-plugins) that handle the tasks I used to context-switch for:
+
+### The Explorer
+
+```yaml
+---
+name: codebase-explorer
+description: Investigates unfamiliar codebases to understand architecture, patterns, and conventions
+tools:
+  - Read
+  - Grep
+  - Glob
+  - Bash
+model: claude-sonnet-4-20250514
+---
+
+You are a codebase archaeologist. Given a directory or topic, your job is to:
+
+1. Map the high-level structure
+2. Identify key files, entry points, and patterns
+3. Document conventions and idioms used
+4. Note anything unusual or concerning
+
+Build understanding incrementally. Start broad, then dive deep where it matters.
+Report your findings in a structured summary with file references.
+```
+
+This agent handles the "wait, how does this project work?" question that derails every debugging session. Instead of me spelunking through unfamiliar code, the explorer does it and gives me a map.
+
+### The Planner
+
+```yaml
+---
+name: implementation-planner
+description: Creates detailed implementation plans for features, breaking them into concrete steps
+tools:
+  - Read
+  - Grep
+  - Glob
+model: claude-opus-4-5-20251101
+---
+
+You are a technical architect. Given a feature request or requirement:
+
+1. Analyze the existing codebase to understand current patterns
+2. Identify all files and systems that will need modification
+3. Break the implementation into ordered, atomic steps
+4. Flag dependencies, risks, and decision points
+5. Estimate complexity for each step
+
+Output a plan that another developer (or AI) could follow without additional context.
+Be specific: name files, describe changes, explain the "why" behind each step.
+```
+
+I use Opus for planning because the quality of the plan determines everything downstream. A good plan from this agent means I can execute with Sonnet or even just follow it manually.
+
+### The Reviewer
+
+My code reviewer agent catches things I miss at 2am. More importantly, it catches things I miss because I wrote the code and can't see it objectively anymore.
+
+The key is the agent's independence. It doesn't know what I was *trying* to do. It only sees what I actually did. That fresh perspective is invaluable.
+
+## When to Spawn an Agent
+
+Not everything needs an agent. Here's my heuristic:
+
+**Spawn an agent when:**
+- The task is self-contained (clear inputs, clear outputs)
+- You don't need to interact with it mid-process
+- It would interrupt your current flow to do it yourself
+- You need a fresh perspective (code review, exploration)
+- The task is parallelizable with your current work
+
+**Don't spawn an agent when:**
+- You need interactive guidance (use a skill)
+- The task requires back-and-forth clarification
+- It's a quick lookup or single operation
+- You're already in a good flow and the context switch is minimal
+
+Agents have overhead. They spin up their own context, do their work, report back. For a five-second task, that overhead isn't worth it. For a five-minute investigation that would break your concentration? Spawn away.
+
+## The Philosophy: Agentic Development
+
+There's a bigger idea here that I keep coming back to.
+
+Traditional development is you, alone, making all the decisions. AI-assisted development is you, with a copilot, making decisions together. But agentic development is something else: you as the orchestrator of multiple specialized workers, each doing what they're best at.
+
+It's the difference between being a solo developer, a pair programmer, and a tech lead.
+
+When I'm working now, I think in terms of delegation. What can I hand off? What needs my specific attention? What's blocking something else?
+
+This isn't about AI replacing developers. It's about developers becoming more effective by focusing on the work that actually requires their judgment, while specialized agents handle the rest.
+
+The code still needs to work. The architecture still needs to make sense. The product still needs to ship. But the path there? That's increasingly about knowing when to do something yourself and when to spawn an agent.
+
+## Building Your Own Agents
+
+The best agents are opinionated. They have a clear mission, a defined scope, and strong opinions about how to accomplish their task.
+
+Generic agents like "help with coding" are useless. Specific agents like "review React components for accessibility issues" are powerful.
+
+Start with the tasks you find yourself repeating. The investigations you do before every refactor. The checks you run before every PR. The explorations you do when you join a new project.
+
+Each of those is a potential agent.
+
+If you want to see working examples or build your own, check out the collection at [agents-skills-plugins](https://github.com/EricGrill/agents-skills-plugins). I'm adding new agents as I discover patterns worth automating.
+
+## The Honest Ending
+
+I still write most of my code myself. I still make architectural decisions. I still debug the weird stuff that no agent can figure out.
+
+But I don't do the rote investigation anymore. I don't waste twenty minutes understanding a codebase I'll forget next week. I don't break flow to run checks I could delegate.
+
+The agents handle that. And I focus on the work that actually needs me.
+
+That's not laziness. That's leverage.
+
+---
+
+*"The future of development isn't AI writing your code. It's AI working alongside you while you both write code."*
+
+---
+
+**More thoughts on AI-assisted development at [chainbytes.com](https://chainbytes.com). More tools at [github.com/EricGrill/agents-skills-plugins](https://github.com/EricGrill/agents-skills-plugins).**

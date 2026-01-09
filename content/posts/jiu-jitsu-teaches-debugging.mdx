@@ -1,0 +1,94 @@
+---
+title: "What 2 Years of Jiu-Jitsu Taught Me About Debugging Code"
+date: "2025-12-15"
+topics: ["jiu-jitsu", "programming"]
+excerpt: "The mats and the terminal have more in common than you'd think. Here's what getting choked regularly has taught me about fixing broken software."
+---
+
+> **Get the tool:** [superpowers/systematic-debugging](https://github.com/EricGrill/agents-skills-plugins/tree/main/superpowers)
+
+# What Jiu-Jitsu Taught Me About Debugging
+
+I started training jiu-jitsu two years ago. Around the same time, I was deep into building Bitcoin ATM software at [Chainbytes](https://chainbytes.com). Looking back, the timing wasn't a coincidence—both disciplines demand the same mindset.
+
+## The Tap is Information
+
+In jiu-jitsu, you tap when you're caught. It's not failure—it's data. Where did I get caught? Why didn't I see it coming? What position led to that submission?
+
+Debugging is the same. A crash isn't a catastrophe. It's a breadcrumb.
+
+```typescript
+// The stack trace is your opponent's technique
+try {
+  await processTransaction(input);
+} catch (error) {
+  // Don't just log it. Study it like tape.
+  console.log('Position:', error.stack);
+  console.log('Submission:', error.message);
+  console.log('Setup:', JSON.stringify(input));
+}
+```
+
+Every time I get tapped, I ask my training partner: "What did you feel that made you go for that?" Every time my code crashes, I ask the same question. What input triggered this path?
+
+## Position Before Submission
+
+This is day-one jiu-jitsu wisdom. Don't hunt for the finish. Establish dominant position first, then the submission presents itself.
+
+I've watched junior developers spend hours hunting for a bug in the wrong file. They're submission hunting. They think they know where the problem is, so they dig there obsessively.
+
+The senior move? Establish position first:
+
+1. Can you reproduce it consistently?
+2. What's the minimal reproduction case?
+3. What changed recently?
+
+Once you have position—once you truly understand the state of the system—the bug often reveals itself.
+
+## Drilling is Unglamorous But Essential
+
+Nobody posts their drilling sessions on Instagram. It's not flashy. It's the same movement, hundreds of times, until it becomes automatic.
+
+Writing tests is drilling. Setting up proper logging is drilling. Building muscle memory with your debugger is drilling.
+
+```bash
+# Drilling your debugging fundamentals
+git bisect start
+git bisect bad HEAD
+git bisect good v1.2.0
+# Now let git do the detective work
+```
+
+When you're in a live roll—or a production incident at 2am—you don't rise to the level of your expectations. You fall to the level of your training.
+
+## Ego is the Enemy
+
+The white belt who refuses to tap gets injured. The developer who refuses to admit they don't understand the codebase ships bugs.
+
+Two years in, I'm still very much a beginner on the mats. But I've learned to ask questions that feel basic—both in jiu-jitsu and in code. "What does this function actually return?" "Why did that sweep work?"
+
+I roll with everyone—the fresh white belts and the purple belts who tie me in knots. Everyone has something to teach you if you're willing to learn.
+
+## The Best Defense is Position
+
+In jiu-jitsu, if you're defending a submission, you've already made several mistakes. The goal is to never be in a position where you need to defend.
+
+In code, if you're debugging production, you've already made several mistakes. The goal is:
+
+- Type safety that catches errors at compile time
+- Tests that catch regressions before deploy
+- Monitoring that alerts before users complain
+
+Prevention beats cure. Every time.
+
+## Keep Showing Up
+
+I'm not the most talented grappler at my gym. But I keep showing up. Rolling when I'm tired. Coding when it's hard. Building [agentic tools](https://github.com/EricGrill/agents-skills-plugins) when I could be watching TV.
+
+Consistency beats talent when talent doesn't show up.
+
+See you on the mats. And in the codebase.
+
+> "A black belt is just a white belt who never quit." - Unknown
+
+OSS.
