@@ -29,21 +29,12 @@ export function BlogSearch({ value, onChange }: BlogSearchProps) {
 
   return (
     <div className="relative group">
-      {/* Search icon */}
-      <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none">
-        <svg
-          className={`w-5 h-5 transition-colors ${isFocused ? "text-accent-cyan" : "text-text-secondary"}`}
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-          />
-        </svg>
+      {/* Terminal-style prefix */}
+      <div className="absolute left-4 top-1/2 -translate-y-1/2 font-mono text-sm flex items-center gap-2 pointer-events-none">
+        <span className={`transition-colors ${isFocused ? "text-accent-cyan" : "text-accent-green"}`}>
+          $
+        </span>
+        <span className="text-accent-green">query</span>
       </div>
 
       <input
@@ -53,10 +44,10 @@ export function BlogSearch({ value, onChange }: BlogSearchProps) {
         onChange={(e) => onChange(e.target.value)}
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
-        placeholder="Search posts..."
+        placeholder="search posts..."
         className={`
-          w-full cyber-input pl-12 pr-24 py-3 font-mono text-sm
-          placeholder:text-text-secondary/50
+          w-full cyber-input pl-28 pr-24 py-3 font-mono text-sm
+          placeholder:text-text-secondary/60
           ${isFocused ? "border-accent-cyan shadow-glow-cyan" : ""}
         `}
       />
