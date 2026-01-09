@@ -2,11 +2,29 @@
 
 Use this file when generating new blog posts for ericgrill.com.
 
+## About Eric Grill
+
+### Aviation Background
+- **Current aircraft:** Rockwell Commander (owner)
+- **Previous aircraft:** Beechcraft Musketeer (former owner)
+- **Certificate:** Private Pilot
+- **Total hours:** 500+
+- **Years flying:** 10+
+- **Instrument hours:** 100+ (not IFR certified yet)
+- **Equipment:** Garmin auto-pilot systems
+- **NEVER mention Cessna** - Eric does not fly Cessnas
+
+### Jiu-Jitsu
+- ~2 years training (beginner mindset)
+
 ## Subjects to Write About
 
 ### Aviation
-- Rockwell Commander (aircraft ownership/flying)
+- Rockwell Commander (current aircraft, ownership experience)
 - Garmin auto-pilot systems
+- Instrument flying experiences
+- Cross-country flights
+- Aircraft ownership/maintenance
 
 ### Technology
 - Claude Code
