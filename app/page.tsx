@@ -62,13 +62,14 @@ export default function Home() {
               </p>
 
               <p className="text-lg text-text-secondary mb-2 max-w-xl">
-                Building complex systems across{" "}
+                Building resilient systems with{" "}
                 <span className="text-accent-cyan">AI</span>,{" "}
                 <span className="text-accent-magenta">Bitcoin</span>, and{" "}
-                <span className="text-accent-green">decentralized protocols</span>.
+                <span className="text-accent-green">decentralized protocols</span>{" "}
+                that remove the need for centralized power structures.
               </p>
               <p className="text-lg text-text-secondary mb-8 max-w-xl opacity-80">
-                Here I document experiments, hard-earned lessons, and ideas before they vanish.
+                Decentralize everything. Here I document the experiments, lessons, and ideas along the way.
               </p>
 
               {/* Tech badges */}

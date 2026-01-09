@@ -117,8 +117,14 @@ export default function AboutPage() {
                 This site is where I write in public. I document experiments, ideas, systems, and mistakes so they do not evaporate. You will find thoughts on Bitcoin, engineering, automation, security, and sometimes the strange edges where all of those collide.
               </p>
 
-              <p className="text-text-secondary leading-relaxed mt-6 border-l-2 border-accent-cyan pl-4">
-                What I care about is simple: <span className="text-text-primary">clarity over noise</span>, <span className="text-text-primary">curiosity over certainty</span>, and <span className="text-text-primary">building things that actually work</span>.
+              <p className="text-text-secondary leading-relaxed mt-6 border-l-2 border-accent-magenta pl-4">
+                <span className="text-accent-magenta font-mono text-sm block mb-2">{"// "}mission</span>
+                <span className="text-text-primary font-medium">Decentralize everything.</span> Remove power structures through resilient systems that replace the need for centralized control. Build technology that keeps working when institutions fail.
+              </p>
+
+              <p className="text-text-secondary leading-relaxed mt-4 border-l-2 border-accent-cyan pl-4">
+                <span className="text-accent-cyan font-mono text-sm block mb-2">{"// "}values</span>
+                <span className="text-text-primary">Clarity over noise</span>, <span className="text-text-primary">curiosity over certainty</span>, and <span className="text-text-primary">building things that actually work</span>.
               </p>
 
               <p className="text-text-secondary leading-relaxed mt-4">
