@@ -33,39 +33,57 @@ export async function GET(request: NextRequest) {
     const tokenData = await tokenResponse.json();
 
     if (tokenData.error) {
+      const errorMsg = tokenData.error_description || tokenData.error;
       return new NextResponse(
-        `<html><body><script>
-          window.opener.postMessage(
-            "authorization:github:error:${tokenData.error_description || tokenData.error}",
-            window.opener.location.origin
-          );
-          window.close();
-        </script></body></html>`,
+        `<!DOCTYPE html>
+<html><head><title>Auth</title></head><body>
+<script>
+(function() {
+  var msg = "authorization:github:error:" + ${JSON.stringify(errorMsg)};
+  if (window.opener) {
+    window.opener.postMessage(msg, "*");
+  }
+  window.close();
+})();
+</script>
+</body></html>`,
         { headers: { "Content-Type": "text/html" } }
       );
     }
 
     // Send token back to CMS in Decap's expected format
-    const message = JSON.stringify({ token: tokenData.access_token, provider: "github" });
+    const token = tokenData.access_token;
     return new NextResponse(
-      `<html><body><script>
-        window.opener.postMessage(
-          "authorization:github:success:${message.replace(/"/g, '\\"')}",
-          window.opener.location.origin
-        );
-        window.close();
-      </script></body></html>`,
+      `<!DOCTYPE html>
+<html><head><title>Auth</title></head><body>
+<script>
+(function() {
+  var token = ${JSON.stringify(token)};
+  var data = JSON.stringify({ token: token, provider: "github" });
+  var msg = "authorization:github:success:" + data;
+  if (window.opener) {
+    window.opener.postMessage(msg, "*");
+  }
+  window.close();
+})();
+</script>
+</body></html>`,
       { headers: { "Content-Type": "text/html" } }
     );
   } catch (error) {
     return new NextResponse(
-      `<html><body><script>
-        window.opener.postMessage(
-          "authorization:github:error:Authentication failed",
-          window.opener.location.origin
-        );
-        window.close();
-      </script></body></html>`,
+      `<!DOCTYPE html>
+<html><head><title>Auth</title></head><body>
+<script>
+(function() {
+  var msg = "authorization:github:error:Authentication failed";
+  if (window.opener) {
+    window.opener.postMessage(msg, "*");
+  }
+  window.close();
+})();
+</script>
+</body></html>`,
       { headers: { "Content-Type": "text/html" } }
     );
   }
