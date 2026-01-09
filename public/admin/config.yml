@@ -1,0 +1,34 @@
+backend:
+  name: github
+  repo: EricGrill/ericgrill
+  branch: master
+  base_url: https://decap-oauth.netlify.app
+
+media_folder: public/images
+public_folder: /images
+
+collections:
+  - name: posts
+    label: Blog Posts
+    folder: content/posts
+    create: true
+    slug: "{{slug}}"
+    extension: mdx
+    format: frontmatter
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Publish Date, name: date, widget: datetime, format: "YYYY-MM-DD" }
+      - {
+          label: Topics,
+          name: topics,
+          widget: select,
+          multiple: true,
+          options:
+            - { label: "AI", value: "ai" }
+            - { label: "Aviation", value: "aviation" }
+            - { label: "Jiu Jitsu", value: "jiu-jitsu" }
+            - { label: "Blockchain", value: "blockchain" }
+            - { label: "Programming", value: "programming" }
+        }
+      - { label: Excerpt, name: excerpt, widget: string }
+      - { label: Body, name: body, widget: markdown }
