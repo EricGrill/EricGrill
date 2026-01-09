@@ -15,7 +15,9 @@ Use this file when generating new blog posts for ericgrill.com.
 - **NEVER mention Cessna** - Eric does not fly Cessnas
 
 ### Jiu-Jitsu
-- ~2 years training (beginner mindset)
+- Blue belt (promoted May 2025 after IBJJF Europeans gold)
+- ~2 years training
+- 2025 IBJJF European Championship gold medalist (white belt division)
 
 ## Subjects to Write About
 
@@ -32,7 +34,7 @@ Use this file when generating new blog posts for ericgrill.com.
 - Skills, hooks, and agents
 
 ### Lifestyle
-- Jiu-jitsu (2 years experience, still learning)
+- Jiu-jitsu (blue belt, 2025 IBJJF Europeans gold)
 
 ## Topics for Frontmatter
 
@@ -77,5 +79,5 @@ excerpt: "Brief description for cards"
 - Include code snippets when relevant (TypeScript preferred)
 - End with a memorable quote or sign-off
 - Keep it authentic—don't oversell experience
-- Jiu-jitsu: ~2 years training (beginner mindset)
+- Jiu-jitsu: blue belt, 2025 IBJJF Europeans gold
 - Draw connections between different interests (aviation + code, jiu-jitsu + debugging, etc.)
