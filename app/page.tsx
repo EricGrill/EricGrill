@@ -88,7 +88,7 @@ export default function Home() {
                   href="/about"
                   className="font-mono text-sm uppercase tracking-wider text-text-secondary hover:text-accent-cyan transition-colors py-3 px-6 border border-border hover:border-accent-cyan"
                 >
-                  Learn more
+                  About Eric Grill
                 </Link>
               </div>
             </div>

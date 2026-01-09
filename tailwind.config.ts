@@ -22,8 +22,8 @@ const config: Config = {
         "glow-magenta": "var(--glow-magenta)",
       },
       fontFamily: {
-        sans: ["Space Grotesk", "system-ui", "sans-serif"],
-        mono: ["JetBrains Mono", "monospace"],
+        sans: ["var(--font-sans)", "Space Grotesk", "system-ui", "sans-serif"],
+        mono: ["var(--font-mono)", "JetBrains Mono", "monospace"],
       },
       animation: {
         "glitch": "glitch 0.3s ease-in-out",

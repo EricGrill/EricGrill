@@ -1,11 +1,21 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 
-const inter = Inter({ subsets: ["latin"] });
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-sans",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-mono",
+});
 
 export const metadata: Metadata = {
   title: "Eric Grill",
@@ -33,7 +43,7 @@ export default function RootLayout({
           `}
         </Script>
       </head>
-      <body className={`${inter.className} flex flex-col min-h-screen`}>
+      <body className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} flex flex-col min-h-screen`}>
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />
