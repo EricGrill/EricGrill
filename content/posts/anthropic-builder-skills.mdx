@@ -1,0 +1,235 @@
+---
+title: "Anthropic Builder Skills: Creating Extensions for Claude Code"
+date: "2025-09-22"
+topics: ["ai", "programming"]
+excerpt: "A guide to Anthropic's official skills for building MCP servers, creating skills, generating web artifacts, and testing web applications."
+---
+
+> **Official skills:** [anthropics/skills](https://github.com/anthropics/skills/tree/main/skills)
+
+Anthropic provides a set of official skills designed to help developers extend Claude Code's capabilities. These builder and testing skills streamline common development workflows, from creating MCP servers to testing web applications. This guide covers four essential skills that every Claude Code user should know about.
+
+## MCP Builder
+
+**Repository:** [mcp-builder](https://github.com/anthropics/skills/tree/main/skills/mcp-builder)
+
+The MCP Builder skill helps you create Model Context Protocol (MCP) servers. MCP servers extend Claude's capabilities by providing custom tools, resources, and prompts that Claude can use during conversations.
+
+### What It Does
+
+- Scaffolds new MCP server projects with proper structure
+- Generates TypeScript or Python server implementations
+- Creates tool definitions with proper schemas
+- Sets up configuration files for Claude Code integration
+
+### How to Use It
+
+Invoke the skill when you want to create a new MCP server:
+
+```
+/mcp-builder
+```
+
+You can also provide context about what you're building:
+
+```
+/mcp-builder Create an MCP server for managing GitHub issues
+```
+
+The skill guides you through defining tools, their parameters, and their implementations. It produces a complete, working MCP server that you can install and use immediately with Claude Code.
+
+### Example Output
+
+The skill generates projects with this structure:
+
+```
+my-mcp-server/
+├── src/
+│   └── index.ts
+├── package.json
+├── tsconfig.json
+└── README.md
+```
+
+## Skill Creator
+
+**Repository:** [skill-creator](https://github.com/anthropics/skills/tree/main/skills/skill-creator)
+
+The Skill Creator helps you build custom skills for Claude Code. Skills are reusable instruction sets that teach Claude how to handle specific tasks or workflows.
+
+### What It Does
+
+- Creates properly formatted skill markdown files
+- Defines skill metadata and trigger conditions
+- Structures instructions for optimal Claude comprehension
+- Sets up skill directories with correct naming conventions
+
+### How to Use It
+
+Start the skill creator with:
+
+```
+/skill-creator
+```
+
+Or specify what kind of skill you want to build:
+
+```
+/skill-creator Create a skill for code review workflows
+```
+
+The skill walks you through defining:
+
+1. **Skill name and description** - What the skill does
+2. **Trigger conditions** - When Claude should use it
+3. **Instructions** - Step-by-step guidance for Claude
+4. **Examples** - Sample inputs and outputs
+
+### Skill Structure
+
+Generated skills follow this format:
+
+```markdown
+---
+name: my-skill
+description: What this skill does
+triggers:
+  - pattern: "keyword or phrase"
+---
+
+# Instructions
+
+Detailed instructions for Claude...
+```
+
+## Web Artifacts Builder
+
+**Repository:** [web-artifacts-builder](https://github.com/anthropics/skills/tree/main/skills/web-artifacts-builder)
+
+The Web Artifacts Builder skill creates interactive web components and standalone HTML applications. It specializes in generating self-contained artifacts that work without external dependencies.
+
+### What It Does
+
+- Generates complete HTML/CSS/JavaScript applications
+- Creates interactive visualizations and tools
+- Builds self-contained components with inline styles
+- Produces artifacts that run directly in browsers
+
+### How to Use It
+
+Invoke it when you need web artifacts:
+
+```
+/web-artifacts-builder
+```
+
+Or describe what you want to build:
+
+```
+/web-artifacts-builder Create an interactive color palette generator
+```
+
+### Use Cases
+
+The Web Artifacts Builder excels at creating:
+
+- **Data visualizations** - Charts, graphs, and interactive displays
+- **Utility tools** - Calculators, converters, and formatters
+- **Interactive demos** - Proof-of-concept interfaces
+- **Standalone widgets** - Self-contained UI components
+
+### Output Format
+
+Generated artifacts are single HTML files with embedded CSS and JavaScript:
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  <style>/* Embedded styles */</style>
+</head>
+<body>
+  <!-- Component markup -->
+  <script>/* Embedded logic */</script>
+</body>
+</html>
+```
+
+## WebApp Testing
+
+**Repository:** [webapp-testing](https://github.com/anthropics/skills/tree/main/skills/webapp-testing)
+
+The WebApp Testing skill provides structured approaches for testing web applications. It helps you create comprehensive test suites and validate application behavior.
+
+### What It Does
+
+- Designs test strategies for web applications
+- Creates end-to-end test scenarios
+- Generates test cases for common user flows
+- Identifies edge cases and potential failure points
+
+### How to Use It
+
+Start a testing session with:
+
+```
+/webapp-testing
+```
+
+Or specify what you want to test:
+
+```
+/webapp-testing Test the authentication flow in my React app
+```
+
+### Testing Approach
+
+The skill helps you build tests across multiple levels:
+
+1. **Unit tests** - Individual component behavior
+2. **Integration tests** - Component interactions
+3. **End-to-end tests** - Complete user workflows
+4. **Accessibility tests** - WCAG compliance checks
+
+### Example Workflow
+
+When testing a login form, the skill helps you cover:
+
+- Valid credential submission
+- Invalid username/password handling
+- Empty field validation
+- Rate limiting behavior
+- Session management
+- Error message display
+
+## Installing Official Skills
+
+To use these skills, add the Anthropic skills repository to your Claude Code configuration:
+
+```bash
+claude mcp add-skill anthropics/skills
+```
+
+Or install individual skills:
+
+```bash
+claude mcp add-skill anthropics/skills/mcp-builder
+claude mcp add-skill anthropics/skills/skill-creator
+claude mcp add-skill anthropics/skills/web-artifacts-builder
+claude mcp add-skill anthropics/skills/webapp-testing
+```
+
+## Summary
+
+These four official skills cover essential development workflows:
+
+| Skill | Purpose | Primary Use Case |
+|-------|---------|------------------|
+| mcp-builder | Create MCP servers | Extending Claude's tools |
+| skill-creator | Build custom skills | Teaching Claude new workflows |
+| web-artifacts-builder | Generate web components | Creating interactive artifacts |
+| webapp-testing | Test web applications | Validating app behavior |
+
+Each skill provides structured guidance that helps you accomplish complex tasks efficiently. By combining these skills, you can build a complete development workflow—from creating new tools and skills to building and testing web applications.
+
+For more information on Claude Code skills and customization, visit the [official Anthropic skills repository](https://github.com/anthropics/skills).

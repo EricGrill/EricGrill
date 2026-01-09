@@ -1,0 +1,153 @@
+---
+title: "Anthropic Document Skills: Working with Office Files in Claude Code"
+date: "2025-09-28"
+topics: ["ai", "programming"]
+excerpt: "A guide to Anthropic's official skills for creating and editing Word documents, PDFs, PowerPoints, and Excel spreadsheets with Claude Code."
+---
+
+> **Official skills:** [anthropics/skills](https://github.com/anthropics/skills/tree/main/skills)
+
+Claude Code includes a powerful set of document processing skills that enable creating and manipulating common office file formats directly from natural language instructions. These skills transform Claude from a code assistant into a comprehensive document automation tool.
+
+## What Are Document Skills?
+
+Document skills are specialized capabilities that extend Claude Code's functionality beyond code editing. They provide structured workflows for generating professional documents, spreadsheets, presentations, and PDFs—all through conversational commands.
+
+Each skill is invoked using a slash command (like `/pdf` or `/docx`) and guides Claude through the document creation process with appropriate prompts and best practices.
+
+## Available Document Skills
+
+### 1. docx - Word Document Creation
+
+**Skill:** [docx](https://github.com/anthropics/skills/tree/main/skills/docx)
+
+The `docx` skill enables creation and editing of Microsoft Word documents. It handles document structure, formatting, tables, images, and styling.
+
+**Usage:**
+```
+/docx Create a project proposal document with executive summary, timeline, and budget sections
+```
+
+**Capabilities:**
+- Create new Word documents from scratch
+- Add formatted text with headings, paragraphs, and lists
+- Insert tables with custom styling
+- Include images and graphics
+- Apply consistent formatting and styles
+- Edit existing .docx files
+
+This skill is ideal for generating reports, proposals, letters, and any structured text document that needs professional formatting.
+
+### 2. pdf - PDF Generation
+
+**Skill:** [pdf](https://github.com/anthropics/skills/tree/main/skills/pdf)
+
+The `pdf` skill handles PDF creation and manipulation. PDFs are essential for documents that need to maintain exact formatting across different systems.
+
+**Usage:**
+```
+/pdf Generate a invoice PDF with company header, line items, and payment terms
+```
+
+**Capabilities:**
+- Generate PDF documents with precise layouts
+- Create multi-page documents
+- Add headers, footers, and page numbers
+- Include tables and formatted text
+- Embed images and graphics
+- Control page size and margins
+
+Use this skill when you need documents that will be printed, shared externally, or archived in a format that preserves exact appearance.
+
+### 3. pptx - PowerPoint Presentations
+
+**Skill:** [pptx](https://github.com/anthropics/skills/tree/main/skills/pptx)
+
+The `pptx` skill creates Microsoft PowerPoint presentations with slides, layouts, and visual elements.
+
+**Usage:**
+```
+/pptx Create a 10-slide presentation about our Q3 product roadmap
+```
+
+**Capabilities:**
+- Create presentations with multiple slides
+- Apply different slide layouts (title, content, two-column, etc.)
+- Add text boxes, bullet points, and numbered lists
+- Insert images and shapes
+- Include speaker notes
+- Apply consistent theming
+
+This skill excels at quickly generating presentation decks for meetings, pitches, training materials, and educational content.
+
+### 4. xlsx - Excel Spreadsheets
+
+**Skill:** [xlsx](https://github.com/anthropics/skills/tree/main/skills/xlsx)
+
+The `xlsx` skill creates and manipulates Microsoft Excel spreadsheets, including formulas, formatting, and data organization.
+
+**Usage:**
+```
+/xlsx Create a budget tracking spreadsheet with monthly columns and expense categories
+```
+
+**Capabilities:**
+- Create spreadsheets with multiple worksheets
+- Add and format data in cells
+- Include formulas and calculations
+- Apply cell formatting (colors, borders, fonts)
+- Create data tables with headers
+- Set column widths and row heights
+
+Use this skill for financial documents, data analysis templates, inventory tracking, and any tabular data that benefits from spreadsheet functionality.
+
+### 5. doc-coauthoring - Collaborative Document Editing
+
+**Skill:** [doc-coauthoring](https://github.com/anthropics/skills/tree/main/skills/doc-coauthoring)
+
+The `doc-coauthoring` skill provides an interactive workflow for editing documents collaboratively with Claude. Rather than generating a complete document at once, it enables iterative refinement.
+
+**Usage:**
+```
+/doc-coauthoring Help me revise my research paper draft
+```
+
+**Capabilities:**
+- Review and suggest edits to existing documents
+- Make targeted improvements to specific sections
+- Preserve document structure while enhancing content
+- Provide explanations for suggested changes
+- Iterate through multiple revision rounds
+
+This skill is particularly valuable when you have an existing document that needs refinement rather than starting from scratch.
+
+## Getting Started
+
+To use these skills, ensure you have Claude Code installed and the skills enabled. Each skill can be invoked directly:
+
+```bash
+# In Claude Code, simply use the slash command
+/pdf Create a certificate of completion for "Introduction to AI" course
+
+/docx Write a meeting minutes document from these notes: [paste notes]
+
+/xlsx Build a project timeline with tasks, owners, and due dates
+```
+
+## Practical Applications
+
+These document skills open up numerous automation possibilities:
+
+- **Report Generation:** Automatically create weekly or monthly reports from data
+- **Template Population:** Fill document templates with dynamic content
+- **Batch Processing:** Generate multiple documents with variations
+- **Format Conversion:** Create documents in specific formats as needed
+- **Documentation:** Produce user manuals, guides, and technical documentation
+
+## Summary
+
+Anthropic's document processing skills transform Claude Code into a versatile document automation platform. By combining natural language instructions with specialized document generation capabilities, these skills eliminate the manual work of creating and formatting office documents.
+
+Whether you need a quick PDF invoice, a polished PowerPoint deck, or a complex Excel spreadsheet, these skills provide the foundation for efficient document workflows.
+
+For the latest updates and detailed documentation, visit the [official skills repository](https://github.com/anthropics/skills).

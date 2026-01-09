@@ -1,0 +1,166 @@
+---
+title: "Anthropic Design Skills: Visual Creation with Claude Code"
+date: "2025-09-25"
+topics: ["ai", "programming"]
+excerpt: "A guide to Anthropic's official skills for algorithmic art, canvas design, brand guidelines, and theme generation with Claude Code."
+---
+
+> **Official skills:** [anthropics/skills](https://github.com/anthropics/skills/tree/main/skills)
+
+Claude Code includes a collection of official skills designed specifically for visual creation and design work. These skills extend Claude's capabilities beyond text generation into algorithmic art, canvas-based design, brand identity systems, and theme generation.
+
+This guide covers four design-focused skills from the official Anthropic skills repository, explaining what each does and how to use them effectively.
+
+## Algorithmic Art
+
+**Repository:** [anthropics/skills/algorithmic-art](https://github.com/anthropics/skills/tree/main/skills/algorithmic-art)
+
+The algorithmic-art skill enables Claude Code to generate procedural and generative artwork through code. This includes creating mathematical visualizations, particle systems, fractal patterns, and other forms of computational art.
+
+### What It Does
+
+- Generates SVG-based generative art
+- Creates mathematical and geometric patterns
+- Produces procedural graphics using algorithms
+- Supports various generative techniques including noise functions, L-systems, and recursive patterns
+
+### How to Use It
+
+Invoke the skill by describing the type of generative art you want:
+
+```
+/algorithmic-art Create a flowing particle system with organic movement
+```
+
+```
+/algorithmic-art Generate a fractal tree pattern with autumn colors
+```
+
+```
+/algorithmic-art Design a geometric pattern inspired by Islamic tessellations
+```
+
+The skill handles the mathematical foundations and outputs clean, scalable vector graphics suitable for web use or further refinement.
+
+## Canvas Design
+
+**Repository:** [anthropics/skills/canvas-design](https://github.com/anthropics/skills/tree/main/skills/canvas-design)
+
+The canvas-design skill focuses on creating visual designs using HTML Canvas or similar rendering contexts. It's suited for creating graphics that require pixel-level control or dynamic rendering.
+
+### What It Does
+
+- Creates canvas-based illustrations and graphics
+- Generates interactive visual elements
+- Produces designs that can be animated or made responsive
+- Outputs production-ready canvas code
+
+### How to Use It
+
+Request canvas-based designs with specific requirements:
+
+```
+/canvas-design Create an animated gradient background with smooth color transitions
+```
+
+```
+/canvas-design Design an interactive data visualization for monthly statistics
+```
+
+```
+/canvas-design Build a particle animation that responds to mouse movement
+```
+
+The skill produces JavaScript code that renders directly to canvas elements, making it ideal for web applications requiring dynamic graphics.
+
+## Brand Guidelines
+
+**Repository:** [anthropics/skills/brand-guidelines](https://github.com/anthropics/skills/tree/main/skills/brand-guidelines)
+
+The brand-guidelines skill assists in creating comprehensive brand identity systems. It generates structured documentation covering visual identity, typography, color systems, and usage rules.
+
+### What It Does
+
+- Develops complete brand identity packages
+- Creates color palette specifications with accessibility considerations
+- Defines typography hierarchies and font pairings
+- Establishes logo usage rules and spacing guidelines
+- Produces style guides in various formats
+
+### How to Use It
+
+Request brand development with context about the project:
+
+```
+/brand-guidelines Create a brand identity for a sustainable technology startup
+```
+
+```
+/brand-guidelines Develop color and typography guidelines for a healthcare app
+```
+
+```
+/brand-guidelines Generate a complete style guide for a developer tools company
+```
+
+The skill outputs structured brand documentation that can serve as a foundation for design systems or be handed off to designers for refinement.
+
+## Theme Factory
+
+**Repository:** [anthropics/skills/theme-factory](https://github.com/anthropics/skills/tree/main/skills/theme-factory)
+
+The theme-factory skill specializes in generating theme configurations and styling systems. It creates consistent, token-based design systems that can be applied across applications.
+
+### What It Does
+
+- Generates CSS custom property systems
+- Creates theme configurations for popular frameworks (Tailwind, styled-components, etc.)
+- Produces light/dark mode variations
+- Outputs design tokens in various formats (CSS, JSON, JavaScript)
+
+### How to Use It
+
+Request themes with your specific framework and requirements:
+
+```
+/theme-factory Generate a Tailwind CSS theme with a warm, earthy color palette
+```
+
+```
+/theme-factory Create CSS custom properties for a dark-mode-first design system
+```
+
+```
+/theme-factory Build a complete theme configuration with semantic color tokens
+```
+
+The skill produces ready-to-use theme files that integrate directly into existing projects, maintaining consistency across components and pages.
+
+## Combining Skills
+
+These design skills work well in combination. A typical workflow might involve:
+
+1. Using **brand-guidelines** to establish the foundational identity
+2. Applying **theme-factory** to convert those guidelines into usable code
+3. Creating custom graphics with **canvas-design** or **algorithmic-art** that follow the established system
+
+Each skill focuses on a specific aspect of visual creation while maintaining compatibility with the others, enabling comprehensive design workflows within Claude Code.
+
+## Installation
+
+To use these skills, add them to your Claude Code configuration:
+
+```bash
+claude mcp add-skill anthropics/skills/algorithmic-art
+claude mcp add-skill anthropics/skills/canvas-design
+claude mcp add-skill anthropics/skills/brand-guidelines
+claude mcp add-skill anthropics/skills/theme-factory
+```
+
+Once installed, the skills become available as slash commands in your Claude Code sessions.
+
+## Summary
+
+Anthropic's design skills extend Claude Code into visual creation territory. Whether generating algorithmic artwork, building canvas-based graphics, establishing brand systems, or creating theme configurations, these skills provide structured approaches to common design tasks.
+
+The skills handle the technical implementation details while allowing you to focus on creative direction and requirements. They're particularly useful for rapid prototyping, establishing design foundations, and generating production-ready visual assets.

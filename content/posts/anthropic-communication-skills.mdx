@@ -1,0 +1,139 @@
+---
+title: "Anthropic Communication Skills: Team Messaging with Claude Code"
+date: "2025-09-19"
+topics: ["ai", "programming"]
+excerpt: "A guide to Anthropic's official skills for internal communications and Slack GIF creation with Claude Code."
+---
+
+> **Official skills:** [anthropics/skills](https://github.com/anthropics/skills/tree/main/skills)
+
+Anthropic provides official skills that enhance team communication workflows within Claude Code. These skills focus on helping teams communicate more effectively, whether through well-crafted internal messages or engaging visual content for Slack.
+
+## Internal Communications
+
+**Skill:** [internal-comms](https://github.com/anthropics/skills/tree/main/skills/internal-comms)
+
+The internal-comms skill assists with drafting and refining internal team communications. This includes announcements, updates, policy documents, and other messages intended for colleagues within an organization.
+
+### What It Does
+
+This skill helps with:
+
+- Drafting company-wide announcements
+- Writing team updates and status reports
+- Creating clear policy communications
+- Structuring meeting notes and action items
+- Formatting internal documentation
+
+### How to Use It
+
+Invoke the skill when you need help with internal messaging:
+
+```
+/internal-comms
+```
+
+You can also provide context directly:
+
+```
+/internal-comms Draft an announcement about the new remote work policy
+```
+
+### Example Use Cases
+
+**Team Updates:**
+```
+/internal-comms Write a weekly engineering update covering:
+- Completed: Authentication refactor
+- In progress: Database migration
+- Blocked: Third-party API integration
+```
+
+**Policy Announcements:**
+```
+/internal-comms Create an announcement about updated PTO procedures
+effective next quarter
+```
+
+**Meeting Summaries:**
+```
+/internal-comms Summarize these meeting notes into action items
+and key decisions for distribution to stakeholders
+```
+
+## Slack GIF Creator
+
+**Skill:** [slack-gif-creator](https://github.com/anthropics/skills/tree/main/skills/slack-gif-creator)
+
+The slack-gif-creator skill generates custom GIFs suitable for Slack reactions, celebrations, and team engagement. This adds a creative element to team communications.
+
+### What It Does
+
+This skill enables:
+
+- Creating custom animated GIFs
+- Generating reaction images for Slack
+- Producing celebration graphics for team milestones
+- Making visual content sized appropriately for Slack
+
+### How to Use It
+
+Invoke the skill to start creating GIFs:
+
+```
+/slack-gif-creator
+```
+
+Provide a description for more specific results:
+
+```
+/slack-gif-creator Create a celebration GIF for shipping a new feature
+```
+
+### Example Use Cases
+
+**Celebrations:**
+```
+/slack-gif-creator Make a congratulations GIF for a successful product launch
+```
+
+**Reactions:**
+```
+/slack-gif-creator Create a thumbs-up approval GIF with confetti
+```
+
+**Team Recognition:**
+```
+/slack-gif-creator Generate an animated "great job" badge for the team channel
+```
+
+## Installation
+
+To use these skills, add them to your Claude Code configuration. Clone or reference the skills from the official repository:
+
+```bash
+# Clone the skills repository
+git clone https://github.com/anthropics/skills.git
+
+# Or add specific skills to your project
+```
+
+Configure the skills in your Claude Code setup according to the documentation in each skill's directory.
+
+## Combining Skills for Better Communication
+
+These communication skills work well together. Use internal-comms to draft a team announcement, then create an accompanying GIF with slack-gif-creator to make the message more engaging when shared in Slack.
+
+**Example workflow:**
+1. Use `/internal-comms` to draft a quarterly milestone celebration message
+2. Use `/slack-gif-creator` to create a matching celebration GIF
+3. Post both to your team Slack channel
+
+## Summary
+
+| Skill | Purpose | Invocation |
+|-------|---------|------------|
+| internal-comms | Draft internal team communications | `/internal-comms` |
+| slack-gif-creator | Create GIFs for Slack | `/slack-gif-creator` |
+
+These official Anthropic skills streamline team communication workflows, helping you create polished internal messages and engaging visual content directly within Claude Code.
