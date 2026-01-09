@@ -17,9 +17,38 @@ export async function generateMetadata({ params }: PostPageProps) {
   const { slug } = await params;
   const post = getPostBySlug(slug);
   if (!post) return { title: "Post Not Found" };
+
+  const siteUrl = "https://ericgrill.com";
+  const ogImage = post.heroImage
+    ? `${siteUrl}${post.heroImage}`
+    : `${siteUrl}/og-default.png`;
+
   return {
     title: `${post.title} | Eric Grill`,
     description: post.excerpt,
+    openGraph: {
+      title: post.title,
+      description: post.excerpt,
+      type: "article",
+      url: `${siteUrl}/blog/${slug}`,
+      images: [
+        {
+          url: ogImage,
+          width: 1200,
+          height: 630,
+          alt: post.title,
+        },
+      ],
+      publishedTime: post.date,
+      authors: ["Eric Grill"],
+      tags: post.topics,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.excerpt,
+      images: [ogImage],
+    },
   };
 }
 
