@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { getAllPosts, getPostBySlug } from "@/lib/posts";
-import { NewsletterForm } from "@/components/NewsletterForm";
+import { TwitterDiscussCTA } from "@/components/TwitterFeed";
 import { SocialShare, CodeBlock, Pre, VideoEmbed } from "@/components/blog";
 
 // Custom MDX components with copy-to-clipboard for code blocks
@@ -137,19 +137,8 @@ export default async function PostPage({ params }: PostPageProps) {
             </div>
           </div>
 
-          {/* Newsletter CTA */}
-          <div className="p-8 border border-border bg-background-card/50 backdrop-blur-sm">
-            <span className="font-mono text-sm text-accent-green mb-4 block">
-              {"$ "}<span className="text-text-primary">subscribe</span> --newsletter
-            </span>
-            <h3 className="font-mono text-xl font-bold text-text-primary mb-2">
-              Enjoyed this transmission?
-            </h3>
-            <p className="text-text-secondary mb-6">
-              Subscribe to get notified when I publish new posts.
-            </p>
-            <NewsletterForm />
-          </div>
+          {/* Twitter Discussion CTA */}
+          <TwitterDiscussCTA title={post.title} />
 
           {/* Social Share */}
           <SocialShare
