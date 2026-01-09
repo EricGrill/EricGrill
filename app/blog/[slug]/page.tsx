@@ -3,6 +3,7 @@ import Link from "next/link";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { getAllPosts, getPostBySlug } from "@/lib/posts";
 import { NewsletterForm } from "@/components/NewsletterForm";
+import { SocialShare } from "@/components/blog";
 
 interface PostPageProps {
   params: Promise<{ slug: string }>;
@@ -142,6 +143,12 @@ export default async function PostPage({ params }: PostPageProps) {
             </p>
             <NewsletterForm />
           </div>
+
+          {/* Social Share */}
+          <SocialShare
+            url={`https://ericgrill.com/blog/${slug}`}
+            title={post.title}
+          />
 
           {/* Navigation */}
           <div className="mt-8">
