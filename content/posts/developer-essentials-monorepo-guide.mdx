@@ -1,11 +1,12 @@
 ---
 title: "My Monorepo Builds Took 47 Minutes. Then I Discovered Developer-Essentials."
 date: "2026-01-09"
-excerpt: "A confession about build times, wasted coffee breaks, and the Claude Code plugin that finally made me understand my own dependency graph. (Draft)"
+excerpt: "A confession about build times, wasted coffee breaks, and the Claude Code plugins that finally made me understand my own dependency graph—and document it properly. (Draft)"
 topics: ["ai", "programming"]
 ---
 
 > **Get the tool:** [developer-essentials](https://github.com/EricGrill/agents-skills-plugins/tree/main/developer-essentials)
+> **Also check out:** [code-documentation](https://github.com/EricGrill/agents-skills-plugins/tree/main/code-documentation)
 
 ## The Meditation I Didn't Ask For
 
@@ -126,6 +127,59 @@ The plugin didn't write my config for me. It asked questions I'd been ignoring b
 - **"It works on my machine" has become your catchphrase** - caching inconsistencies are real
 - **You're scared to touch shared packages** - when changing utility code feels like defusing a bomb
 - **Your CI bill is... concerning** - faster builds = cheaper builds = happier accountants
+
+## Bonus Round: Actually Documenting This Stuff
+
+So I got my builds down to 3 minutes. Victory, right? Except now I had a new problem: nobody on my team understood the monorepo structure except me. And honestly, "me from three weeks ago" was also pretty fuzzy on the details.
+
+Enter the code-documentation plugin. Because what good is a beautifully optimized dependency graph if you can't explain it to anyone?
+
+### The Documentation Problem
+
+Here's the thing about monorepos—they get complicated fast. That 12-package setup I mentioned? Half my team thought we had 8 packages. The other half thought we had "a lot." Nobody could draw the dependency graph on a whiteboard without it looking like abstract art.
+
+I'd been meaning to write documentation. You know, "later." (See previous note about how "later" is a lie.)
+
+### What code-documentation Actually Does
+
+This plugin approaches documentation like it should be approached: as something that can be partially automated and actually kept up to date.
+
+**API Documentation Generation**
+
+It scans your codebase and generates API docs from your code. Types, function signatures, the stuff that's already there but buried in files nobody reads. The difference? It actually structures it in a way humans can navigate.
+
+```bash
+# Instead of spelunking through 47 files
+# to figure out what the shared utils package exports
+```
+
+*Narrator: He had been spelunking. For months.*
+
+**Diagram Creation**
+
+Remember that dependency graph I finally understood? The plugin can generate actual diagrams. Mermaid diagrams, architecture overviews, the kind of visual documentation that makes onboarding new developers take hours instead of weeks.
+
+When the new hire asked "how does this all fit together?" I could finally show them something other than a vague hand wave and "it's complicated."
+
+**Documentation Automation**
+
+The real magic is that it helps set up documentation that stays current. Not a README from 2023 that mentions packages that no longer exist. Not a wiki page that's three architectural decisions behind. Actual living documentation.
+
+### The Combo Move
+
+Here's where it gets good. Developer-essentials helped me *understand* my monorepo. Code-documentation helped me *explain* it.
+
+The monorepo-architect agent identified that Package A depends on Packages B, C, and D. The documentation plugin turned that into a diagram I could actually share in a PR review without writing a novel in the description.
+
+Faster builds *and* documentation that exists? Revolutionary.
+
+## When Should You Use code-documentation?
+
+- **New team members take forever to onboard** - "just read the code" isn't documentation
+- **Your architecture exists only in tribal knowledge** - what happens when that one person goes on vacation?
+- **PRs need essay-length explanations** - if every change requires a history lesson, you have a documentation problem
+- **You've ever said "I'll document this later"** - spoiler: you won't, let the tools help
+- **Your diagrams live in someone's notebook** - put them somewhere the whole team can see them
 
 ## The Honest Ending
 

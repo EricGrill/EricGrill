@@ -1,0 +1,275 @@
+---
+title: "Stop Writing PR Descriptions by Hand: How git-pr-workflows Automates the Tedious Parts of Code Review"
+date: "2025-10-10"
+topics: ["ai", "programming"]
+excerpt: "I used to dread the ritual of PR creation - writing descriptions, generating changelogs, chasing reviewers. The git-pr-workflows plugin turned hours of ceremony into seconds of automation."
+---
+
+> **Get the tool:** [git-pr-workflows](https://github.com/EricGrill/agents-skills-plugins/tree/main/git-pr-workflows)
+
+## The Friday Afternoon PR Problem
+
+It was 4:47 PM on a Friday. I had just finished a three-day feature implementation. The code was solid. Tests passed. Everything worked. I should have felt accomplished.
+
+Instead, I was staring at an empty PR description box, trying to remember every change I'd made since Tuesday.
+
+What files did I touch first? Was that helper function part of this PR or the previous one? Who should review this - the backend team because of the API changes, or frontend because of the component updates? Both?
+
+I spent 40 minutes writing a PR description. Another 15 minutes generating a changelog. Then I realized I'd forgotten to mention the breaking change in the config format. Back to editing.
+
+By 5:30, I still hadn't clicked "Create Pull Request."
+
+This is the part of development nobody talks about. The code is the fun part. The ceremony around the code - the descriptions, the changelogs, the review requests, the formatting - that's the tax you pay for collaboration.
+
+I got tired of paying that tax manually.
+
+## What git-pr-workflows Actually Does
+
+The git-pr-workflows plugin automates the ritual parts of the PR lifecycle. Not the thinking parts - you still decide what to build, how to structure it, whether it's ready. But the mechanical translation of "what I did" into "what others need to know" - that's handled.
+
+Here's what used to take me 45 minutes:
+
+```bash
+/create-pr
+
+# Analyzing commits since branch divergence...
+# Detected 14 commits across 23 files
+# Generating PR description...
+# Identifying suggested reviewers...
+# Creating changelog entry...
+```
+
+The plugin reads my commit history, analyzes the actual code changes, and generates a PR description that's better than what I would have written by hand. Because it actually looks at every file. It doesn't forget the helper function I added on Tuesday.
+
+## The Anatomy of an Automated PR
+
+When I run the create-pr workflow, here's what happens:
+
+### 1. Commit Analysis
+
+The plugin walks through every commit on the branch, understanding not just what changed but the pattern of changes:
+
+```
+Commit analysis:
+- 6 commits: API endpoint modifications (auth, users, settings)
+- 4 commits: React component updates
+- 2 commits: Test additions
+- 2 commits: Configuration changes
+
+Primary focus: Authentication system refactor
+Secondary changes: UI updates for new auth flow
+```
+
+This categorization matters. It tells reviewers where to focus their attention. The auth changes need security review. The UI changes need UX review. Different expertise, different reviewers.
+
+### 2. Description Generation
+
+The generated description follows a consistent structure:
+
+```markdown
+## Summary
+Refactors the authentication system to support OAuth2 providers
+alongside existing email/password flow. Adds Google and GitHub
+as initial providers with extensible architecture for future additions.
+
+## Changes
+- **API**: New `/auth/oauth/{provider}` endpoints for OAuth flow
+- **Components**: Updated LoginForm with provider buttons
+- **Config**: Added `OAUTH_PROVIDERS` configuration block
+- **Tests**: Integration tests for OAuth callback handling
+
+## Breaking Changes
+- `AUTH_SECRET` environment variable renamed to `JWT_SECRET`
+- Login response now includes `auth_method` field
+
+## Testing
+- Unit tests: 24 new, all passing
+- Integration tests: 8 new OAuth flow tests
+- Manual testing: Verified Google and GitHub login flows
+```
+
+I didn't write any of that. The plugin analyzed my changes and generated it. But here's the key: it's not generic. It's specific to what I actually did. The breaking change about `AUTH_SECRET`? It found that by comparing config schemas across commits.
+
+### 3. Reviewer Suggestions
+
+This is the part that saves the most time in larger teams:
+
+```
+Suggested reviewers based on:
+- File ownership: @sarah (auth/), @mike (components/)
+- Recent expertise: @alex (OAuth implementation last month)
+- Required approvals: @security-team (auth changes detected)
+```
+
+The plugin looks at git blame, recent commit history, and team configuration to suggest who should review what. No more "who knows this code?" Slack messages.
+
+### 4. Changelog Generation
+
+For projects that maintain changelogs, the plugin generates properly formatted entries:
+
+```markdown
+## [Unreleased]
+
+### Added
+- OAuth2 authentication support for Google and GitHub
+- Extensible provider architecture for future OAuth integrations
+- New environment configuration for OAuth credentials
+
+### Changed
+- Login response schema now includes authentication method
+
+### Breaking
+- Renamed AUTH_SECRET to JWT_SECRET in environment configuration
+```
+
+This follows Keep a Changelog format by default, but it's configurable. The point is: I don't have to manually translate "what I built" into "what changed" - the plugin handles that semantic transformation.
+
+## The Review Request Workflow
+
+Creating the PR is only half the story. The other half is getting it reviewed.
+
+The `/request-review` command handles the follow-up:
+
+```bash
+/request-review --pr 142
+
+# Analyzing PR #142...
+# Checking reviewer availability...
+# Generating context summary for reviewers...
+# Sending review requests with context...
+```
+
+What makes this different from just assigning reviewers in GitHub? Context. The request includes a tailored summary for each reviewer based on their expertise:
+
+For the security reviewer:
+```
+@security-team - Authentication changes requiring review:
+- New OAuth flow implementation (auth/oauth.ts)
+- Token generation updates (auth/jwt.ts)
+- Key areas: token expiration, callback validation, state parameter handling
+```
+
+For the frontend reviewer:
+```
+@sarah - UI changes requiring review:
+- LoginForm component updates (components/LoginForm.tsx)
+- New OAuthButton component (components/OAuthButton.tsx)
+- Key areas: accessibility, loading states, error handling
+```
+
+Each reviewer gets context relevant to what they need to review. Nobody has to wade through the entire PR to find their part.
+
+## Handling the Changelog Ceremony
+
+Some projects live and die by their changelogs. Release notes, upgrade guides, migration documentation - all derived from what changed between versions.
+
+The `/generate-changelog` command handles this at multiple levels:
+
+```bash
+/generate-changelog --since v2.3.0
+
+# Analyzing 47 commits since v2.3.0...
+# Categorizing changes...
+# Identifying breaking changes...
+# Generating upgrade notes...
+```
+
+Output:
+
+```markdown
+## v2.4.0 (Unreleased)
+
+### Features
+- OAuth2 authentication with Google and GitHub support
+- Bulk user import API endpoint
+- Dashboard performance metrics widget
+
+### Improvements
+- 40% faster API response times for user queries
+- Reduced bundle size by 15KB through tree shaking
+
+### Bug Fixes
+- Fixed race condition in session refresh
+- Corrected timezone handling in scheduled reports
+
+### Breaking Changes
+- Environment variable `AUTH_SECRET` renamed to `JWT_SECRET`
+- Minimum Node.js version increased to 18.x
+
+### Upgrade Guide
+1. Rename `AUTH_SECRET` to `JWT_SECRET` in your environment
+2. Ensure Node.js 18.x or later is installed
+3. Run database migrations: `npm run migrate`
+```
+
+The upgrade guide section is particularly valuable. It's not just listing what changed - it's telling users what they need to do about it. The plugin infers this from the nature of the changes.
+
+## Git Workflow Automation
+
+Beyond PRs, the plugin includes commands for common git workflow patterns:
+
+### Branch Management
+
+```bash
+/cleanup-branches
+
+# Analyzing merged branches...
+# Found 12 branches merged to main
+# Safe to delete: feature/oauth, feature/dashboard, fix/session-bug...
+# Protected (not merged): feature/api-v3 (open PR #156)
+```
+
+I used to have 40+ stale branches because deleting them felt risky. What if I needed that code? The plugin analyzes merge status and open PRs before suggesting deletions.
+
+### Commit Hygiene
+
+```bash
+/prepare-commits
+
+# Analyzing working directory changes...
+# Suggested commit structure:
+# 1. "refactor(auth): extract OAuth provider interface"
+# 2. "feat(auth): add Google OAuth implementation"
+# 3. "feat(auth): add GitHub OAuth implementation"
+# 4. "test(auth): add OAuth integration tests"
+```
+
+This doesn't auto-commit. It suggests how to structure your commits for clean history. Atomic changes, conventional commit format, logical grouping. The boring discipline that makes git history useful - suggested automatically.
+
+## The Philosophy Behind the Automation
+
+There's a reason I automated this specific workflow. It's not because PR creation is hard. It's because it's tedious in a way that makes you skip steps.
+
+When creating a PR takes 45 minutes of ceremony, you start cutting corners. Vague descriptions. No changelog entries. Assigning reviewers randomly. "Just look at the code" instead of providing context.
+
+These shortcuts compound. Code reviews take longer because context is missing. Releases are delayed because changelogs aren't maintained. Knowledge gets lost because PR descriptions don't explain the "why."
+
+By making the ceremony automatic, you actually do it. The description gets written. The changelog gets updated. The right reviewers get assigned. Not because you're disciplined, but because the cost dropped to near zero.
+
+This is the same principle behind linters, formatters, and CI pipelines. Automate the things that should always happen so they actually always happen.
+
+## Getting Started
+
+The git-pr-workflows plugin is available in the [agents-skills-plugins](https://github.com/EricGrill/agents-skills-plugins) repository.
+
+The core commands:
+
+- `/create-pr` - Generate PR with description, changelog, reviewer suggestions
+- `/request-review` - Send contextual review requests
+- `/generate-changelog` - Create changelog entries from commit history
+- `/cleanup-branches` - Identify and remove merged branches
+- `/prepare-commits` - Suggest commit structure for working changes
+
+Start with `/create-pr` on your next feature branch. Compare the generated description to what you would have written. I bet it's more thorough.
+
+For more tools that automate development ceremony, explore the full [agents-skills-plugins collection](https://github.com/EricGrill/agents-skills-plugins). And for deeper dives into agentic development workflows, visit [chainbytes.com](https://chainbytes.com).
+
+---
+
+I used to think of PR creation as the cost of collaboration. The price you pay for working with others. It's necessary, but it's not the work - it's the paperwork around the work.
+
+git-pr-workflows doesn't eliminate the collaboration. It eliminates the paperwork. The descriptions still get written. The changelogs still get maintained. The reviewers still get context. But now it happens automatically, consistently, completely.
+
+The best code reviews happen when reviewers have full context. The best releases happen when changelogs are accurate. The best git history happens when commits are well-structured. This plugin doesn't make you more disciplined - it makes discipline unnecessary.
+
+*"The ceremony you skip is the context someone else needs. Automate the ceremony, and the context writes itself."*

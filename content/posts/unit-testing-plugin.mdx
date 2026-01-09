@@ -1,11 +1,13 @@
 ---
-title: "I Used to Dread Writing Tests. Now AI Does the Heavy Lifting."
+title: "I Used to Dread Writing Tests and Code Reviews. Now AI Does the Heavy Lifting."
 date: "2025-10-13"
 topics: ["ai", "programming"]
-excerpt: "How the unit-testing plugin turned test generation from a chore into a conversation. AI-powered test automation, debugging, and TDD workflows that actually make testing enjoyable."
+excerpt: "How the unit-testing and comprehensive-review plugins turned test generation and code review from chores into conversations. AI-powered test automation, debugging, architecture auditing, and security analysis that actually make quality assurance enjoyable."
 ---
 
 > **Get the tool:** [unit-testing](https://github.com/EricGrill/agents-skills-plugins/tree/main/unit-testing)
+
+> **Also check out:** [comprehensive-review](https://github.com/EricGrill/agents-skills-plugins/tree/main/comprehensive-review)
 
 ## The Confession
 
@@ -181,15 +183,84 @@ The difference isn't discipline. I didn't suddenly become a better person who va
 
 The test-automator handles the boilerplate. The debugger helps when things break. The `/test-generate` command turns "I should write tests" into "I have tests."
 
+## The Other Side of Quality: Code Review
+
+Testing catches bugs. But what about architectural issues? Security vulnerabilities? Code that works but is a maintenance nightmare waiting to happen?
+
+That's where the comprehensive-review plugin comes in. It's the other half of my quality assurance workflow now.
+
+### Architecture Auditing That Sees the Big Picture
+
+The **architect-reviewer agent** examines your codebase at the structural level. It's looking at things I used to only catch during painful refactors six months later:
+
+- **Design pattern adherence** - Is your code following the patterns you think it is, or has it drifted into something weird?
+- **Dependency analysis** - Are your modules properly decoupled, or is everything tangled together?
+- **Scalability concerns** - Will this architecture handle 10x the load, or will it fall over?
+- **Technical debt identification** - Where are the shortcuts that will cost you later?
+
+I've had it flag circular dependencies I didn't even realize existed. It spotted a service that had become a god object - handling authentication, logging, database access, and email sending because we kept adding "just one more thing."
+
+### Security Review That Doesn't Sleep
+
+The **security-reviewer agent** is paranoid in all the right ways. It scans for:
+
+- **Injection vulnerabilities** - SQL, command, template injection patterns
+- **Authentication weaknesses** - Hardcoded secrets, insecure token handling, broken session management
+- **Data exposure risks** - Logging sensitive data, insecure API responses, PII leakage
+- **Dependency vulnerabilities** - Known CVEs in your packages, outdated libraries with security patches
+
+It caught a logging statement in our codebase that was dumping user passwords in debug mode. Technically it only ran in development. Technically. The kind of "technically" that ends up on HaveIBeenPwned.
+
+### The `/review` Command
+
+Just like `/test-generate` for testing, the `/review` command gives you instant, comprehensive analysis:
+
+```bash
+/review path/to/your/code
+```
+
+It produces a structured report covering:
+
+1. **Critical issues** - Things that need fixing now
+2. **Security concerns** - Potential vulnerabilities ranked by severity
+3. **Architecture recommendations** - Structural improvements
+4. **Code quality notes** - Maintainability and readability suggestions
+5. **Performance observations** - Bottlenecks and optimization opportunities
+
+The output isn't just a list of problems. Each finding comes with:
+- Why it matters
+- How to fix it
+- Code examples showing the improvement
+
+### Review Automation in CI/CD
+
+The real power is automating this. Every PR can get an architecture and security review before a human even looks at it. The plugin integrates with GitHub Actions and other CI systems to run reviews on every push.
+
+The agents act like tireless reviewers who never get bored, never miss obvious issues because they're distracted, and never feel awkward flagging problems in a senior developer's code.
+
+### Tests + Reviews = Confidence
+
+Here's how the two plugins work together in my workflow:
+
+1. Write feature code
+2. `/test-generate` creates the test suite
+3. Run tests, fix failures with the debugger agent
+4. `/review` audits the implementation
+5. Address architectural and security findings
+6. Ship with actual confidence
+
+Tests tell you the code works. Reviews tell you the code is good. Together, they catch the things that used to slip through to production and become 3am incidents.
+
 ## Getting Started
 
-Install the plugin from the [agents-skills-plugins](https://github.com/EricGrill/agents-skills-plugins) marketplace:
+Install both plugins from the [agents-skills-plugins](https://github.com/EricGrill/agents-skills-plugins) marketplace:
 
 ```bash
 /plugin install unit-testing@agents-skills-plugins
+/plugin install comprehensive-review@agents-skills-plugins
 ```
 
-Then try it on your most untested function:
+Then try the unit-testing plugin on your most untested function:
 
 ```bash
 /test-generate path/to/your/file.py
@@ -197,12 +268,20 @@ Then try it on your most untested function:
 
 Watch it analyze your code, identify edge cases, generate mocks, and produce a complete test suite. Then run those tests and see what breaks.
 
+And run a review on code you're about to ship:
+
+```bash
+/review path/to/your/feature
+```
+
+Get architecture feedback, security analysis, and code quality suggestions before that PR goes out.
+
 For more tools that actually change how you work, check out [chainbytes.com](https://chainbytes.com). And the full agents-skills-plugins collection at [github.com/EricGrill/agents-skills-plugins](https://github.com/EricGrill/agents-skills-plugins).
 
 ---
 
-I spent years feeling guilty about not writing enough tests. Turns out the problem wasn't motivation - it was tooling. The right tool doesn't make you want to test more. It makes testing feel like less of a thing you're forcing yourself to do.
+I spent years feeling guilty about not writing enough tests and not doing thorough code reviews. Turns out the problem wasn't motivation - it was tooling. The right tools don't make you want to test and review more. They make quality assurance feel like less of a thing you're forcing yourself to do.
 
-Tests aren't a chore when AI handles the tedious parts. They're just... how you verify your code works.
+Tests and reviews aren't chores when AI handles the tedious parts. They're just... how you ship code that actually works and doesn't wake you up at 3am.
 
-*"The best test is the one that exists."*
+*"The best test is the one that exists. The best code review is the one that happens before production."*

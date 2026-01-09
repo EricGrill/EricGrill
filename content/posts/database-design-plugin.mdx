@@ -1,0 +1,285 @@
+---
+title: "Database Design That Doesn't Bite: PostgreSQL Architecture with AI"
+date: "2025-10-01"
+topics: ["ai", "programming"]
+excerpt: "How the database-design plugin helped me stop guessing at schemas and start building PostgreSQL architectures that actually scale. Schema design, query optimization, and migrations without the midnight emergencies."
+---
+
+> **Get the tool:** [database-design](https://github.com/EricGrill/agents-skills-plugins/tree/main/database-design)
+
+## The Schema That Almost Killed Production
+
+It started with a simple question: how do you store ATM transaction data?
+
+I was building the backend for [chainbytes.com](https://chainbytes.com)—Bitcoin ATM software that processes thousands of transactions daily. Each transaction has a customer, an amount, a status, timestamps, compliance data, machine info, exchange rates, fees. Simple enough, right?
+
+My first schema looked like this:
+
+```sql
+CREATE TABLE transactions (
+    id SERIAL PRIMARY KEY,
+    customer_id INTEGER,
+    machine_id INTEGER,
+    amount DECIMAL(20, 8),
+    btc_amount DECIMAL(20, 8),
+    exchange_rate DECIMAL(20, 8),
+    fee DECIMAL(10, 2),
+    status VARCHAR(50),
+    created_at TIMESTAMP,
+    updated_at TIMESTAMP,
+    compliance_data JSONB,
+    customer_data JSONB,
+    machine_data JSONB
+);
+```
+
+Looks reasonable. It wasn't.
+
+Three months in, the transactions table had 2 million rows. Queries that took 50ms at launch now took 8 seconds. The compliance dashboard timed out constantly. And don't get me started on the migration I ran that locked the table for 47 minutes during peak hours.
+
+I needed help. Not generic SQL help—I needed someone who understood PostgreSQL architecture deeply enough to tell me where I'd gone wrong and how to fix it without losing data or sleep.
+
+## Enter the Database-Design Plugin
+
+The database-design plugin is specialized expertise for PostgreSQL. Not "write me a query" assistance—actual architectural guidance:
+
+- Schema design that anticipates growth
+- Query optimization that explains *why* things are slow
+- Index strategies that don't crater write performance
+- Migration planning that doesn't lock tables for an hour
+
+I installed it from [agents-skills-plugins](https://github.com/EricGrill/agents-skills-plugins) and started with my transactions table problem.
+
+## The Redesign
+
+First question I asked: why is my transactions query so slow?
+
+The plugin didn't just guess. It asked for my query patterns, my access paths, my data distribution. Then it explained:
+
+```sql
+-- Your current query
+SELECT * FROM transactions
+WHERE machine_id = 42
+  AND created_at > NOW() - INTERVAL '30 days'
+  AND status IN ('pending', 'processing');
+
+-- The problem: you have no composite index for this access pattern
+-- PostgreSQL is doing a sequential scan on 2 million rows
+
+-- The fix:
+CREATE INDEX CONCURRENTLY idx_transactions_machine_status_date
+ON transactions (machine_id, status, created_at DESC);
+```
+
+But it didn't stop there. The plugin pointed out that my schema had deeper issues:
+
+```sql
+-- Problem: JSONB columns are convenient but you're querying inside them
+-- This compliance dashboard query:
+SELECT * FROM transactions
+WHERE compliance_data->>'risk_level' = 'high';
+
+-- Is doing a full table scan every time. You need to either:
+-- 1. Extract frequently-queried fields into columns
+-- 2. Add a GIN index on the JSONB (expensive for writes)
+-- 3. Rethink whether JSONB is right for this data
+
+-- Better approach for your use case:
+ALTER TABLE transactions
+ADD COLUMN risk_level VARCHAR(20)
+GENERATED ALWAYS AS (compliance_data->>'risk_level') STORED;
+
+CREATE INDEX idx_transactions_risk ON transactions (risk_level);
+```
+
+That generated column pattern was new to me. Store the JSONB for flexibility, but extract the fields you actually query. Best of both worlds.
+
+## Schema Design from Scratch
+
+After patching the immediate fires, I asked for help designing a proper schema for our transaction system. The plugin walked through the questions I should have asked at the start:
+
+**What are your read patterns?**
+- Dashboard queries by machine, date range, status
+- Compliance reports by customer, risk level
+- Real-time transaction status lookups by ID
+
+**What are your write patterns?**
+- High-volume inserts (hundreds per minute)
+- Status updates on existing transactions
+- Rare bulk updates for reconciliation
+
+**What data changes together?**
+- Transaction status and updated_at
+- Compliance data gets appended, rarely modified
+- Customer data is reference, rarely changes
+
+From these answers, the plugin suggested a normalized design:
+
+```sql
+-- Core transaction data (write-heavy, needs to be lean)
+CREATE TABLE transactions (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    customer_id UUID NOT NULL REFERENCES customers(id),
+    machine_id UUID NOT NULL REFERENCES machines(id),
+    amount_usd DECIMAL(12, 2) NOT NULL,
+    amount_btc DECIMAL(20, 8) NOT NULL,
+    exchange_rate DECIMAL(20, 8) NOT NULL,
+    fee_usd DECIMAL(8, 2) NOT NULL,
+    status transaction_status NOT NULL DEFAULT 'pending',
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+-- Create enum for status (faster than VARCHAR, enforced values)
+CREATE TYPE transaction_status AS ENUM (
+    'pending', 'processing', 'completed', 'failed', 'refunded'
+);
+
+-- Compliance data in separate table (append-only, different access pattern)
+CREATE TABLE transaction_compliance (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    transaction_id UUID NOT NULL REFERENCES transactions(id),
+    risk_level VARCHAR(20) NOT NULL,
+    verification_status VARCHAR(50) NOT NULL,
+    flags JSONB DEFAULT '[]',
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+-- Indexes designed for actual query patterns
+CREATE INDEX idx_transactions_machine_date
+ON transactions (machine_id, created_at DESC);
+
+CREATE INDEX idx_transactions_status
+ON transactions (status) WHERE status IN ('pending', 'processing');
+
+CREATE INDEX idx_compliance_risk
+ON transaction_compliance (risk_level, created_at DESC);
+```
+
+The partial index on status was clever—most transactions are 'completed', so indexing only the active ones keeps the index small and fast.
+
+## Query Optimization That Actually Explains
+
+The plugin doesn't just rewrite queries. It teaches you to read `EXPLAIN ANALYZE`:
+
+```sql
+EXPLAIN (ANALYZE, BUFFERS)
+SELECT t.*, tc.risk_level
+FROM transactions t
+JOIN transaction_compliance tc ON t.id = tc.transaction_id
+WHERE t.machine_id = '550e8400-e29b-41d4-a716-446655440000'
+  AND t.created_at > NOW() - INTERVAL '7 days';
+
+-- The output tells a story:
+-- Nested Loop (cost=0.85..156.32 rows=12 width=284) (actual time=0.042..0.089 rows=15)
+--   -> Index Scan using idx_transactions_machine_date on transactions t
+--        (cost=0.42..52.16 rows=12 width=152) (actual time=0.024..0.034 rows=15)
+--        Index Cond: ((machine_id = '550e8400...'::uuid)
+--                     AND (created_at > (now() - '7 days'::interval)))
+--   -> Index Scan using transaction_compliance_transaction_id_key on transaction_compliance tc
+--        (cost=0.42..8.67 rows=1 width=132) (actual time=0.003..0.003 rows=1)
+--        Index Cond: (transaction_id = t.id)
+-- Planning Time: 0.182 ms
+-- Execution Time: 0.112 ms
+```
+
+The plugin broke this down: "See that nested loop with index scans on both sides? That's exactly what you want. The planner found your composite index, used it to grab the 15 rows from the date range, then efficiently joined to compliance. 0.112ms total. This is a healthy query."
+
+Then it showed me what a bad plan looks like and why.
+
+## Migration Planning That Doesn't Lock
+
+The scariest part of database work isn't the initial design—it's changing a live system. The plugin excels here.
+
+I needed to add a new column with a default value:
+
+```sql
+-- DON'T do this on a big table:
+ALTER TABLE transactions
+ADD COLUMN notification_sent BOOLEAN DEFAULT false;
+
+-- This rewrites the entire table. On 2 million rows,
+-- that's a table lock for minutes.
+
+-- DO this instead:
+ALTER TABLE transactions
+ADD COLUMN notification_sent BOOLEAN;
+
+-- Add default for new rows only
+ALTER TABLE transactions
+ALTER COLUMN notification_sent SET DEFAULT false;
+
+-- Backfill in batches
+DO $$
+DECLARE
+    batch_size INT := 10000;
+    total_updated INT := 0;
+BEGIN
+    LOOP
+        UPDATE transactions
+        SET notification_sent = false
+        WHERE id IN (
+            SELECT id FROM transactions
+            WHERE notification_sent IS NULL
+            LIMIT batch_size
+            FOR UPDATE SKIP LOCKED
+        );
+
+        GET DIAGNOSTICS total_updated = ROW_COUNT;
+        EXIT WHEN total_updated = 0;
+
+        COMMIT;
+        PERFORM pg_sleep(0.1);  -- Let other queries breathe
+    END LOOP;
+END $$;
+```
+
+That `FOR UPDATE SKIP LOCKED` pattern was new to me. It lets the backfill run alongside normal operations without blocking. The plugin explained why each piece matters and what could go wrong if you skip it.
+
+## The Compound Knowledge
+
+What I appreciate most about the database-design plugin is how it builds understanding, not just solutions.
+
+After a few weeks, I started anticipating its suggestions. I'd design a table and think "this needs a partial index for active records." I'd write a migration and automatically chunk it into batches.
+
+The patterns are transferable. PostgreSQL-specific, yes, but the thinking applies:
+
+- Design for your actual query patterns, not theoretical flexibility
+- Separate data by access pattern, not just logical grouping
+- Indexes aren't free—they cost writes to speed reads
+- Migrations on live systems need to be incremental
+
+## Getting Started
+
+Install from [agents-skills-plugins](https://github.com/EricGrill/agents-skills-plugins):
+
+```bash
+/plugin install database-design@agents-skills-plugins
+```
+
+Then start with what's hurting:
+
+- "Why is this query slow?" — Get `EXPLAIN ANALYZE` interpretation
+- "Design a schema for [your use case]" — Get architecture guidance
+- "How do I add this column safely?" — Get migration strategies
+- "Should I normalize this or use JSONB?" — Get tradeoff analysis
+
+The plugin shines on PostgreSQL-specific questions. It knows the quirks, the gotchas, the features that other databases don't have (partial indexes, GIN/GiST, generated columns, table inheritance).
+
+## The Honest Assessment
+
+Did the plugin prevent all my database problems? No. I still made mistakes. I still had slow queries to debug. I still ran a migration that took longer than expected.
+
+But the catastrophic mistakes—the table designs that paint you into corners, the indexes that kill write performance, the migrations that lock production—those got caught early.
+
+The chainbytes ATM system now handles 10x the transaction volume it did at launch. Queries that used to timeout run in milliseconds. The compliance team gets their reports without calling me at midnight.
+
+Good database design isn't magic. It's asking the right questions early and knowing the PostgreSQL-specific answers. The database-design plugin encodes that knowledge so you don't have to learn it the hard way.
+
+Check out the full collection at [github.com/EricGrill/agents-skills-plugins](https://github.com/EricGrill/agents-skills-plugins).
+
+---
+
+*"Normalize until it hurts, then denormalize until it works."*
+
+Design your schemas. Optimize your queries. Don't let your database become the bottleneck.

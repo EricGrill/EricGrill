@@ -1,11 +1,13 @@
 ---
-title: "Python-Development: The Plugin That Made Me Stop Fighting My Backend"
+title: "Python & JavaScript Development: The Plugins That Made Me Stop Fighting My Stack"
 date: "2025-10-16"
 topics: ["ai", "programming"]
-excerpt: "How I went from copy-pasting async patterns and Django boilerplate to having a specialist on call. Django, FastAPI, async Python, uv, ruff - all the modern Python tooling, encoded into skills."
+excerpt: "How I went from copy-pasting patterns and boilerplate to having specialists on call. Django, FastAPI, async Python, Node.js, TypeScript - all the modern tooling, encoded into skills."
 ---
 
-> **Get the tool:** [python-development](https://github.com/EricGrill/agents-skills-plugins/tree/main/python-development)
+> **Get the tools:** [python-development](https://github.com/EricGrill/agents-skills-plugins/tree/main/python-development)
+
+> **Also check out:** [javascript-typescript](https://github.com/EricGrill/agents-skills-plugins/tree/main/javascript-typescript)
 
 ## The ATM Software Incident
 
@@ -254,11 +256,172 @@ Each skill builds on the others. The python-pro agent understands the whole stac
 
 I'm not constantly context-switching between "how does asyncio work" and "what's the pytest syntax again" and "wait, how do I install this." The knowledge is loaded when I need it, specialized for my use case.
 
+## JavaScript and TypeScript: The Other Half of the Stack
+
+Python handles the backend. But the chainbytes project also has a dashboard. A real-time monitoring interface. WebSocket connections. All the frontend stuff that Python developers pretend doesn't exist.
+
+This is where the javascript-typescript plugin comes in.
+
+**The Agents:**
+- `nodejs-pro` - Modern Node.js development, async patterns, npm ecosystem
+- `typescript-pro` - Type-safe JavaScript, advanced TypeScript patterns
+
+**The Skills:**
+- TypeScript configuration and strict mode setup
+- Modern ES modules and build tooling
+- Node.js performance patterns
+- React and frontend framework integration
+
+The nodejs-pro agent is like having a senior Node developer who actually reads the documentation. When I was setting up the WebSocket server for real-time ATM monitoring:
+
+```
+@nodejs-pro Set up a WebSocket server that broadcasts ATM status
+updates to connected dashboard clients
+```
+
+What I got back wasn't just working code - it was production-ready patterns:
+
+```typescript
+import { WebSocketServer, WebSocket } from 'ws';
+import { createServer } from 'http';
+
+interface ATMUpdate {
+  machineId: string;
+  status: 'online' | 'offline' | 'error';
+  lastTransaction?: string;
+  timestamp: number;
+}
+
+class ATMBroadcaster {
+  private wss: WebSocketServer;
+  private clients: Set<WebSocket> = new Set();
+
+  constructor(server: ReturnType<typeof createServer>) {
+    this.wss = new WebSocketServer({ server });
+
+    this.wss.on('connection', (ws) => {
+      this.clients.add(ws);
+
+      ws.on('close', () => {
+        this.clients.delete(ws);
+      });
+
+      ws.on('error', (err) => {
+        console.error('WebSocket error:', err);
+        this.clients.delete(ws);
+      });
+    });
+  }
+
+  broadcast(update: ATMUpdate): void {
+    const message = JSON.stringify(update);
+
+    for (const client of this.clients) {
+      if (client.readyState === WebSocket.OPEN) {
+        client.send(message);
+      }
+    }
+  }
+}
+```
+
+The agent showed me proper connection cleanup, error handling, and the TypeScript interfaces that make the whole thing type-safe. No more `any` types leaking through the codebase.
+
+## TypeScript That Actually Works
+
+Here's my confession about TypeScript: I used to treat it like JavaScript with extra syntax. Just add `: string` to things until the red squiggles go away.
+
+The typescript-pro agent fixed that. When I asked about proper typing for the dashboard's state management:
+
+```
+@typescript-pro How do I type a reducer that handles multiple
+ATM status updates with discriminated unions?
+```
+
+What came back was a proper TypeScript education:
+
+```typescript
+// Discriminated union for ATM events
+type ATMEvent =
+  | { type: 'STATUS_UPDATE'; machineId: string; status: ATMStatus }
+  | { type: 'TRANSACTION_START'; machineId: string; txId: string }
+  | { type: 'TRANSACTION_COMPLETE'; machineId: string; txId: string; amount: number }
+  | { type: 'ERROR'; machineId: string; code: number; message: string };
+
+interface DashboardState {
+  machines: Map<string, ATMStatus>;
+  activeTransactions: Map<string, Transaction>;
+  errors: ATMError[];
+}
+
+function dashboardReducer(state: DashboardState, event: ATMEvent): DashboardState {
+  switch (event.type) {
+    case 'STATUS_UPDATE':
+      return {
+        ...state,
+        machines: new Map(state.machines).set(event.machineId, event.status)
+      };
+
+    case 'TRANSACTION_START':
+      return {
+        ...state,
+        activeTransactions: new Map(state.activeTransactions).set(
+          event.txId,
+          { id: event.txId, machineId: event.machineId, startTime: Date.now() }
+        )
+      };
+
+    case 'TRANSACTION_COMPLETE': {
+      const updated = new Map(state.activeTransactions);
+      updated.delete(event.txId);
+      return { ...state, activeTransactions: updated };
+    }
+
+    case 'ERROR':
+      return {
+        ...state,
+        errors: [...state.errors, {
+          machineId: event.machineId,
+          code: event.code,
+          message: event.message,
+          timestamp: Date.now()
+        }]
+      };
+  }
+}
+```
+
+The discriminated union pattern means TypeScript knows exactly which properties exist in each case. No more runtime checks. No more `event.amount` when the event doesn't have an amount. The compiler catches it before the code runs.
+
+## The Full Stack Reality
+
+The chainbytes project now has:
+- FastAPI backend handling ATM transactions (python-development)
+- Django admin for operations team (python-development)
+- Node.js WebSocket server for real-time updates (javascript-typescript)
+- TypeScript React dashboard (javascript-typescript)
+- Proper types flowing through the entire stack
+
+Both plugins talk to each other conceptually. The Python types and the TypeScript types mirror each other. The async patterns in Python match the async patterns in Node. The testing strategies are consistent.
+
+```bash
+# Python side
+@fastapi-pro
+/async-python-patterns
+/python-testing-patterns
+
+# JavaScript side
+@nodejs-pro
+@typescript-pro
+```
+
+When I'm working on the API endpoint and need to update the dashboard to consume it, I switch agents and the context follows. The nodejs-pro agent understands REST APIs. The typescript-pro agent knows how to type the response. It's the same mental model, different syntax.
+
 ## Getting Started
 
-Install the plugin from [agents-skills-plugins](https://github.com/EricGrill/agents-skills-plugins).
+Install the plugins from [agents-skills-plugins](https://github.com/EricGrill/agents-skills-plugins).
 
-Start with the basics:
+For Python work:
 
 ```bash
 # For a FastAPI project
@@ -281,22 +444,32 @@ Then dive into specific skills when you need them:
 /python-performance        # Profiling and optimization
 ```
 
+For JavaScript and TypeScript work:
+
+```bash
+# For Node.js development
+@nodejs-pro
+
+# For TypeScript patterns
+@typescript-pro
+```
+
 The agents are proactive - they'll catch issues and suggest improvements. The skills are reference material - invoke them when you need specific guidance.
 
 ## The Honest Ending
 
-Did the plugin make me a better Python developer? Probably not.
+Did the plugins make me a better developer? Probably not.
 
-Did it make me a more productive Python developer? Absolutely.
+Did they make me a more productive developer? Absolutely.
 
-The chainbytes ATM backend ships transactions without race conditions now. The test suite runs in CI. Dependencies install in seconds instead of minutes. I know how to structure async code properly because the patterns are in my muscle memory after seeing them explained correctly a hundred times.
+The chainbytes ATM backend ships transactions without race conditions now. The dashboard updates in real-time. The TypeScript is actually typed. The test suite runs in CI. Dependencies install in seconds instead of minutes.
 
-The python-development plugin isn't magic. It's expertise, encoded and ready. The same knowledge you'd get from reading the asyncio docs, the pytest documentation, the FastAPI guides, the Django deep-dives - but loaded into context when you need it, not sitting in browser tabs you'll definitely read later (you won't).
+These plugins aren't magic. They're expertise, encoded and ready. The same knowledge you'd get from reading the docs, watching the tutorials, and making all the mistakes - but loaded into context when you need it, not sitting in browser tabs you'll definitely read later (you won't).
 
 For more tools like this, check out the [agents-skills-plugins](https://github.com/EricGrill/agents-skills-plugins) repo.
 
 ---
 
-*"The best async code is code that doesn't race. The second best is code that knows when it's racing."*
+*"The best code is code that doesn't fight you. The second best is code that knows when it's fighting."*
 
-Ship Python. Ship it fast. Don't lose anyone's Bitcoin.
+Ship Python. Ship TypeScript. Ship it fast. Don't lose anyone's Bitcoin.

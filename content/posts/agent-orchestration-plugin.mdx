@@ -2,10 +2,12 @@
 title: "Conducting the Orchestra: How agent-orchestration Turned Chaos Into Coordination"
 date: "2025-10-19"
 topics: ["ai", "programming"]
-excerpt: "When one agent isn't enough: how the agent-orchestration plugin transformed my chaotic multi-agent experiments into coordinated workflows where every AI knows its part."
+excerpt: "When one agent isn't enough: how agent-orchestration and multi-agent-patterns transformed my chaotic experiments into coordinated workflows - from supervisor hierarchies to emergent swarms."
 ---
 
 > **Get the tool:** [agent-orchestration](https://github.com/EricGrill/agents-skills-plugins/tree/main/agent-orchestration)
+
+> **Also check out:** [multi-agent-patterns](https://github.com/EricGrill/agents-skills-plugins/tree/main/multi-agent-patterns)
 
 ## The Day My Agents Started Fighting
 
@@ -115,7 +117,7 @@ It's continuous improvement for AI workers, with the safety nets you'd expect in
 
 ## Supervisor Patterns vs. Swarm Architectures
 
-The plugin supports two fundamentally different approaches to multi-agent coordination:
+The plugin supports two fundamentally different approaches to multi-agent coordination. And if you want to go deeper on these patterns, the [multi-agent-patterns](https://github.com/EricGrill/agents-skills-plugins/tree/main/multi-agent-patterns) plugin provides battle-tested implementations you can drop into your workflows.
 
 ### Supervisor Pattern
 
@@ -129,6 +131,18 @@ User Task -> Supervisor -> Agent A
 
 This is hierarchical. Clear chains of command. Easy to debug because you can trace decisions through the supervisor's reasoning. But the supervisor becomes a bottleneck - everything flows through it.
 
+The multi-agent-patterns plugin provides several supervisor variants:
+
+- **Simple Supervisor**: One coordinator, multiple workers. Good for well-defined tasks where you know the subtasks upfront.
+- **Hierarchical Supervisor**: Supervisors managing supervisors. Useful when your problem domain has natural layers (e.g., a project lead coordinating team leads who each manage specialists).
+- **Dynamic Supervisor**: The supervisor spawns and terminates workers based on task complexity. Better resource utilization, but more complex to reason about.
+
+When should you use supervisor architectures? When you need:
+- **Auditability**: Every decision traces back through the supervisor
+- **Resource control**: The supervisor manages token budgets and agent lifetimes
+- **Consistency**: One source of truth for workflow state
+- **Predictability**: The topology is fixed and visible
+
 ### Swarm Architecture
 
 Agents communicate peer-to-peer. When Agent A finishes its task, it passes results directly to Agent B. No central coordinator. Agents self-organize based on the work available.
@@ -141,7 +155,29 @@ User Task -> Agent A -> Agent B
 
 This is messier but scales better. No single point of failure. Agents can work in parallel without waiting for central coordination. But it's harder to debug, harder to monitor, and prone to emergent chaos if agents disagree about priorities.
 
-The agent-orchestration plugin supports both patterns - and hybrids where a light-touch supervisor handles routing while agents communicate directly for detailed work.
+The multi-agent-patterns plugin offers swarm implementations that manage the chaos:
+
+- **Stigmergic Swarm**: Agents communicate through a shared environment (think ant pheromone trails). An agent marks work as "in progress" or "complete," and others react to those markers without direct communication.
+- **Broadcast Swarm**: Agents announce their outputs to all listeners. Any agent that needs that information grabs it. High communication overhead, but maximum flexibility.
+- **Pub/Sub Swarm**: Agents subscribe to topics they care about. More efficient than broadcast, but requires upfront topic design.
+
+When should you reach for swarm patterns?
+- **Exploratory tasks**: When you don't know the subtasks until agents start discovering them
+- **Resilience requirements**: No single point of failure means one agent crashing doesn't kill the workflow
+- **High parallelism**: Agents don't wait for a central coordinator to become available
+- **Emergent behavior**: Sometimes you want agents to self-organize around the problem
+
+### Choosing Between Them
+
+Here's my rule of thumb after running both patterns in production:
+
+**Use supervisor** when the task structure is known, the workflow is business-critical, and you need to explain what happened afterward. Code review pipelines, compliance checks, anything where "the supervisor decided X because of Y" matters.
+
+**Use swarm** when you're exploring a problem space, running experiments, or need maximum throughput. Research tasks, competitive analysis, anything where you'd rather have agents discover the structure than impose it upfront.
+
+**Use hybrid** (and this is where multi-agent-patterns really shines) when you need both. A supervisor handles task decomposition and final aggregation, but workers communicate directly for detailed collaboration. The supervisor stays in the loop without being in the critical path.
+
+The agent-orchestration plugin supports all three - and the multi-agent-patterns plugin gives you the building blocks to implement them without reinventing coordination primitives.
 
 ## The Refactoring That Actually Worked
 

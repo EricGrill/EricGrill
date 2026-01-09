@@ -1,0 +1,344 @@
+---
+title: "LLM-Application-Dev: The Plugin That Stopped My RAG Hallucinations"
+date: "2025-10-04"
+topics: ["ai", "programming"]
+excerpt: "How I went from stitching together LangChain tutorials and praying my embeddings made sense to building RAG systems that actually work. Vector databases, chunking strategies, and retrieval patterns - all the LLM application tooling, encoded into skills."
+---
+
+> **Get the tool:** [llm-application-dev](https://github.com/EricGrill/agents-skills-plugins/tree/main/llm-application-dev)
+
+## The Customer Support Bot Disaster
+
+Two months ago I tried to build a support chatbot for [chainbytes.com](https://chainbytes.com). Simple enough, right? Take our documentation, stuff it into a vector database, let users ask questions. RAG 101.
+
+My first attempt:
+
+```python
+from langchain.document_loaders import DirectoryLoader
+from langchain.embeddings import OpenAIEmbeddings
+from langchain.vectorstores import Chroma
+
+# Load all the docs
+loader = DirectoryLoader("./docs", glob="**/*.md")
+documents = loader.load()
+
+# Embed everything
+embeddings = OpenAIEmbeddings()
+vectorstore = Chroma.from_documents(documents, embeddings)
+
+# Query
+results = vectorstore.similarity_search("How do I reset my ATM?")
+```
+
+Looks reasonable. It was not.
+
+A customer asked "What's the cash limit for withdrawals?" The bot confidently responded with our internal API rate limits from a completely unrelated technical document. It had retrieved text containing the word "limit" and hallucinated the rest.
+
+Another user asked about transaction fees. The bot pulled in a changelog entry from 2019 and made up numbers. Our support team was fielding complaints about "the AI that lies."
+
+I needed help. Not "here's a LangChain tutorial" help - I needed someone who understood why RAG systems fail and how to make them not fail.
+
+## What LLM-Application-Dev Actually Is
+
+It's a collection of specialized skills for building LLM applications. Not the "hello world" chatbot stuff - the actual engineering patterns that make production systems work:
+
+**Core Skills:**
+- `rag-development` - Retrieval patterns, chunking strategies, hybrid search
+- `embeddings-vectors` - Embedding models, vector databases, similarity metrics
+- `langchain-patterns` - LangChain/LangGraph architecture, chains, agents
+- `llm-app-patterns` - Prompt engineering, caching, cost optimization
+
+The skills are deep. They assume you know what RAG is - they teach you why your RAG is broken and how to fix it.
+
+## The Chunking Revelation
+
+After installing the plugin, I invoked the rag-development skill:
+
+```
+/rag-development
+```
+
+I described my retrieval problem. The response didn't just give me better code - it explained the fundamental issue: my chunks were wrong.
+
+I was letting the document loader split on arbitrary character counts. A 1000-character chunk might start mid-sentence, include half of one section and half of another, and end in the middle of a code block. No wonder the embeddings were garbage.
+
+```python
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+
+# Bad: arbitrary splitting
+bad_splitter = RecursiveCharacterTextSplitter(
+    chunk_size=1000,
+    chunk_overlap=200
+)
+
+# Better: semantic splitting with structure awareness
+from langchain.text_splitter import MarkdownHeaderTextSplitter
+
+headers_to_split_on = [
+    ("#", "Header 1"),
+    ("##", "Header 2"),
+    ("###", "Header 3"),
+]
+
+markdown_splitter = MarkdownHeaderTextSplitter(
+    headers_to_split_on=headers_to_split_on
+)
+
+# First split by headers to preserve semantic units
+md_header_splits = markdown_splitter.split_text(document)
+
+# Then chunk the splits if they're still too large
+text_splitter = RecursiveCharacterTextSplitter(
+    chunk_size=1000,
+    chunk_overlap=100,
+    separators=["\n\n", "\n", ". ", " ", ""]
+)
+
+final_chunks = text_splitter.split_documents(md_header_splits)
+```
+
+The skill explained why this matters: embeddings capture semantic meaning, but only if the text chunk actually has coherent meaning. A chunk that says "...continued from above. The maximum limit is 500. See the following section for..." embeds as nonsense because it IS nonsense out of context.
+
+## Metadata Changes Everything
+
+The second revelation was metadata. My original approach threw away all context:
+
+```python
+# What I was doing
+vectorstore.add_documents(chunks)  # Just raw text, no context
+
+# What I should have been doing
+for chunk in chunks:
+    chunk.metadata["source"] = chunk.metadata.get("source", "unknown")
+    chunk.metadata["section"] = extract_section_title(chunk)
+    chunk.metadata["doc_type"] = classify_document(chunk)
+    chunk.metadata["last_updated"] = get_doc_date(chunk)
+
+vectorstore.add_documents(chunks)
+```
+
+Now when I query, I can filter:
+
+```python
+# User asks about fees
+results = vectorstore.similarity_search(
+    "withdrawal fees",
+    filter={"doc_type": "pricing"},  # Don't pull from changelogs
+    k=5
+)
+
+# User asks about recent changes
+results = vectorstore.similarity_search(
+    "new features",
+    filter={"last_updated": {"$gte": "2025-01-01"}},
+    k=5
+)
+```
+
+The customer support bot stopped hallucinating about 2019 pricing because it literally couldn't retrieve 2019 documents anymore when users asked about current fees.
+
+## Vector Database Selection
+
+The embeddings-vectors skill walked me through something I'd been ignoring: not all vector databases are the same.
+
+I started with Chroma because every tutorial uses it. It's great for prototyping. It was not great when I had 50,000 chunks and needed sub-second queries.
+
+```python
+# Prototyping: Chroma is fine
+from langchain.vectorstores import Chroma
+vectorstore = Chroma.from_documents(docs, embeddings)
+
+# Production: Consider your actual requirements
+from langchain.vectorstores import Pinecone
+import pinecone
+
+pinecone.init(api_key="...", environment="...")
+
+vectorstore = Pinecone.from_documents(
+    docs,
+    embeddings,
+    index_name="support-docs",
+    namespace="production"
+)
+```
+
+The skill broke down the tradeoffs:
+- **Chroma**: Local, simple, good for < 10k documents
+- **Pinecone**: Managed, scalable, metadata filtering built-in
+- **Weaviate**: Hybrid search (vector + keyword), self-hostable
+- **Qdrant**: Fast, Rust-based, good filtering performance
+
+For chainbytes, I ended up with Pinecone. The managed infrastructure meant one less thing to maintain, and the metadata filtering was excellent for our use case.
+
+## The Hybrid Search Pattern
+
+Pure vector search has a weakness: it's semantic, not lexical. Ask "What is SKU BTC-ATM-2000?" and vector search might return documents about "product models" or "hardware versions" because those are semantically similar. But the user wanted that exact SKU.
+
+The rag-development skill showed me hybrid search:
+
+```python
+from langchain.retrievers import BM25Retriever, EnsembleRetriever
+
+# Keyword search for exact matches
+bm25_retriever = BM25Retriever.from_documents(documents)
+bm25_retriever.k = 5
+
+# Vector search for semantic similarity
+vector_retriever = vectorstore.as_retriever(search_kwargs={"k": 5})
+
+# Combine them
+ensemble_retriever = EnsembleRetriever(
+    retrievers=[bm25_retriever, vector_retriever],
+    weights=[0.4, 0.6]  # Tune based on your use case
+)
+
+# Now queries get the best of both
+results = ensemble_retriever.get_relevant_documents(
+    "SKU BTC-ATM-2000 installation"
+)
+```
+
+The exact SKU match comes from BM25. The semantic understanding of "installation" comes from vector search. Combined, the retrieval actually works.
+
+## LangChain Patterns That Scale
+
+I'll be honest: my early LangChain code was a mess. Chains calling chains, unclear data flow, impossible to debug.
+
+The langchain-patterns skill restructured my thinking:
+
+```python
+from langchain.prompts import ChatPromptTemplate
+from langchain.schema.runnable import RunnablePassthrough
+from langchain.schema.output_parser import StrOutputParser
+
+# Define clear components
+retriever = vectorstore.as_retriever(search_kwargs={"k": 4})
+
+template = """Answer the question based only on the following context.
+If you cannot answer from the context, say "I don't have information about that."
+
+Context:
+{context}
+
+Question: {question}
+
+Answer:"""
+
+prompt = ChatPromptTemplate.from_template(template)
+
+# Build a clear pipeline
+rag_chain = (
+    {"context": retriever, "question": RunnablePassthrough()}
+    | prompt
+    | llm
+    | StrOutputParser()
+)
+
+# Use it
+response = rag_chain.invoke("How do I reset my ATM?")
+```
+
+The LCEL (LangChain Expression Language) pattern makes the data flow obvious. Context comes from the retriever, question passes through unchanged, both feed into the prompt, prompt goes to LLM, output gets parsed.
+
+When something breaks, I know exactly where to look.
+
+## Cost Optimization
+
+Here's something nobody talks about in the tutorials: embeddings cost money. Every document you embed, every query you run - that's API calls.
+
+The llm-app-patterns skill showed me caching strategies:
+
+```python
+from langchain.cache import SQLiteCache
+from langchain.globals import set_llm_cache
+
+# Cache LLM responses
+set_llm_cache(SQLiteCache(database_path=".langchain.db"))
+
+# Cache embeddings separately
+from langchain.storage import LocalFileStore
+from langchain.embeddings import CacheBackedEmbeddings
+
+store = LocalFileStore("./embedding_cache/")
+
+cached_embeddings = CacheBackedEmbeddings.from_bytes_store(
+    underlying_embeddings=OpenAIEmbeddings(),
+    document_embedding_cache=store,
+    namespace="support_docs"
+)
+```
+
+Re-embedding the same document costs nothing after the first time. Re-asking similar questions hits the cache. My OpenAI bill dropped by 60% after implementing proper caching.
+
+## The Support Bot Today
+
+The chainbytes support bot now:
+- Uses semantic chunking that respects document structure
+- Filters by document type and date
+- Runs hybrid search for exact + semantic matching
+- Caches aggressively
+- Actually answers questions correctly
+
+```python
+# The final architecture
+class SupportBot:
+    def __init__(self):
+        self.embeddings = CacheBackedEmbeddings.from_bytes_store(...)
+        self.vectorstore = Pinecone(...)
+        self.bm25 = BM25Retriever.from_documents(...)
+        self.retriever = EnsembleRetriever(
+            retrievers=[self.bm25, self.vectorstore.as_retriever()],
+            weights=[0.3, 0.7]
+        )
+        self.chain = self._build_chain()
+
+    def _build_chain(self):
+        return (
+            {"context": self.retriever, "question": RunnablePassthrough()}
+            | self.prompt
+            | self.llm
+            | StrOutputParser()
+        )
+
+    async def answer(self, question: str, doc_type: str = None):
+        if doc_type:
+            self.retriever.retrievers[1].search_kwargs["filter"] = {
+                "doc_type": doc_type
+            }
+        return await self.chain.ainvoke(question)
+```
+
+It's not magic. It's just patterns - patterns I learned from the llm-application-dev plugin instead of discovering through weeks of production incidents.
+
+## Getting Started
+
+Install the plugin from [agents-skills-plugins](https://github.com/EricGrill/agents-skills-plugins).
+
+Start with the fundamentals:
+
+```bash
+/rag-development        # Retrieval patterns and chunking
+/embeddings-vectors     # Vector database selection and tuning
+/langchain-patterns     # LangChain architecture
+/llm-app-patterns       # Cost optimization and caching
+```
+
+Each skill builds on the others. Start with rag-development to understand why your retrieval is broken. Move to embeddings-vectors when you need to scale. Use langchain-patterns to structure your code properly. Apply llm-app-patterns to not go broke on API costs.
+
+## The Honest Truth
+
+Did the plugin make me an AI expert? No.
+
+Did it stop my chatbot from lying to customers? Yes.
+
+Building LLM applications isn't hard. Building LLM applications that work reliably is extremely hard. The difference is in the details - chunking strategies, metadata filtering, hybrid search, caching patterns. The stuff nobody covers in the "build a chatbot in 5 minutes" tutorials.
+
+The llm-application-dev plugin is that knowledge, loaded and ready. The patterns that separate prototypes from production systems.
+
+For more tools like this, check out the [agents-skills-plugins](https://github.com/EricGrill/agents-skills-plugins) repo.
+
+---
+
+*"The best RAG system retrieves what you need. The second best knows when to say 'I don't know.'"*
+
+Ship LLM apps. Make them reliable. Don't let them hallucinate to your customers.
