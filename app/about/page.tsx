@@ -3,12 +3,11 @@ import Image from "next/image";
 
 export const metadata: Metadata = {
   title: "About | Eric Grill",
-  description: "Building complex systems across AI, Bitcoin, and decentralized protocols.",
+  description: "Building things that matter, from software to startups, to systems that keep working when everything else breaks.",
 };
 
 const SKILLS = [
   { name: "Bitcoin", category: "blockchain" },
-  { name: "Ethereum", category: "blockchain" },
   { name: "TypeScript", category: "programming" },
   { name: "Python", category: "programming" },
   { name: "React", category: "programming" },
@@ -19,9 +18,10 @@ const SKILLS = [
 ];
 
 const TIMELINE = [
-  { year: "Now", title: "CEO @ Chainbytes", description: "Building the future of Bitcoin ATMs" },
-  { year: "2013", title: "OG Bitcoiner", description: "Early adopter, never looked back" },
-  { year: "Past", title: "Serial Founder", description: "Multiple startups, fintech, hedge funds" },
+  { year: "Now", title: "CEO @ Chainbytes", description: "Bitcoin infrastructure and compliance systems" },
+  { year: "2013", title: "Bitcoin", description: "Early adopter, still here" },
+  { year: "Past", title: "Software Developer", description: "Finance, trading, high-security environments" },
+  { year: "Earlier", title: "US Navy", description: "Complex systems under stress" },
 ];
 
 export default function AboutPage() {
@@ -89,14 +89,11 @@ export default function AboutPage() {
           <div className="md:col-span-2 space-y-8">
             <div className="prose-cyber">
               <p className="text-lg text-text-secondary leading-relaxed">
-                I&apos;m a <span className="text-accent-cyan">builder</span>,{" "}
-                <span className="text-accent-magenta">pilot</span>, and{" "}
-                <span className="text-accent-green">grappler</span> who&apos;s been in the
-                Bitcoin space since 2013.
+                I build things that matter—from software to startups, to systems that keep working when everything else breaks.
               </p>
 
               <p className="text-text-secondary leading-relaxed mt-4">
-                Currently, I&apos;m the CEO of{" "}
+                I have been in the <span className="text-accent-cyan">Bitcoin</span> ecosystem since 2013, long enough to see entire narratives rise and fall, and to learn that real innovation does not come from hype. It comes from people who keep shipping while everyone else is arguing. Today I am the CEO of{" "}
                 <a
                   href="https://chainbytes.com"
                   target="_blank"
@@ -105,20 +102,27 @@ export default function AboutPage() {
                 >
                   Chainbytes
                 </a>
-                , where we&apos;re building the future of Bitcoin ATMs. Before that, I
-                built and ran multiple startups, and worked as a software developer
-                in financial services and hedge funds.
+                , where we build Bitcoin infrastructure and compliance systems that power real machines in the real world.
               </p>
 
               <p className="text-text-secondary leading-relaxed mt-4">
-                Outside of tech, I hold a private pilot license and train Brazilian
-                Jiu Jitsu. These pursuits have taught me as much about problem-solving
-                and resilience as any startup has.
+                Before Chainbytes, I spent decades as a software developer, working in finance, trading, and high-security environments where mistakes cost real money. Even earlier than that, I served in the <span className="text-accent-magenta">United States Navy</span>, where I learned how complex systems behave under stress and how to stay calm when they do not behave the way you planned. That mindset never leaves you. It shows up in how I design software, how I run teams, and how I think about risk.
               </p>
 
               <p className="text-text-secondary leading-relaxed mt-4">
-                This blog is where I document experiments, hard-earned lessons, and
-                ideas before they vanish.
+                Outside of tech, I am a <span className="text-accent-cyan">private pilot</span> and a <span className="text-accent-green">Brazilian Jiu Jitsu</span> competitor. Flying teaches respect for physics and preparation. Jiu Jitsu teaches humility, pressure, and how to keep thinking when someone is trying to crush you. Both are good training for building companies.
+              </p>
+
+              <p className="text-text-secondary leading-relaxed mt-4">
+                This site is where I write in public. I document experiments, ideas, systems, and mistakes so they do not evaporate. You will find thoughts on Bitcoin, engineering, automation, security, and sometimes the strange edges where all of those collide.
+              </p>
+
+              <p className="text-text-secondary leading-relaxed mt-6 border-l-2 border-accent-cyan pl-4">
+                What I care about is simple: <span className="text-text-primary">clarity over noise</span>, <span className="text-text-primary">curiosity over certainty</span>, and <span className="text-text-primary">building things that actually work</span>.
+              </p>
+
+              <p className="text-text-secondary leading-relaxed mt-4">
+                If you want to talk Bitcoin, software, aviation, or Jiu Jitsu, you are in the right place.
               </p>
             </div>
 
@@ -149,8 +153,13 @@ export default function AboutPage() {
               </div>
             </div>
 
+            {/* Sign off */}
+            <div className="pt-8 font-mono text-accent-cyan">
+              — Eric
+            </div>
+
             {/* CTA */}
-            <div className="pt-8">
+            <div className="pt-4">
               <a
                 href="https://x.com/EricGrill"
                 target="_blank"

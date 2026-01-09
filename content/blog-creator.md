@@ -19,6 +19,11 @@ Use this file when generating new blog posts for ericgrill.com.
 - ~2 years training
 - 2025 IBJJF European Championship gold medalist (white belt division)
 
+### Background
+- US Navy veteran
+- Decades of software development in finance, trading, high-security environments
+- Serial founder
+
 ## Subjects to Write About
 
 ### Aviation
