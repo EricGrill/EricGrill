@@ -16,3 +16,4 @@ export { PostList } from "./PostList";
 export { PostMatrix } from "./PostMatrix";
 export { SocialShare } from "./SocialShare";
 export { ViewModeSelector, type ViewMode } from "./ViewModeSelector";
+export { CodeBlock, Pre } from "./CodeBlock";

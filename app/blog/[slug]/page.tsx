@@ -3,7 +3,13 @@ import Link from "next/link";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { getAllPosts, getPostBySlug } from "@/lib/posts";
 import { NewsletterForm } from "@/components/NewsletterForm";
-import { SocialShare } from "@/components/blog";
+import { SocialShare, CodeBlock, Pre } from "@/components/blog";
+
+// Custom MDX components with copy-to-clipboard for code blocks
+const mdxComponents = {
+  pre: Pre,
+  code: CodeBlock,
+};
 
 interface PostPageProps {
   params: Promise<{ slug: string }>;
@@ -107,7 +113,7 @@ export default async function PostPage({ params }: PostPageProps) {
 
         {/* Content */}
         <div className="prose-cyber prose prose-lg max-w-none">
-          <MDXRemote source={post.content} />
+          <MDXRemote source={post.content} components={mdxComponents} />
         </div>
 
         {/* Footer */}
