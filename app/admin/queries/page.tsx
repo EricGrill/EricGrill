@@ -9,11 +9,10 @@ export default async function QueriesPage() {
   let error: string | null = null;
 
   try {
-    [queries, stats, topSources] = await Promise.all([
-      getRecentQueries(50),
-      getQueryStats(),
-      getTopSources(10),
-    ]);
+    // Run sequentially - parallel calls to Qdrant were causing issues
+    queries = await getRecentQueries(50);
+    stats = await getQueryStats();
+    topSources = await getTopSources(10);
   } catch (e) {
     error = e instanceof Error ? e.message : 'Failed to load data';
   }

@@ -10,13 +10,10 @@ export default async function AdminDashboard() {
   let debug: any = {};
 
   try {
-    const [statsResult, queriesResult] = await Promise.all([
-      getQueryStats(),
-      getRecentQueries(5),
-    ]);
-    stats = statsResult;
-    recentQueries = queriesResult;
-    debug = { statsTotal: stats.total, queriesCount: recentQueries.length, firstQuery: recentQueries[0] };
+    // Run sequentially - parallel calls to Qdrant were causing issues
+    stats = await getQueryStats();
+    recentQueries = await getRecentQueries(5);
+    debug = { statsTotal: stats.total, queriesCount: recentQueries.length, firstQuery: recentQueries[0]?.query };
   } catch (e) {
     error = e instanceof Error ? e.message : 'Failed to load data';
     debug = { error: e instanceof Error ? e.stack : String(e) };
