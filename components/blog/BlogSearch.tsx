@@ -45,8 +45,9 @@ export function BlogSearch({ value, onChange }: BlogSearchProps) {
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
         placeholder="search posts..."
+        style={{ paddingLeft: '7.5rem' }}
         className={`
-          w-full cyber-input pl-28 pr-24 py-3 font-mono text-sm
+          w-full cyber-input pr-24 py-3 font-mono text-sm
           placeholder:text-text-secondary/60
           ${isFocused ? "border-accent-cyan shadow-glow-cyan" : ""}
         `}

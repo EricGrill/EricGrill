@@ -1,24 +1,25 @@
 import { Suspense } from "react";
 import { Metadata } from "next";
 import { getAllPosts } from "@/lib/posts";
+import { getBlogIntro } from "@/lib/content";
 import { BlogExplorer } from "@/components/blog";
 
 export const metadata: Metadata = {
-  title: "Blog | Eric Grill",
+  title: "Field Notes | Eric Grill",
   description:
-    "Thoughts and insights on AI, aviation, jiu jitsu, blockchain, and programming. Explore articles, tutorials, and deep dives into technology and life.",
+    "Live experiments in code, security, automation, and performance. Dispatches from someone building inside high-pressure systems.",
   openGraph: {
-    title: "Blog | Eric Grill",
+    title: "Field Notes | Eric Grill",
     description:
-      "Thoughts and insights on AI, aviation, jiu jitsu, blockchain, and programming.",
+      "Live experiments in code, security, automation, and performance.",
     url: "https://ericgrill.com/blog",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Blog | Eric Grill",
+    title: "Field Notes | Eric Grill",
     description:
-      "Thoughts and insights on AI, aviation, jiu jitsu, blockchain, and programming.",
+      "Live experiments in code, security, automation, and performance.",
   },
 };
 
@@ -79,6 +80,7 @@ function BlogLoading() {
 
 export default async function BlogPage() {
   const posts = getAllPosts();
+  const blogIntro = getBlogIntro();
 
   return (
     <div className="py-16 px-6 md:px-12 relative min-h-screen">
@@ -88,6 +90,19 @@ export default async function BlogPage() {
       <div className="absolute bottom-40 left-10 w-64 h-64 bg-accent-cyan/5 rounded-full blur-[100px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto relative z-10">
+        {/* Blog Intro */}
+        <div className="mb-12 max-w-3xl">
+          <span className="font-mono text-sm text-accent-cyan mb-4 block">
+            {"// "}field_notes
+          </span>
+          <h1 className="font-mono text-4xl md:text-5xl font-bold text-text-primary mb-4">
+            {blogIntro.title}
+          </h1>
+          <p className="text-lg text-text-secondary leading-relaxed">
+            {blogIntro.content}
+          </p>
+        </div>
+
         <Suspense fallback={<BlogLoading />}>
           <BlogExplorer posts={posts} />
         </Suspense>

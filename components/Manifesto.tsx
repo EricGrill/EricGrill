@@ -1,6 +1,9 @@
 import Image from "next/image";
+import { getManifesto } from "@/lib/content";
 
 export function Manifesto() {
+  const manifesto = getManifesto();
+
   return (
     <section className="py-20 px-6 md:px-12 relative overflow-hidden">
       {/* Background effects */}
@@ -46,7 +49,7 @@ export function Manifesto() {
             </div>
 
             <p className="text-xl text-text-secondary font-mono">
-              This is where those threads meet.
+              {manifesto.tagline}
             </p>
           </div>
         </div>

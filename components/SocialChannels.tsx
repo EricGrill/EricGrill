@@ -152,26 +152,15 @@ export function SocialChannels() {
                 Competition footage, training highlights, and the journey on the mats.
               </p>
 
-              {/* YouTube Preview Area */}
-              <div className="mb-6 aspect-video bg-gradient-to-br from-red-500/10 to-red-500/5 border border-red-500/20 flex items-center justify-center relative overflow-hidden group/preview">
-                {/* Play button overlay */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-16 h-16 rounded-full bg-red-500/20 border border-red-500/40 flex items-center justify-center group-hover/preview:scale-110 transition-transform">
-                    <svg className="w-8 h-8 text-red-500 ml-1" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M8 5v14l11-7z" />
-                    </svg>
-                  </div>
-                </div>
-                {/* Grid pattern */}
-                <div className="absolute inset-0 opacity-20" style={{
-                  backgroundImage: `linear-gradient(rgba(239,68,68,0.1) 1px, transparent 1px),
-                                    linear-gradient(90deg, rgba(239,68,68,0.1) 1px, transparent 1px)`,
-                  backgroundSize: '20px 20px'
-                }} />
-                {/* Label */}
-                <span className="absolute bottom-3 left-3 font-mono text-xs text-red-400/60">
-                  {"// "}latest_footage
-                </span>
+              {/* YouTube Video Embed */}
+              <div className="mb-6 aspect-video relative overflow-hidden border border-red-500/30 bg-black">
+                <iframe
+                  src="https://www.youtube.com/embed/AluXpCgsjRI"
+                  title="IBJJF Europeans 2025 - Gold Medal Match"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  className="absolute inset-0 w-full h-full"
+                />
               </div>
 
               {/* CTA */}
