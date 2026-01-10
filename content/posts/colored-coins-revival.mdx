@@ -1,0 +1,130 @@
+---
+title: "I Got Colored Coins Working on Modern Bitcoin Core. Now What?"
+date: "2026-01-10"
+topics: ["blockchain", "programming"]
+excerpt: "Colored Coins was supposed to bring tokens to Bitcoin before Ethereum existed. I dusted off the protocol, got it running on new Bitcoin Core, and now I'm wondering: why is nobody building on Layer 1 anymore?"
+heroImage: "/images/blog/colored-coins-revival-hero.png"
+---
+
+> **Explore my tools:** [agents-skills-plugins](https://github.com/EricGrill/agents-skills-plugins)
+
+# The Original Token Protocol
+
+Before Ethereum. Before ERC-20. Before the ICO mania of 2017. There was Colored Coins.
+
+The idea was elegant: use Bitcoin's existing transaction structure to represent any asset. Stocks, bonds, property deeds, concert tickets—anything. You "color" satoshis to represent ownership, and the Bitcoin blockchain handles the rest.
+
+The [protocol specification](https://github.com/Colored-Coins/Colored-Coins-Protocol-Specification) is still sitting on GitHub. 143 stars. Last meaningful update years ago. A relic from an alternate timeline where we built tokens on Bitcoin instead of creating a thousand new blockchains.
+
+I decided to see if it still works.
+
+## The Experiment
+
+I pulled down the spec, set up a modern Bitcoin Core node, and started implementing. My expectation? Days of debugging. Outdated dependencies. Broken opcodes. The usual archaeology project.
+
+What actually happened?
+
+```typescript
+// Colored Coins: still works on Bitcoin Core 2026
+const coloredOutput = {
+  script: bitcoin.script.compile([
+    bitcoin.opcodes.OP_RETURN,
+    encodeColoredCoinMetadata({
+      assetId: generateAssetId(issuingAddress),
+      amount: 1000,
+      divisibility: 0,
+      metadata: { name: 'TestToken', symbol: 'TST' }
+    })
+  ]),
+  value: 0
+};
+```
+
+It just... worked.
+
+The blockchain skills I've built up—the same ones I use for [OP_RETURN experiments](/blog/bitcoin-opreturn-to-lightning-journey) and [Lightning development](/blog/lightning-encrypted-message-queue)—handled it with almost no modification. The protocol is simple. Bitcoin's scripting is stable. The fundamentals haven't changed.
+
+In an afternoon, I had tokens minting on testnet.
+
+## The Uncomfortable Question
+
+So here I am, with working Colored Coins on modern Bitcoin Core, asking myself: if this is so easy, why is nobody doing it?
+
+The obvious answer is cost.
+
+A Colored Coins transaction on mainnet during high-fee periods? 15,000+ sats. At current prices, that's real money for what Ethereum does for a few dollars (and Solana does for fractions of a cent). The economics don't make sense for high-frequency token transfers.
+
+But that's not the whole story.
+
+## The Lightning Escape Hatch
+
+Everyone who's tried to build on Layer 1 Bitcoin eventually has the same realization: fees make it impractical for most use cases. The solution? Move to Layer 2.
+
+Lightning Network is flexible, fast, and cheap. Want to build a token system? RGB Protocol is doing exactly that—Colored Coins concepts on Lightning. Better economics. Same security (eventually settled to Bitcoin).
+
+```typescript
+// The Layer 2 answer
+// RGB: Colored Coins concepts, Lightning economics
+const rgbAsset = await issueAsset({
+  ticker: 'TST',
+  name: 'TestToken',
+  supply: 1000000,
+  // Settles to Bitcoin, operates on Lightning
+});
+```
+
+So the smart money moved to L2. Layer 1 became a settlement layer for high-value, low-frequency transactions. The token experiments moved elsewhere.
+
+But something bothers me about this.
+
+## The Case for Layer 1
+
+Lightning is great. I'm building on it. But there's something different about a token that exists directly on Bitcoin's base layer.
+
+- **No channel management.** The asset exists. Period.
+- **No liquidity requirements.** You own it or you don't.
+- **Maximum decentralization.** Every Bitcoin node validates your token.
+- **True permanence.** No Lightning node going offline, no channel closures.
+
+For certain use cases—property deeds, stock certificates, high-value collectibles—the extra cost might be worth it. You're paying for the most secure, censorship-resistant ledger in existence.
+
+## Should It Be Me?
+
+I keep coming back to this question.
+
+The Colored Coins spec works. The tools exist. The blockchain hasn't rejected it. Someone could build a modern token platform on Bitcoin Layer 1, focused on use cases where the security premium is worth the cost.
+
+Real estate tokenization. Fine art provenance. Corporate stock certificates. Things where you'd gladly pay $20 per transaction for the guarantee of Bitcoin-level security.
+
+Is anyone building this? Not really. Most Bitcoin developers are focused on Lightning. Most token developers are on Ethereum or Solana. The intersection—tokens on Bitcoin L1—is a ghost town.
+
+```typescript
+// The opportunity (or the trap?)
+const realEstateToken = await createColoredCoin({
+  assetId: 'property-deed-123-main-st',
+  metadata: {
+    propertyAddress: '123 Main Street',
+    legalDescription: '...',
+    recordedWith: 'County Assessor'
+  },
+  // Worth $20 in fees? For a property deed? Maybe.
+});
+```
+
+I've been in Bitcoin since 2013. I run Chainbytes. I have the skills. I have the infrastructure.
+
+But do I have the conviction to build something that everyone else has abandoned?
+
+## The Real Question
+
+Maybe the market has spoken. Maybe Layer 1 tokens are a solved problem that nobody wants to solve again. Maybe Lightning and RGB are the right answer, and Colored Coins belongs in a museum.
+
+Or maybe everyone's been so focused on Layer 2 that they forgot Layer 1 is still there, still stable, still the most secure ledger on the planet.
+
+I'm not sure yet. But I got the protocol working. The code is sitting on my machine. The testnet tokens exist.
+
+Someone should be building this. The question is whether that someone is me.
+
+---
+
+*What do you think? Is there a future for Layer 1 Bitcoin tokens, or has that ship sailed? Find me on [X](https://x.com/EricGrill) to discuss.*
