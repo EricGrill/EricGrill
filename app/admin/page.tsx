@@ -2,6 +2,8 @@ import Link from 'next/link';
 import { getQueryStats, getRecentQueries } from '@/lib/engine/db';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+export const fetchCache = 'force-no-store';
 
 export default async function AdminDashboard() {
   let stats = { total: 0, byMode: {} as Record<string, number>, today: 0, thisWeek: 0 };
@@ -13,10 +15,15 @@ export default async function AdminDashboard() {
     // Run sequentially - parallel calls to Qdrant were causing issues
     stats = await getQueryStats();
     recentQueries = await getRecentQueries(5);
-    debug = { statsTotal: stats.total, queriesCount: recentQueries.length, firstQuery: recentQueries[0]?.query };
+    debug = {
+      time: new Date().toISOString(),
+      statsTotal: stats.total,
+      queriesCount: recentQueries.length,
+      firstQuery: recentQueries[0]?.query
+    };
   } catch (e) {
     error = e instanceof Error ? e.message : 'Failed to load data';
-    debug = { error: e instanceof Error ? e.stack : String(e) };
+    debug = { time: new Date().toISOString(), error: e instanceof Error ? e.stack : String(e) };
   }
 
   console.log('[Admin] Debug:', JSON.stringify(debug));
