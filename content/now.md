@@ -1,6 +1,6 @@
 ---
 updated: "2026-01-10"
-training: "IBJJF Masters Worlds 2026"
+training: "IBJJF Europeans - Jan 15, Lisbon"
 building: "Claude Code Plugins"
 writing: "AI + Drone Swarm Coordination"
 ---
@@ -8,9 +8,9 @@ writing: "AI + Drone Swarm Coordination"
 # Current Focus
 
 ## training_for
-IBJJF Masters Worlds 2026
+IBJJF European Championship 2026
 
-Preparing for the world championships in the Masters division. Daily drilling, competition-specific rolling, and strength work. The goal is gold.
+Five days out. Lisbon, January 15th. Defending last year's gold. Daily drilling, competition-specific rolling, final weight cut. Back to where it started.
 
 ## building
 Claude Code Plugin Ecosystem
