@@ -3,9 +3,15 @@ import { searchSimilar } from '@/lib/engine/qdrant';
 import { getEmbedding } from '@/lib/engine/embeddings';
 import { streamResponse, type Message } from '@/lib/engine/llm';
 import { getPhilosophyForMode } from '@/lib/engine/philosophy';
-import { logQuery } from '@/lib/engine/db';
+import { logQuery, checkRateLimit } from '@/lib/engine/db';
 import type { SearchResult } from '@/lib/engine/types';
 import crypto from 'crypto';
+
+function getClientIP(request: NextRequest): string {
+  return request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
+         request.headers.get('x-real-ip') ||
+         'unknown';
+}
 
 export const runtime = 'nodejs';
 export const maxDuration = 60;
@@ -115,11 +121,34 @@ ${contextText}`;
 }
 
 export async function POST(request: NextRequest) {
+  // Get client info for rate limiting and logging
+  const clientIP = getClientIP(request);
+  const userAgent = request.headers.get('user-agent') || 'unknown';
+
+  // Check rate limit
+  const rateLimit = checkRateLimit(clientIP);
+  if (!rateLimit.allowed) {
+    console.warn(`[Engine] Rate limited: ${clientIP} - ${rateLimit.reason}`);
+    return Response.json(
+      {
+        error: rateLimit.reason || 'Rate limit exceeded',
+        retryAfter: Math.ceil(rateLimit.resetIn / 1000),
+      },
+      {
+        status: 429,
+        headers: {
+          'Retry-After': String(Math.ceil(rateLimit.resetIn / 1000)),
+          'X-RateLimit-Remaining': '0',
+        },
+      }
+    );
+  }
+
   try {
     const body: EngineRequest = await request.json();
     const { query, mode, constraints } = body;
 
-    console.log('[Engine] Request received:', { query, mode });
+    console.log('[Engine] Request received:', { query, mode, ip: clientIP });
 
     if (!query || !mode) {
       return Response.json(
@@ -240,7 +269,9 @@ export async function POST(request: NextRequest) {
             mode,
             context.map(r => ({ title: r.metadata.title, url: r.metadata.url })),
             fullResponse,
-            sessionId
+            sessionId,
+            clientIP,
+            userAgent
           ).catch(err => console.error('Failed to log query:', err));
 
           // Send completion signal

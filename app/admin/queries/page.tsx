@@ -111,6 +111,7 @@ export default async function QueriesPage() {
                     <th className="px-4 py-3 font-medium">Query</th>
                     <th className="px-4 py-3 font-medium">Mode</th>
                     <th className="px-4 py-3 font-medium">Sources</th>
+                    <th className="px-4 py-3 font-medium">IP</th>
                     <th className="px-4 py-3 font-medium">Time</th>
                   </tr>
                 </thead>
@@ -135,6 +136,11 @@ export default async function QueriesPage() {
                       <td className="px-4 py-3">
                         <span className="text-sm text-[var(--text-secondary)]">
                           {Array.isArray(q.sources) ? q.sources.length : 0}
+                        </span>
+                      </td>
+                      <td className="px-4 py-3">
+                        <span className="text-xs text-[var(--text-secondary)] font-mono">
+                          {q.ip || 'unknown'}
                         </span>
                       </td>
                       <td className="px-4 py-3">
