@@ -1,55 +1,70 @@
-import { QdrantClient } from '@qdrant/js-client-rest';
-import type { ContentChunk, SearchResult, ChunkMetadata } from './types';
+// Qdrant client using raw fetch (compatible with Vercel serverless)
+import type { ContentChunk, SearchResult } from './types';
 
 const COLLECTION_NAME = 'eric_engine';
 const VECTOR_SIZE = 1536; // OpenAI ada-002 embedding size
 
-let client: QdrantClient | null = null;
-
-export function getQdrantClient(): QdrantClient {
-  // Always create a fresh client in serverless environment
+function getConfig() {
   const url = process.env.QDRANT_URL;
   const apiKey = process.env.QDRANT_API_KEY;
-
-  console.log('[Qdrant] Creating client with URL:', url);
 
   if (!url) {
     throw new Error('QDRANT_URL environment variable is required');
   }
 
-  if (!apiKey) {
-    console.warn('[Qdrant] No API key provided');
+  return { url: url.replace(/\/$/, ''), apiKey };
+}
+
+async function qdrantFetch(path: string, options: RequestInit = {}): Promise<any> {
+  const { url, apiKey } = getConfig();
+
+  const response = await fetch(`${url}${path}`, {
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...(apiKey ? { 'api-key': apiKey } : {}),
+      ...options.headers,
+    },
+  });
+
+  if (!response.ok) {
+    const text = await response.text();
+    throw new Error(`Qdrant error ${response.status}: ${text}`);
   }
 
-  return new QdrantClient({
-    url,
-    apiKey,
-  });
+  return response.json();
 }
 
 export async function ensureCollection(): Promise<void> {
-  const qdrant = getQdrantClient();
-
-  const collections = await qdrant.getCollections();
-  const exists = collections.collections.some(c => c.name === COLLECTION_NAME);
+  const collections = await qdrantFetch('/collections');
+  const exists = collections.result.collections.some((c: any) => c.name === COLLECTION_NAME);
 
   if (!exists) {
-    await qdrant.createCollection(COLLECTION_NAME, {
-      vectors: {
-        size: VECTOR_SIZE,
-        distance: 'Cosine',
-      },
+    await qdrantFetch(`/collections/${COLLECTION_NAME}`, {
+      method: 'PUT',
+      body: JSON.stringify({
+        vectors: {
+          size: VECTOR_SIZE,
+          distance: 'Cosine',
+        },
+      }),
     });
 
-    // Create payload index for filtering
-    await qdrant.createPayloadIndex(COLLECTION_NAME, {
-      field_name: 'source',
-      field_schema: 'keyword',
+    // Create payload indexes
+    await qdrantFetch(`/collections/${COLLECTION_NAME}/index`, {
+      method: 'PUT',
+      body: JSON.stringify({
+        field_name: 'source',
+        field_schema: 'keyword',
+      }),
     });
 
-    await qdrant.createPayloadIndex(COLLECTION_NAME, {
-      field_name: 'date',
-      field_schema: 'keyword',
+    await qdrantFetch(`/collections/${COLLECTION_NAME}/index`, {
+      method: 'PUT',
+      body: JSON.stringify({
+        field_name: 'date',
+        field_schema: 'keyword',
+      }),
     });
 
     console.log(`Created collection: ${COLLECTION_NAME}`);
@@ -60,8 +75,6 @@ export async function upsertChunks(
   chunks: ContentChunk[],
   embeddings: number[][]
 ): Promise<void> {
-  const qdrant = getQdrantClient();
-
   const points = chunks.map((chunk, i) => ({
     id: chunk.id,
     vector: embeddings[i],
@@ -75,9 +88,9 @@ export async function upsertChunks(
   const batchSize = 100;
   for (let i = 0; i < points.length; i += batchSize) {
     const batch = points.slice(i, i + batchSize);
-    await qdrant.upsert(COLLECTION_NAME, {
-      wait: true,
-      points: batch,
+    await qdrantFetch(`/collections/${COLLECTION_NAME}/points?wait=true`, {
+      method: 'PUT',
+      body: JSON.stringify({ points: batch }),
     });
     console.log(`Upserted batch ${Math.floor(i / batchSize) + 1}/${Math.ceil(points.length / batchSize)}`);
   }
@@ -93,8 +106,6 @@ export async function searchSimilar(
   }
 ): Promise<SearchResult[]> {
   console.log('[Qdrant] searchSimilar called, embedding length:', embedding.length);
-  const qdrant = getQdrantClient();
-  console.log('[Qdrant] Client created, searching...');
 
   const filterConditions: any[] = [];
 
@@ -120,31 +131,24 @@ export async function searchSimilar(
     filterConditions.push(dateCondition);
   }
 
-  let results;
-  try {
-    results = await qdrant.search(COLLECTION_NAME, {
-      vector: embedding,
-      limit,
-      with_payload: true,
-      filter: filterConditions.length > 0 ? {
-        must: filterConditions,
-      } : undefined,
-    });
-    console.log('[Qdrant] Search returned', results.length, 'results');
-  } catch (searchError) {
-    console.error('[Qdrant] Search failed:', searchError);
-    if (searchError instanceof Error) {
-      console.error('[Qdrant] Error name:', searchError.name);
-      console.error('[Qdrant] Error message:', searchError.message);
-      console.error('[Qdrant] Error stack:', searchError.stack);
-      if ('cause' in searchError) {
-        console.error('[Qdrant] Error cause:', searchError.cause);
-      }
-    }
-    throw searchError;
+  const body: any = {
+    vector: embedding,
+    limit,
+    with_payload: true,
+  };
+
+  if (filterConditions.length > 0) {
+    body.filter = { must: filterConditions };
   }
 
-  return results.map(result => ({
+  const response = await qdrantFetch(`/collections/${COLLECTION_NAME}/points/search`, {
+    method: 'POST',
+    body: JSON.stringify(body),
+  });
+
+  console.log('[Qdrant] Search returned', response.result.length, 'results');
+
+  return response.result.map((result: any) => ({
     content: result.payload?.content as string,
     metadata: {
       source: result.payload?.source as string,
@@ -161,18 +165,18 @@ export async function searchSimilar(
 }
 
 export async function deleteBySource(source: string): Promise<void> {
-  const qdrant = getQdrantClient();
-
-  await qdrant.delete(COLLECTION_NAME, {
-    wait: true,
-    filter: {
-      must: [
-        {
-          key: 'source',
-          match: { value: source },
-        },
-      ],
-    },
+  await qdrantFetch(`/collections/${COLLECTION_NAME}/points/delete?wait=true`, {
+    method: 'POST',
+    body: JSON.stringify({
+      filter: {
+        must: [
+          {
+            key: 'source',
+            match: { value: source },
+          },
+        ],
+      },
+    }),
   });
 
   console.log(`Deleted all chunks with source: ${source}`);
@@ -182,11 +186,18 @@ export async function getCollectionInfo(): Promise<{
   pointsCount: number;
   status: string;
 }> {
-  const qdrant = getQdrantClient();
-  const info = await qdrant.getCollection(COLLECTION_NAME);
+  const response = await qdrantFetch(`/collections/${COLLECTION_NAME}`);
 
   return {
-    pointsCount: info.points_count ?? 0,
-    status: info.status,
+    pointsCount: response.result.points_count ?? 0,
+    status: response.result.status,
   };
+}
+
+// Keep the old function for backwards compatibility with scripts
+export function getQdrantClient() {
+  // This is only used by ingest script which runs locally
+  const { QdrantClient } = require('@qdrant/js-client-rest');
+  const { url, apiKey } = getConfig();
+  return new QdrantClient({ url, apiKey });
 }
