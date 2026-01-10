@@ -5,11 +5,11 @@ import { getBlogIntro } from "@/lib/content";
 import { BlogExplorer } from "@/components/blog";
 
 export const metadata: Metadata = {
-  title: "Field Notes | Eric Grill",
+  title: "Field Notes",
   description:
     "Live experiments in code, security, automation, and performance. Dispatches from someone building inside high-pressure systems.",
   openGraph: {
-    title: "Field Notes | Eric Grill",
+    title: "Field Notes - Eric Grill's Blog",
     description:
       "Live experiments in code, security, automation, and performance.",
     url: "https://ericgrill.com/blog",
@@ -17,9 +17,12 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Field Notes | Eric Grill",
+    title: "Field Notes - Eric Grill's Blog",
     description:
       "Live experiments in code, security, automation, and performance.",
+  },
+  alternates: {
+    canonical: "https://ericgrill.com/blog",
   },
 };
 

@@ -4,8 +4,22 @@ import { getNow } from "@/lib/content";
 import { getAllPosts } from "@/lib/posts";
 
 export const metadata: Metadata = {
-  title: "Now | Eric Grill",
+  title: "Now",
   description: "What I'm currently building, training for, and working on. Living proof of the work.",
+  openGraph: {
+    title: "What Eric Grill is Doing Now",
+    description: "What I'm currently building, training for, and working on. Living proof of the work.",
+    url: "https://ericgrill.com/now",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "What Eric Grill is Doing Now",
+    description: "What I'm currently building, training for, and working on. Living proof of the work.",
+  },
+  alternates: {
+    canonical: "https://ericgrill.com/now",
+  },
 };
 
 const PROJECTS = [

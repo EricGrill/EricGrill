@@ -5,8 +5,31 @@ import { JsonLd, generatePersonSchema } from "@/components/JsonLd";
 import { getManifesto } from "@/lib/content";
 
 export const metadata: Metadata = {
-  title: "About | Eric Grill",
+  title: "About",
   description: "Building systems that survive when everything else breaks. Navy veteran, Bitcoin infrastructure builder, IBJJF champion, serial founder.",
+  openGraph: {
+    title: "About Eric Grill",
+    description: "Building systems that survive when everything else breaks. Navy veteran, Bitcoin infrastructure builder, IBJJF champion, serial founder.",
+    url: "https://ericgrill.com/about",
+    type: "profile",
+    images: [
+      {
+        url: "/images/eric-headshot.jpeg",
+        width: 800,
+        height: 800,
+        alt: "Eric Grill",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "About Eric Grill",
+    description: "Building systems that survive when everything else breaks. Navy veteran, Bitcoin infrastructure builder, IBJJF champion, serial founder.",
+    images: ["/images/eric-headshot.jpeg"],
+  },
+  alternates: {
+    canonical: "https://ericgrill.com/about",
+  },
 };
 
 const SKILLS = [

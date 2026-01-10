@@ -2,11 +2,11 @@ import Link from "next/link";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Contact | Eric Grill",
+  title: "Contact",
   description:
     "Get in touch with Eric Grill. Connect via LinkedIn, X (Twitter), or GitHub for professional inquiries, collaboration, or just to say hello.",
   openGraph: {
-    title: "Contact | Eric Grill",
+    title: "Contact Eric Grill",
     description:
       "Get in touch with Eric Grill. Connect via LinkedIn, X (Twitter), or GitHub.",
     url: "https://ericgrill.com/contact",
@@ -14,9 +14,12 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Contact | Eric Grill",
+    title: "Contact Eric Grill",
     description:
       "Get in touch with Eric Grill. Connect via LinkedIn, X (Twitter), or GitHub.",
+  },
+  alternates: {
+    canonical: "https://ericgrill.com/contact",
   },
 };
 

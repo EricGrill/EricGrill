@@ -71,6 +71,7 @@ export function generatePersonSchema() {
       "https://www.linkedin.com/in/ericgrill/",
       "https://x.com/EricGrill",
       "https://github.com/EricGrill",
+      "https://www.youtube.com/@EricGrill",
     ],
     jobTitle: "Builder",
     knowsAbout: [

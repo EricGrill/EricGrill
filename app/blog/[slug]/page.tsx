@@ -35,8 +35,9 @@ export async function generateMetadata({ params }: PostPageProps) {
     : `${siteUrl}/og-default.png`;
 
   return {
-    title: `${post.title} | Eric Grill`,
+    title: post.title,
     description: post.excerpt,
+    authors: [{ name: "Eric Grill", url: "https://ericgrill.com/about" }],
     openGraph: {
       title: post.title,
       description: post.excerpt,
@@ -59,6 +60,10 @@ export async function generateMetadata({ params }: PostPageProps) {
       title: post.title,
       description: post.excerpt,
       images: [ogImage],
+      creator: "@EricGrill",
+    },
+    alternates: {
+      canonical: `${siteUrl}/blog/${slug}`,
     },
   };
 }
