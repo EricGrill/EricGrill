@@ -26,10 +26,11 @@ const PRESS_FILE = path.join(CONTENT_DIR, 'press.json');
 const CHUNK_SIZE = 1000; // Target chunk size in characters
 const CHUNK_OVERLAP = 200; // Overlap between chunks
 
-// Generate deterministic ID from content
+// Generate deterministic UUID from content
 function generateId(source: string, file: string, chunkIndex: number): string {
   const hash = crypto.createHash('md5').update(`${source}:${file}:${chunkIndex}`).digest('hex');
-  return hash.substring(0, 16);
+  // Format as UUID: 8-4-4-4-12
+  return `${hash.slice(0, 8)}-${hash.slice(8, 12)}-${hash.slice(12, 16)}-${hash.slice(16, 20)}-${hash.slice(20, 32)}`;
 }
 
 // Split text into chunks with overlap
