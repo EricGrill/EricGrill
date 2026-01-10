@@ -1,6 +1,5 @@
 "use client";
 
-import { TwitterFeed } from "./TwitterFeed";
 import { YouTubeIcon } from "./YouTubeChannel";
 
 function XIcon({ className }: { className?: string }) {
@@ -86,9 +85,25 @@ export function SocialChannels() {
                 Real-time thoughts on AI, Bitcoin, and building things that matter.
               </p>
 
-              {/* Twitter Feed */}
-              <div className="mb-6 max-h-[300px] overflow-hidden">
-                <TwitterFeed />
+              {/* Recent Topics */}
+              <div className="mb-6 space-y-3">
+                <span className="font-mono text-xs text-text-secondary block">
+                  {"// "}recent_topics
+                </span>
+                <div className="space-y-2">
+                  <div className="flex items-start gap-2">
+                    <span className="text-accent-cyan font-mono text-sm">{">"}</span>
+                    <span className="text-text-secondary text-sm">Claude Code plugins and agentic workflows</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <span className="text-accent-cyan font-mono text-sm">{">"}</span>
+                    <span className="text-text-secondary text-sm">Bitcoin infrastructure at scale</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <span className="text-accent-cyan font-mono text-sm">{">"}</span>
+                    <span className="text-text-secondary text-sm">Building in public, shipping fast</span>
+                  </div>
+                </div>
               </div>
 
               {/* CTA */}
