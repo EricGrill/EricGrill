@@ -1,0 +1,36 @@
+backend:
+  name: github
+  repo: EricGrill/ericgrill
+  branch: master
+  auth_type: pkce
+  app_id: Ov23liQGC4xpmrseJYh0
+
+media_folder: public/images
+public_folder: /images
+
+collections:
+  - name: posts
+    label: Blog Posts
+    folder: content/posts
+    create: true
+    slug: "{{slug}}"
+    extension: mdx
+    format: frontmatter
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Publish Date, name: date, widget: datetime, format: "YYYY-MM-DD" }
+      - { label: Hero Image, name: heroImage, widget: image, required: false }
+      - {
+          label: Topics,
+          name: topics,
+          widget: select,
+          multiple: true,
+          options:
+            - { label: "AI", value: "ai" }
+            - { label: "Aviation", value: "aviation" }
+            - { label: "Jiu Jitsu", value: "jiu-jitsu" }
+            - { label: "Blockchain", value: "blockchain" }
+            - { label: "Programming", value: "programming" }
+        }
+      - { label: Excerpt, name: excerpt, widget: string }
+      - { label: Body, name: body, widget: markdown }
