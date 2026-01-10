@@ -65,7 +65,7 @@ export default function AboutPage() {
   return (
     <>
       <JsonLd data={personSchema} />
-      <div className="py-16 px-6 md:px-12 relative min-h-screen">
+      <article className="py-16 px-6 md:px-12 relative min-h-screen">
         {/* Background */}
         <div className="absolute inset-0 circuit-bg opacity-10 pointer-events-none" />
         <div className="absolute top-40 left-10 w-64 h-64 bg-accent-cyan/5 rounded-full blur-[100px] pointer-events-none" />
@@ -280,7 +280,7 @@ export default function AboutPage() {
             </div>
           </div>
         </div>
-      </div>
+      </article>
     </>
   );
 }

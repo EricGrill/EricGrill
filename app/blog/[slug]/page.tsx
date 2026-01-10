@@ -6,6 +6,7 @@ import { TwitterDiscussCTA } from "@/components/TwitterFeed";
 import { SocialShare, CodeBlock, Pre, VideoEmbed, BlogImage } from "@/components/blog";
 import { JsonLd, generateArticleSchema } from "@/components/JsonLd";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { RelatedPosts } from "@/components/RelatedPosts";
 
 // Custom MDX components with copy-to-clipboard for code blocks and optimized images
 const mdxComponents = {
@@ -34,8 +35,15 @@ export async function generateMetadata({ params }: PostPageProps) {
     ? `${siteUrl}${post.heroImage}`
     : `${siteUrl}/og-default.png`;
 
+  // If title + " | Eric Grill" exceeds 60 chars, use absolute title without suffix
+  const SUFFIX_LENGTH = 14; // " | Eric Grill"
+  const MAX_TITLE_LENGTH = 60;
+  const title = post.title.length + SUFFIX_LENGTH > MAX_TITLE_LENGTH
+    ? { absolute: post.title }
+    : post.title;
+
   return {
-    title: post.title,
+    title,
     description: post.excerpt,
     authors: [{ name: "Eric Grill", url: "https://ericgrill.com/about" }],
     openGraph: {
@@ -181,6 +189,13 @@ export default async function PostPage({ params }: PostPageProps) {
             </Link>
           </div>
         </footer>
+
+        {/* Related Posts */}
+        <RelatedPosts
+          currentSlug={slug}
+          currentTopics={post.topics}
+          allPosts={getAllPosts()}
+        />
       </div>
     </article>
     </>

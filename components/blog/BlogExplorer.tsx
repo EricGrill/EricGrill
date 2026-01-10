@@ -110,11 +110,11 @@ export function BlogExplorer({ posts }: BlogExplorerProps) {
           <span className="inline-block w-2 h-2 bg-accent-green rounded-full animate-pulse" />
           <span>TRANSMISSION_ARCHIVE v2.0</span>
         </div>
-        <h1 className="font-mono text-4xl md:text-5xl font-bold text-text-primary mb-3">
+        <h2 className="font-mono text-4xl md:text-5xl font-bold text-text-primary mb-3">
           <span className="text-accent-cyan">&gt;</span> Blog{" "}
           <span className="text-accent-magenta">Command</span>{" "}
           <span className="text-accent-cyan">Center</span>
-        </h1>
+        </h2>
         <p className="text-text-secondary max-w-2xl">
           Navigate through {posts.length} transmissions on AI, aviation, jiu-jitsu,
           blockchain, and the art of building things that matter.

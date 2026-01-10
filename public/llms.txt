@@ -1,0 +1,28 @@
+# Eric Grill - ericgrill.com
+
+## About
+Eric Grill is a builder, pilot, and Brazilian Jiu-Jitsu practitioner. He writes about AI, aviation, jiu jitsu, blockchain, and programming. He is the CEO of Chainbytes (Bitcoin ATM infrastructure) and has been in the Bitcoin space since 2013.
+
+## Content Focus
+- AI and Claude Code development (plugins, agents, skills, hooks)
+- Bitcoin and blockchain infrastructure
+- Brazilian Jiu-Jitsu competition and training
+- Aviation and flying
+- Software development and programming
+
+## Main Sections
+- / - Homepage with latest posts and bio
+- /blog - Field notes and technical articles
+- /about - Background, experience, and credentials
+- /now - Current projects and focus areas
+- /contact - Ways to connect
+
+## Author
+Name: Eric Grill
+Twitter: @EricGrill
+YouTube: @EricGrill
+GitHub: EricGrill
+LinkedIn: ericgrill
+
+## Technical Stack
+Built with Next.js 14 and Tailwind CSS.
