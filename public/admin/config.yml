@@ -3,7 +3,7 @@ backend:
   repo: EricGrill/ericgrill
   branch: master
   auth_type: pkce
-  app_id: ericgrill-cms
+  app_id: Ov23liQGC4xpmrseJYh0
 
 media_folder: public/images
 public_folder: /images
