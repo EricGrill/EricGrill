@@ -119,6 +119,8 @@ export async function POST(request: NextRequest) {
     const body: EngineRequest = await request.json();
     const { query, mode, constraints } = body;
 
+    console.log('[Engine] Request received:', { query, mode });
+
     if (!query || !mode) {
       return Response.json(
         { error: 'Missing required fields: query and mode' },
@@ -133,15 +135,68 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Check environment variables
+    const envCheck = {
+      QDRANT_URL: !!process.env.QDRANT_URL,
+      QDRANT_API_KEY: !!process.env.QDRANT_API_KEY,
+      OPENAI_API_KEY: !!process.env.OPENAI_API_KEY,
+      ANTHROPIC_API_KEY: !!process.env.ANTHROPIC_API_KEY,
+    };
+    console.log('[Engine] Environment check:', envCheck);
+
+    if (!process.env.QDRANT_URL || !process.env.QDRANT_API_KEY) {
+      return Response.json(
+        { error: 'Server configuration error: Qdrant not configured', debug: envCheck },
+        { status: 500 }
+      );
+    }
+
+    if (!process.env.OPENAI_API_KEY) {
+      return Response.json(
+        { error: 'Server configuration error: OpenAI API key not configured (needed for embeddings)', debug: envCheck },
+        { status: 500 }
+      );
+    }
+
+    if (!process.env.ANTHROPIC_API_KEY && !process.env.OPENAI_API_KEY) {
+      return Response.json(
+        { error: 'Server configuration error: No LLM API key configured', debug: envCheck },
+        { status: 500 }
+      );
+    }
+
     // Get embedding for the query
-    const queryEmbedding = await getEmbedding(query);
+    console.log('[Engine] Getting embedding...');
+    let queryEmbedding;
+    try {
+      queryEmbedding = await getEmbedding(query);
+      console.log('[Engine] Embedding received, length:', queryEmbedding.length);
+    } catch (embErr) {
+      console.error('[Engine] Embedding error:', embErr);
+      return Response.json(
+        { error: `Embedding error: ${embErr instanceof Error ? embErr.message : 'Unknown'}` },
+        { status: 500 }
+      );
+    }
 
     // Search for relevant context
+    console.log('[Engine] Searching Qdrant...');
     const searchLimit = mode === 'explore' ? 10 : 6;
-    const context = await searchSimilar(queryEmbedding, searchLimit);
+    let context;
+    try {
+      context = await searchSimilar(queryEmbedding, searchLimit);
+      console.log('[Engine] Found', context.length, 'results');
+    } catch (searchErr) {
+      console.error('[Engine] Qdrant search error:', searchErr);
+      return Response.json(
+        { error: `Qdrant search error: ${searchErr instanceof Error ? searchErr.message : 'Unknown'}` },
+        { status: 500 }
+      );
+    }
 
     // Load philosophy priors for the mode
     const philosophy = getPhilosophyForMode(mode);
+    console.log('[Engine] Philosophy loaded, streaming response...');
 
     // Build the prompt
     const messages = buildPrompt(query, mode, context, philosophy, constraints);

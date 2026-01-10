@@ -79,7 +79,9 @@ export function EricEngineFeatured() {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to get response');
+        const errorData = await response.json().catch(() => ({}));
+        console.error('[EricEngine] API error:', response.status, errorData);
+        throw new Error(errorData.error || `API error: ${response.status}`);
       }
 
       const reader = response.body?.getReader();
@@ -128,10 +130,10 @@ export function EricEngineFeatured() {
       setCurrentResponse('');
       setCurrentSources([]);
     } catch (error) {
-      console.error('Engine error:', error);
+      console.error('[EricEngine] Error:', error);
       const errorMessage: Message = {
         role: 'assistant',
-        content: 'Error: Failed to process your request. Please try again.',
+        content: `Error: ${error instanceof Error ? error.message : 'Failed to process your request. Please try again.'}`,
         mode,
       };
       setMessages(prev => [...prev, errorMessage]);
