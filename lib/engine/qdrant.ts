@@ -7,20 +7,24 @@ const VECTOR_SIZE = 1536; // OpenAI ada-002 embedding size
 let client: QdrantClient | null = null;
 
 export function getQdrantClient(): QdrantClient {
-  if (!client) {
-    const url = process.env.QDRANT_URL;
-    const apiKey = process.env.QDRANT_API_KEY;
+  // Always create a fresh client in serverless environment
+  const url = process.env.QDRANT_URL;
+  const apiKey = process.env.QDRANT_API_KEY;
 
-    if (!url) {
-      throw new Error('QDRANT_URL environment variable is required');
-    }
+  console.log('[Qdrant] Creating client with URL:', url);
 
-    client = new QdrantClient({
-      url,
-      apiKey,
-    });
+  if (!url) {
+    throw new Error('QDRANT_URL environment variable is required');
   }
-  return client;
+
+  if (!apiKey) {
+    console.warn('[Qdrant] No API key provided');
+  }
+
+  return new QdrantClient({
+    url,
+    apiKey,
+  });
 }
 
 export async function ensureCollection(): Promise<void> {
@@ -88,7 +92,9 @@ export async function searchSimilar(
     dateTo?: string;
   }
 ): Promise<SearchResult[]> {
+  console.log('[Qdrant] searchSimilar called, embedding length:', embedding.length);
   const qdrant = getQdrantClient();
+  console.log('[Qdrant] Client created, searching...');
 
   const filterConditions: any[] = [];
 
@@ -114,14 +120,29 @@ export async function searchSimilar(
     filterConditions.push(dateCondition);
   }
 
-  const results = await qdrant.search(COLLECTION_NAME, {
-    vector: embedding,
-    limit,
-    with_payload: true,
-    filter: filterConditions.length > 0 ? {
-      must: filterConditions,
-    } : undefined,
-  });
+  let results;
+  try {
+    results = await qdrant.search(COLLECTION_NAME, {
+      vector: embedding,
+      limit,
+      with_payload: true,
+      filter: filterConditions.length > 0 ? {
+        must: filterConditions,
+      } : undefined,
+    });
+    console.log('[Qdrant] Search returned', results.length, 'results');
+  } catch (searchError) {
+    console.error('[Qdrant] Search failed:', searchError);
+    if (searchError instanceof Error) {
+      console.error('[Qdrant] Error name:', searchError.name);
+      console.error('[Qdrant] Error message:', searchError.message);
+      console.error('[Qdrant] Error stack:', searchError.stack);
+      if ('cause' in searchError) {
+        console.error('[Qdrant] Error cause:', searchError.cause);
+      }
+    }
+    throw searchError;
+  }
 
   return results.map(result => ({
     content: result.payload?.content as string,
