@@ -45,6 +45,7 @@ The Eric character embodies these interests/themes that can be incorporated into
 | Filename | Description | Dimensions | Date Added |
 |----------|-------------|------------|------------|
 | eric-base.jpeg | Original character at tech workstation | 852KB | 2025-01-10 |
+| eric-lightning-encrypted.png | Eric at cyberpunk workstation with Lightning Network monitors, Bitcoin symbols, neon blue/orange lighting | 1.4MB | 2025-01-10 |
 
 ## Usage Guidelines
 

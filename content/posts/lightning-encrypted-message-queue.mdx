@@ -7,6 +7,10 @@ excerpt: "How I used Claude Code's brainstorming agent and custom skills to buil
 
 > **Get the tools:** [agents-skills-plugins](https://github.com/EricGrill/agents-skills-plugins)
 
+![Lightning Network encrypted message queue architecture with Bitcoin payments and end-to-end encryption](/blog/eric-lightning-encrypted.png)
+
+*By Eric Grill, Blockchain Developer at [Chainbytes](https://chainbytes.com) | January 9, 2026*
+
 # The Idea: Public Messages, Private Content
 
 Here's a concept that sounds contradictory until it clicks: a message queue where every message is publicly visible on the Bitcoin Lightning Network, but only the intended recipient can decrypt and read the contents.
@@ -45,7 +49,7 @@ This was the hardest question. We settled on a "mailbox" pattern: recipients pol
 
 The brainstorming session produced a design document that became my implementation roadmap.
 
-## The Architecture
+## Encrypted Message Queue Architecture
 
 Here's what we designed:
 
@@ -136,7 +140,7 @@ async function sendMessage(
 }
 ```
 
-## The Recipient Side
+## Lightning Network Message Delivery
 
 Here's where it gets interesting. The recipient polls for messages:
 
@@ -238,3 +242,9 @@ And that future runs on Lightning.
 ---
 
 **Building on Lightning?** Check out my [agents-skills-plugins](https://github.com/EricGrill/agents-skills-plugins) for Claude Code skills that understand blockchain development. And if you're working on Bitcoin infrastructure, we're always building at [Chainbytes](https://chainbytes.com).
+
+---
+
+## About the Author
+
+Eric Grill is a blockchain developer specializing in Lightning Network and Bitcoin infrastructure. He builds developer tools for AI-assisted coding and works on Bitcoin infrastructure at Chainbytes. Read more about his approach to [AI-assisted development with Claude Code](/blog/claude-code-intro) or explore his perspective on [Bitcoin in 2025](/blog/bitcoin-2025-outlook).

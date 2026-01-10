@@ -3,13 +3,14 @@ import Link from "next/link";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { getAllPosts, getPostBySlug } from "@/lib/posts";
 import { TwitterDiscussCTA } from "@/components/TwitterFeed";
-import { SocialShare, CodeBlock, Pre, VideoEmbed } from "@/components/blog";
+import { SocialShare, CodeBlock, Pre, VideoEmbed, BlogImage } from "@/components/blog";
 
-// Custom MDX components with copy-to-clipboard for code blocks
+// Custom MDX components with copy-to-clipboard for code blocks and optimized images
 const mdxComponents = {
   pre: Pre,
   code: CodeBlock,
   VideoEmbed: VideoEmbed,
+  img: BlogImage,
 };
 
 interface PostPageProps {
