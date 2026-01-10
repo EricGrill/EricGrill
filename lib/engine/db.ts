@@ -1,6 +1,8 @@
 // Query logging using Qdrant (Vercel Postgres not configured)
 // Logs stored in separate collection with rate limiting for security
 
+import crypto from 'crypto';
+
 const LOGS_COLLECTION = 'eric_engine_logs';
 
 function getConfig() {
@@ -190,7 +192,8 @@ export async function logQuery(
     const ready = await ensureLogsCollection();
     if (!ready) return;
 
-    const id = `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    // Qdrant requires either unsigned integer or UUID for point IDs
+    const id = crypto.randomUUID();
     const timestamp = new Date().toISOString();
 
     const log = {
