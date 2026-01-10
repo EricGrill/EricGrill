@@ -8,6 +8,7 @@ import { SocialChannels } from "@/components/SocialChannels";
 import { Manifesto } from "@/components/Manifesto";
 import { WhatIDo } from "@/components/WhatIDo";
 import { NowSection } from "@/components/NowSection";
+import { EricEngineFeatured } from "@/components/EricEngineFeatured";
 
 export default function Home() {
   const webSiteSchema = generateWebSiteSchema();
@@ -105,6 +106,9 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        {/* Eric Engine - Featured */}
+        <EricEngineFeatured />
 
         {/* Manifesto Section */}
         <Manifesto />
