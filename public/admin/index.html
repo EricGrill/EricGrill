@@ -5,57 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="noindex" />
     <title>Content Manager | Eric Grill</title>
-    <style>
-      body { margin: 0; }
-    </style>
+    <link rel="stylesheet" href="https://unpkg.com/@sveltia/cms/dist/sveltia-cms.css" />
   </head>
   <body>
-    <div id="nc-root"></div>
-    <script src="https://unpkg.com/decap-cms@3.0.12/dist/decap-cms.js"></script>
-    <script>
-      window.CMS_MANUAL_INIT = true;
-
-      document.addEventListener('DOMContentLoaded', function() {
-        CMS.init({
-          config: {
-            backend: {
-              name: "test-repo"
-            },
-            media_folder: "public/images",
-            public_folder: "/images",
-            collections: [
-              {
-                name: "posts",
-                label: "Blog Posts",
-                folder: "content/posts",
-                create: true,
-                slug: "{{slug}}",
-                extension: "mdx",
-                format: "frontmatter",
-                fields: [
-                  { label: "Title", name: "title", widget: "string" },
-                  { label: "Publish Date", name: "date", widget: "datetime", format: "YYYY-MM-DD" },
-                  {
-                    label: "Topics",
-                    name: "topics",
-                    widget: "select",
-                    multiple: true,
-                    options: [
-                      { label: "AI", value: "ai" },
-                      { label: "Aviation", value: "aviation" },
-                      { label: "Jiu Jitsu", value: "jiu-jitsu" },
-                      { label: "Blockchain", value: "blockchain" },
-                      { label: "Programming", value: "programming" }
-                    ]
-                  },
-                  { label: "Excerpt", name: "excerpt", widget: "string" },
-                  { label: "Body", name: "body", widget: "markdown" }
-                ]
-              }
-            ]
-          }
-        });
-      });
-    </script>
+    <script src="https://unpkg.com/@sveltia/cms/dist/sveltia-cms.js"></script>
   </body>
 </html>
