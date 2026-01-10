@@ -2,7 +2,7 @@
 title: "I Got Colored Coins Working on Modern Bitcoin Core. Now What?"
 date: "2026-01-10"
 topics: ["blockchain", "programming"]
-excerpt: "Colored Coins was supposed to bring tokens to Bitcoin before Ethereum existed. I dusted off the protocol, got it running on new Bitcoin Core, and now I'm wondering: why is nobody building on Layer 1 anymore?"
+excerpt: "Ordinals, BRC-20, Omni—people keep reinventing L1 tokens on Bitcoin. With OP_RETURN limits expanded in new Bitcoin Core, I dusted off the original protocol. Maybe it's time to revisit the basics."
 heroImage: "/images/blog/colored-coins-revival-hero.png"
 ---
 
@@ -15,6 +15,32 @@ Before Ethereum. Before ERC-20. Before the ICO mania of 2017. There was Colored 
 The idea was elegant: use Bitcoin's existing transaction structure to represent any asset. Stocks, bonds, property deeds, concert tickets—anything. You "color" satoshis to represent ownership, and the Bitcoin blockchain handles the rest.
 
 The [protocol specification](https://github.com/Colored-Coins/Colored-Coins-Protocol-Specification) is still sitting on GitHub. 143 stars. Last meaningful update years ago. A relic from an alternate timeline where we built tokens on Bitcoin instead of creating a thousand new blockchains.
+
+But here's the thing: that timeline isn't as alternate as we thought.
+
+## The L1 Token Renaissance We Already Had
+
+People keep building tokens on Bitcoin. They just keep reinventing the wheel.
+
+**Omni Layer** (2013) - The Mastercoin protocol that became Omni. Tether started here before moving to Ethereum. Real tokens, real value, Bitcoin L1.
+
+**Ordinals** (2023) - Casey Rodarmor inscribed data into individual satoshis using the witness data from SegWit. Suddenly everyone remembered you could put things on Bitcoin. NFTs on L1. The community lost its mind.
+
+**BRC-20** (2023) - Someone looked at Ordinals and said "what if we inscribed JSON that represents fungible tokens?" A protocol built on a protocol built on a workaround. Billions in market cap within months.
+
+All of these are tokens on Bitcoin Layer 1. All of them work. And all of them are more complex than Colored Coins.
+
+Ordinals uses witness data and inscription indexers. BRC-20 requires off-chain indexing to track balances. Omni has its own transaction format layered on top of Bitcoin.
+
+Colored Coins? Just OP_RETURN with a simple encoding scheme. The original. The simplest.
+
+## OP_RETURN Is Back
+
+Here's what changed: Bitcoin Core v30 expanded OP_RETURN limits. The 80-byte restriction that pushed everyone toward creative workarounds? Relaxed. You can put real data in OP_RETURN again.
+
+This matters because Colored Coins was designed for OP_RETURN. Clean. Intentional. Not a hack on witness data or inscription workarounds. Just... putting token metadata where it belongs.
+
+Maybe it's time to revisit the basics.
 
 I decided to see if it still works.
 
