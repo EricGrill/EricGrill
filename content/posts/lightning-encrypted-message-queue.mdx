@@ -18,6 +18,8 @@ Here's a concept that sounds contradictory until it clicks: a message queue wher
 
 Think about it. Traditional message queues require trust in a central server. The server sees everything. The server can be compromised. The server can be subpoenaed.
 
+![The problem with central servers](/images/illustrations/lightning-encrypted-mq/server-vulnerabilities.png)
+
 But what if the "server" was the Lightning Network itself? Messages are just data attached to payments. Anyone can see a payment happened. Nobody can read what's inside without the private key.
 
 Today I'm walking through how I built this using Claude Code, specifically leveraging the brainstorming agent and custom agents I've developed in my [agents-skills-plugins](https://github.com/EricGrill/agents-skills-plugins) repository.

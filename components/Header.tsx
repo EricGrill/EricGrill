@@ -24,6 +24,7 @@ export function Header() {
         {/* Desktop nav */}
         <div className="hidden md:flex items-center gap-8">
           <NavLink href="/blog">Blog</NavLink>
+          <NavLink href="/now">Now</NavLink>
           <NavLink href="/about">About</NavLink>
           <NavLink href="/contact">Contact</NavLink>
         </div>
@@ -65,6 +66,9 @@ export function Header() {
           <div className="flex flex-col gap-4 pt-4 px-2">
             <MobileNavLink href="/blog" onClick={() => setIsOpen(false)}>
               Blog
+            </MobileNavLink>
+            <MobileNavLink href="/now" onClick={() => setIsOpen(false)}>
+              Now
             </MobileNavLink>
             <MobileNavLink href="/about" onClick={() => setIsOpen(false)}>
               About
