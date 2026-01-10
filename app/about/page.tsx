@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { JsonLd, generatePersonSchema } from "@/components/JsonLd";
 
 export const metadata: Metadata = {
   title: "About | Eric Grill",
@@ -25,8 +26,12 @@ const TIMELINE = [
 ];
 
 export default function AboutPage() {
+  const personSchema = generatePersonSchema();
+
   return (
-    <div className="py-16 px-6 md:px-12 relative min-h-screen">
+    <>
+      <JsonLd data={personSchema} />
+      <div className="py-16 px-6 md:px-12 relative min-h-screen">
       {/* Background */}
       <div className="absolute inset-0 circuit-bg opacity-10 pointer-events-none" />
       <div className="absolute top-40 left-10 w-64 h-64 bg-accent-cyan/5 rounded-full blur-[100px] pointer-events-none" />
@@ -182,5 +187,6 @@ export default function AboutPage() {
         </div>
       </div>
     </div>
+    </>
   );
 }

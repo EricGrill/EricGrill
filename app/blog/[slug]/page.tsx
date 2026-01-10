@@ -4,6 +4,8 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 import { getAllPosts, getPostBySlug } from "@/lib/posts";
 import { TwitterDiscussCTA } from "@/components/TwitterFeed";
 import { SocialShare, CodeBlock, Pre, VideoEmbed, BlogImage } from "@/components/blog";
+import { JsonLd, generateArticleSchema } from "@/components/JsonLd";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 
 // Custom MDX components with copy-to-clipboard for code blocks and optimized images
 const mdxComponents = {
@@ -69,22 +71,38 @@ export default async function PostPage({ params }: PostPageProps) {
     notFound();
   }
 
+  const siteUrl = "https://ericgrill.com";
+  const ogImage = post.heroImage
+    ? `${siteUrl}${post.heroImage}`
+    : `${siteUrl}/og-default.png`;
+
+  const articleSchema = generateArticleSchema({
+    title: post.title,
+    description: post.excerpt,
+    url: `${siteUrl}/blog/${slug}`,
+    imageUrl: ogImage,
+    datePublished: post.date,
+    author: "Eric Grill",
+  });
+
   return (
-    <article className="py-16 px-6 md:px-12 relative">
+    <>
+      <JsonLd data={articleSchema} />
+      <article className="py-16 px-6 md:px-12 relative">
       {/* Background */}
       <div className="absolute inset-0 circuit-bg opacity-5 pointer-events-none" />
 
       <div className="max-w-3xl mx-auto relative z-10">
         {/* Header */}
         <header className="mb-12">
-          {/* Back link */}
-          <Link
-            href="/blog"
-            className="inline-flex items-center gap-2 font-mono text-sm text-text-secondary hover:text-accent-cyan transition-colors mb-8"
-          >
-            <span>←</span>
-            <span>back_to_archive</span>
-          </Link>
+          {/* Breadcrumbs */}
+          <Breadcrumbs
+            items={[
+              { label: "Home", href: "/" },
+              { label: "Blog", href: "/blog" },
+              { label: post.title, href: `/blog/${slug}` },
+            ]}
+          />
 
           {/* Topic tags */}
           <div className="flex flex-wrap gap-2 mb-6">
@@ -160,5 +178,6 @@ export default async function PostPage({ params }: PostPageProps) {
         </footer>
       </div>
     </article>
+    </>
   );
 }

@@ -1,4 +1,24 @@
 import Link from "next/link";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Contact | Eric Grill",
+  description:
+    "Get in touch with Eric Grill. Connect via LinkedIn, X (Twitter), or GitHub for professional inquiries, collaboration, or just to say hello.",
+  openGraph: {
+    title: "Contact | Eric Grill",
+    description:
+      "Get in touch with Eric Grill. Connect via LinkedIn, X (Twitter), or GitHub.",
+    url: "https://ericgrill.com/contact",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Contact | Eric Grill",
+    description:
+      "Get in touch with Eric Grill. Connect via LinkedIn, X (Twitter), or GitHub.",
+  },
+};
 
 export default function ContactPage() {
   return (

@@ -1,6 +1,26 @@
 import { Suspense } from "react";
+import { Metadata } from "next";
 import { getAllPosts } from "@/lib/posts";
 import { BlogExplorer } from "@/components/blog";
+
+export const metadata: Metadata = {
+  title: "Blog | Eric Grill",
+  description:
+    "Thoughts and insights on AI, aviation, jiu jitsu, blockchain, and programming. Explore articles, tutorials, and deep dives into technology and life.",
+  openGraph: {
+    title: "Blog | Eric Grill",
+    description:
+      "Thoughts and insights on AI, aviation, jiu jitsu, blockchain, and programming.",
+    url: "https://ericgrill.com/blog",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Blog | Eric Grill",
+    description:
+      "Thoughts and insights on AI, aviation, jiu jitsu, blockchain, and programming.",
+  },
+};
 
 function BlogLoading() {
   return (

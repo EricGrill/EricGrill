@@ -3,13 +3,17 @@ import Image from "next/image";
 import { getAllPosts } from "@/lib/posts";
 import { PostCard } from "@/components/PostCard";
 import { TwitterFeed, TwitterFollowCTA } from "@/components/TwitterFeed";
+import { JsonLd, generateWebSiteSchema } from "@/components/JsonLd";
 
 export default function Home() {
+  const webSiteSchema = generateWebSiteSchema();
   const posts = getAllPosts().slice(0, 3);
 
   return (
-    <div className="relative">
-      {/* Subtle scanline overlay */}
+    <>
+      <JsonLd data={webSiteSchema} />
+      <div className="relative">
+        {/* Subtle scanline overlay */}
       <div className="scanline-overlay" />
 
       {/* Hero Section */}
@@ -176,7 +180,8 @@ export default function Home() {
           </div>
         </div>
       </section>
-    </div>
+      </div>
+    </>
   );
 }
 
