@@ -45,11 +45,13 @@ export function EricEngineFeatured() {
   const [currentSources, setCurrentSources] = useState<Source[]>([]);
 
   const inputRef = useRef<HTMLInputElement>(null);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
 
-  // Scroll to bottom on new messages
+  // Scroll to bottom within the messages container (not the whole page)
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (messagesContainerRef.current) {
+      messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+    }
   }, [messages, currentResponse]);
 
   const handleSubmit = useCallback(async (e: React.FormEvent) => {
@@ -221,7 +223,7 @@ export function EricEngineFeatured() {
           </div>
 
           {/* Messages area */}
-          <div className="min-h-[300px] max-h-[400px] overflow-y-auto p-6 space-y-4">
+          <div ref={messagesContainerRef} className="min-h-[300px] max-h-[400px] overflow-y-auto p-6 space-y-4">
             {messages.length === 0 && !isStreaming ? (
               <div className="space-y-6">
                 <div className="text-center py-4">
@@ -326,7 +328,6 @@ export function EricEngineFeatured() {
               </>
             )}
 
-            <div ref={messagesEndRef} />
           </div>
 
           {/* Input area */}

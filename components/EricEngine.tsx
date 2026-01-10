@@ -28,7 +28,7 @@ export function EricEngine() {
   const [currentSources, setCurrentSources] = useState<Source[]>([]);
 
   const inputRef = useRef<HTMLInputElement>(null);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
 
   // Keyboard shortcut: Cmd+K to open
   useEffect(() => {
@@ -53,9 +53,11 @@ export function EricEngine() {
     }
   }, [isOpen]);
 
-  // Scroll to bottom on new messages
+  // Scroll to bottom within the messages container (not the whole page)
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (messagesContainerRef.current) {
+      messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+    }
   }, [messages, currentResponse]);
 
   const handleSubmit = useCallback(async (e: React.FormEvent) => {
@@ -225,7 +227,7 @@ export function EricEngine() {
         </div>
 
         {/* Messages area */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-4 min-h-[200px] max-h-[400px]">
+        <div ref={messagesContainerRef} className="flex-1 overflow-y-auto p-4 space-y-4 min-h-[200px] max-h-[400px]">
           {messages.length === 0 && !isStreaming && (
             <div className="text-center text-[var(--text-secondary)] py-8">
               <p className="font-mono text-sm mb-2">{modeDescriptions[mode]}</p>
@@ -287,7 +289,6 @@ export function EricEngine() {
             </div>
           )}
 
-          <div ref={messagesEndRef} />
         </div>
 
         {/* Input area */}
