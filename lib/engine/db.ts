@@ -233,7 +233,7 @@ export async function getRecentQueries(limit: number = 50): Promise<QueryLog[]> 
     const response = await qdrantFetch(`/collections/${LOGS_COLLECTION}/points/scroll`, {
       method: 'POST',
       body: JSON.stringify({
-        limit: Math.min(limit, 200), // Cap at 200 for performance
+        limit: Math.min(limit, 100), // Cap at 100 - higher limits cause issues
         with_payload: true,
       }),
     });
@@ -272,7 +272,7 @@ export async function getQueryStats(): Promise<{
 }> {
   try {
     console.log('[DB] getQueryStats: fetching queries...');
-    const queries = await getRecentQueries(200); // Reduced from 1000
+    const queries = await getRecentQueries(100); // Use lower limit that works
 
     console.log('[DB] getQueryStats: got', queries.length, 'queries');
 
@@ -300,7 +300,7 @@ export async function getQueryStats(): Promise<{
 
 export async function getTopSources(limit: number = 10): Promise<{ source: string; count: number }[]> {
   try {
-    const queries = await getRecentQueries(500);
+    const queries = await getRecentQueries(100); // Use lower limit that works
 
     const sourceCounts: Record<string, number> = {};
     for (const q of queries) {
