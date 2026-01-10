@@ -1,7 +1,30 @@
 import { NextRequest } from 'next/server';
-import { QdrantClient } from '@qdrant/js-client-rest';
+import crypto from 'crypto';
 
 export const runtime = 'nodejs';
+
+async function qdrantFetch(path: string, options: RequestInit = {}): Promise<any> {
+  const url = process.env.QDRANT_URL?.replace(/\/$/, '');
+  const apiKey = process.env.QDRANT_API_KEY;
+
+  if (!url) return { error: 'QDRANT_URL not set' };
+
+  const response = await fetch(`${url}${path}`, {
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...(apiKey ? { 'api-key': apiKey } : {}),
+      ...options.headers,
+    },
+  });
+
+  const text = await response.text();
+  try {
+    return { status: response.status, ok: response.ok, data: JSON.parse(text) };
+  } catch {
+    return { status: response.status, ok: response.ok, text };
+  }
+}
 
 export async function GET(request: NextRequest) {
   const results: Record<string, any> = {
@@ -14,67 +37,46 @@ export async function GET(request: NextRequest) {
     },
   };
 
-  // Test Qdrant connection
-  if (process.env.QDRANT_URL && process.env.QDRANT_API_KEY) {
-    try {
-      const client = new QdrantClient({
-        url: process.env.QDRANT_URL,
-        apiKey: process.env.QDRANT_API_KEY,
-      });
+  // Check collections
+  results.collections = await qdrantFetch('/collections');
 
-      const collections = await client.getCollections();
-      results.qdrant = {
-        status: 'connected',
-        collections: collections.collections.map(c => c.name),
-      };
+  // Check logs collection specifically
+  results.logsCollection = await qdrantFetch('/collections/eric_engine_logs');
 
-      // Try to get collection info
-      try {
-        const collectionInfo = await client.getCollection('eric_engine');
-        results.qdrant.eric_engine = {
-          points_count: collectionInfo.points_count,
-          status: collectionInfo.status,
-        };
-      } catch (e) {
-        results.qdrant.eric_engine = {
-          error: e instanceof Error ? e.message : 'Unknown error',
-        };
-      }
-    } catch (e) {
-      results.qdrant = {
-        status: 'error',
-        error: e instanceof Error ? e.message : 'Unknown error',
-        errorType: e instanceof Error ? e.constructor.name : typeof e,
-      };
-    }
-  } else {
-    results.qdrant = { status: 'not configured' };
-  }
+  // Try to scroll logs
+  results.logsScroll = await qdrantFetch('/collections/eric_engine_logs/points/scroll', {
+    method: 'POST',
+    body: JSON.stringify({ limit: 5, with_payload: true }),
+  });
 
-  // Test a raw fetch to Qdrant
-  if (process.env.QDRANT_URL && process.env.QDRANT_API_KEY) {
-    try {
-      const response = await fetch(`${process.env.QDRANT_URL}/collections`, {
-        headers: {
-          'api-key': process.env.QDRANT_API_KEY,
+  // Try to insert a test log
+  const testId = crypto.randomUUID();
+  results.testInsert = await qdrantFetch('/collections/eric_engine_logs/points?wait=true', {
+    method: 'PUT',
+    body: JSON.stringify({
+      points: [{
+        id: testId,
+        vector: [0],
+        payload: {
+          id: testId,
+          query: 'DEBUG TEST QUERY',
+          mode: 'ask',
+          sources: [],
+          responsePreview: 'Debug test',
+          sessionId: 'debug',
+          ip: 'debug',
+          userAgent: 'debug',
+          timestamp: new Date().toISOString(),
         },
-      });
-      results.rawFetch = {
-        status: response.status,
-        statusText: response.statusText,
-        ok: response.ok,
-      };
-      if (response.ok) {
-        const data = await response.json();
-        results.rawFetch.data = data;
-      }
-    } catch (e) {
-      results.rawFetch = {
-        error: e instanceof Error ? e.message : 'Unknown error',
-        errorType: e instanceof Error ? e.constructor.name : typeof e,
-      };
-    }
-  }
+      }],
+    }),
+  });
+
+  // Scroll again to see if test appeared
+  results.logsAfterInsert = await qdrantFetch('/collections/eric_engine_logs/points/scroll', {
+    method: 'POST',
+    body: JSON.stringify({ limit: 5, with_payload: true }),
+  });
 
   return Response.json(results, { status: 200 });
 }
