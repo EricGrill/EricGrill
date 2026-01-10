@@ -47,12 +47,12 @@ export function EricEngineFeatured() {
   const inputRef = useRef<HTMLInputElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
 
-  // Scroll to bottom within the messages container (not the whole page)
+  // Only scroll when new messages are added (not during streaming to avoid jitter)
   useEffect(() => {
-    if (messagesContainerRef.current) {
+    if (messagesContainerRef.current && messages.length > 0) {
       messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
     }
-  }, [messages, currentResponse]);
+  }, [messages.length]);
 
   const handleSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
