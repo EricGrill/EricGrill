@@ -1,4 +1,5 @@
 import { getRecentQueries, getQueryStats, getTopSources } from '@/lib/engine/db';
+import { DeleteQueryButton, ClearAllButton } from '@/components/QueryActions';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -87,10 +88,11 @@ export default async function QueriesPage() {
 
         {/* Queries Table */}
         <div className="bg-[var(--background-card)] border border-[var(--border)] rounded-lg overflow-hidden">
-          <div className="p-4 border-b border-[var(--border)]">
+          <div className="p-4 border-b border-[var(--border)] flex items-center justify-between">
             <h2 className="text-lg font-medium text-[var(--text-primary)]">
               Recent Queries
             </h2>
+            {queries.length > 0 && <ClearAllButton />}
           </div>
 
           {queries.length === 0 ? (
@@ -107,6 +109,7 @@ export default async function QueriesPage() {
                     <th className="px-4 py-3 font-medium">Sources</th>
                     <th className="px-4 py-3 font-medium">IP</th>
                     <th className="px-4 py-3 font-medium">Time</th>
+                    <th className="px-4 py-3 font-medium w-12"></th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-[var(--border)]">
@@ -141,6 +144,9 @@ export default async function QueriesPage() {
                         <span className="text-xs text-[var(--text-secondary)]">
                           {new Date(q.created_at).toLocaleString()}
                         </span>
+                      </td>
+                      <td className="px-4 py-3">
+                        <DeleteQueryButton id={q.id} />
                       </td>
                     </tr>
                   ))}

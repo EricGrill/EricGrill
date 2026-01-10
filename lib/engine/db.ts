@@ -322,3 +322,56 @@ export async function getTopSources(limit: number = 10): Promise<{ source: strin
 export async function initDatabase(): Promise<void> {
   await ensureLogsCollection();
 }
+
+// Delete a single query log by ID
+export async function deleteQuery(id: string): Promise<boolean> {
+  try {
+    const ready = await ensureLogsCollection();
+    if (!ready) return false;
+
+    await qdrantFetch(`/collections/${LOGS_COLLECTION}/points/delete?wait=true`, {
+      method: 'POST',
+      body: JSON.stringify({
+        points: [id],
+      }),
+    });
+
+    return true;
+  } catch (err) {
+    console.error('[DB] Failed to delete query:', err);
+    return false;
+  }
+}
+
+// Delete all query logs
+export async function deleteAllQueries(): Promise<boolean> {
+  try {
+    const ready = await ensureLogsCollection();
+    if (!ready) return false;
+
+    // Get all point IDs first
+    const response = await qdrantFetch(`/collections/${LOGS_COLLECTION}/points/scroll`, {
+      method: 'POST',
+      body: JSON.stringify({
+        limit: 100,
+        with_payload: false,
+      }),
+    });
+
+    if (!response?.result?.points?.length) return true; // Already empty
+
+    const ids = response.result.points.map((p: any) => p.id);
+
+    await qdrantFetch(`/collections/${LOGS_COLLECTION}/points/delete?wait=true`, {
+      method: 'POST',
+      body: JSON.stringify({
+        points: ids,
+      }),
+    });
+
+    return true;
+  } catch (err) {
+    console.error('[DB] Failed to delete all queries:', err);
+    return false;
+  }
+}
