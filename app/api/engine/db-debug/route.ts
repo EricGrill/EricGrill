@@ -7,11 +7,23 @@ export async function GET() {
     timestamp: new Date().toISOString(),
   };
 
+  // Test with different limits
   try {
-    results.recentQueries = await getRecentQueries(10);
-    results.recentQueriesCount = results.recentQueries.length;
+    results.queries10 = (await getRecentQueries(10)).length;
   } catch (e) {
-    results.recentQueriesError = e instanceof Error ? e.message : String(e);
+    results.queries10Error = e instanceof Error ? e.message : String(e);
+  }
+
+  try {
+    results.queries100 = (await getRecentQueries(100)).length;
+  } catch (e) {
+    results.queries100Error = e instanceof Error ? e.message : String(e);
+  }
+
+  try {
+    results.queries1000 = (await getRecentQueries(1000)).length;
+  } catch (e) {
+    results.queries1000Error = e instanceof Error ? e.message : String(e);
   }
 
   try {

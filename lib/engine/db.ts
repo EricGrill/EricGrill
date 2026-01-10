@@ -271,7 +271,10 @@ export async function getQueryStats(): Promise<{
   thisWeek: number;
 }> {
   try {
-    const queries = await getRecentQueries(1000);
+    console.log('[DB] getQueryStats: fetching queries...');
+    const queries = await getRecentQueries(200); // Reduced from 1000
+
+    console.log('[DB] getQueryStats: got', queries.length, 'queries');
 
     const now = new Date();
     const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate()).toISOString();
@@ -287,6 +290,7 @@ export async function getQueryStats(): Promise<{
       if (q.created_at >= weekStart) thisWeek++;
     }
 
+    console.log('[DB] getQueryStats: result', { total: queries.length, byMode, today, thisWeek });
     return { total: queries.length, byMode, today, thisWeek };
   } catch (err) {
     console.error('[DB] Failed to get stats:', err);
