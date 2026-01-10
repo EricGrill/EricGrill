@@ -4,6 +4,7 @@ import { getAllPosts } from "@/lib/posts";
 import { PostCard } from "@/components/PostCard";
 import { JsonLd, generateWebSiteSchema } from "@/components/JsonLd";
 import { SocialChannels } from "@/components/SocialChannels";
+import { Manifesto } from "@/components/Manifesto";
 
 export default function Home() {
   const webSiteSchema = generateWebSiteSchema();
@@ -101,6 +102,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Manifesto Section */}
+      <Manifesto />
 
       {/* Featured Posts Section */}
       {posts.length > 0 && (
