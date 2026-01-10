@@ -9,24 +9,14 @@ export default async function AdminDashboard() {
   let stats = { total: 0, byMode: {} as Record<string, number>, today: 0, thisWeek: 0 };
   let recentQueries: any[] = [];
   let error: string | null = null;
-  let debug: any = {};
 
   try {
-    // Run sequentially - parallel calls to Qdrant were causing issues
+    // Run sequentially - parallel calls to Qdrant cause issues
     stats = await getQueryStats();
     recentQueries = await getRecentQueries(5);
-    debug = {
-      time: new Date().toISOString(),
-      statsTotal: stats.total,
-      queriesCount: recentQueries.length,
-      firstQuery: recentQueries[0]?.query
-    };
   } catch (e) {
     error = e instanceof Error ? e.message : 'Failed to load data';
-    debug = { time: new Date().toISOString(), error: e instanceof Error ? e.stack : String(e) };
   }
-
-  console.log('[Admin] Debug:', JSON.stringify(debug));
 
   return (
     <div className="p-8">
@@ -39,11 +29,6 @@ export default async function AdminDashboard() {
           <p className="text-[var(--text-secondary)] mt-1">
             Eric Engine Admin Panel
           </p>
-        </div>
-
-        {/* Debug info */}
-        <div className="p-2 bg-yellow-500/10 border border-yellow-500/30 rounded text-yellow-400 text-xs font-mono">
-          Debug: {JSON.stringify(debug)}
         </div>
 
         {error ? (
