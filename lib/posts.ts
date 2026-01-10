@@ -36,10 +36,6 @@ export function getAllPosts(): PostMeta[] {
       const fileContents = fs.readFileSync(fullPath, "utf8");
       const { data, content } = matter(fileContents);
 
-      // Check if hero image exists
-      const heroImagePath = `/blog/${slug}-hero.png`;
-      const heroImageExists = fs.existsSync(path.join(process.cwd(), "public", "blog", `${slug}-hero.png`));
-
       return {
         slug,
         title: data.title,
@@ -47,7 +43,7 @@ export function getAllPosts(): PostMeta[] {
         topics: data.topics || [],
         excerpt: data.excerpt || "",
         readingTime: readingTime(content).text,
-        heroImage: heroImageExists ? heroImagePath : undefined,
+        heroImage: data.heroImage || undefined,
       };
     })
     .sort((a, b) => (a.date > b.date ? -1 : 1));
@@ -65,10 +61,6 @@ export function getPostBySlug(slug: string): Post | null {
   const fileContents = fs.readFileSync(fullPath, "utf8");
   const { data, content } = matter(fileContents);
 
-  // Check if hero image exists
-  const heroImagePath = `/blog/${slug}-hero.png`;
-  const heroImageExists = fs.existsSync(path.join(process.cwd(), "public", "blog", `${slug}-hero.png`));
-
   return {
     slug,
     title: data.title,
@@ -76,7 +68,7 @@ export function getPostBySlug(slug: string): Post | null {
     topics: data.topics || [],
     excerpt: data.excerpt || "",
     readingTime: readingTime(content).text,
-    heroImage: heroImageExists ? heroImagePath : undefined,
+    heroImage: data.heroImage || undefined,
     content,
   };
 }
