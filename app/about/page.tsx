@@ -29,7 +29,7 @@ const TIMELINE = [
 
 const ACCOMPLISHMENTS = [
   { text: "Bitcoin infrastructure", detail: "Chainbytes - real machines, real money, real compliance" },
-  { text: "IBJJF Europeans Gold", detail: "2025 European Championship, blue belt promotion on podium" },
+  { text: "IBJJF Europeans Gold", detail: "2025 European Championship" },
   { text: "High-security systems", detail: "Decades in finance, trading, and critical infrastructure" },
   { text: "Serial founder", detail: "Multiple companies from zero to operational" },
   { text: "Open source builder", detail: "Claude Code plugins, agents, and agentic workflows" },

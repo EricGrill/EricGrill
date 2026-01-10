@@ -30,7 +30,7 @@ Documenting experiments in autonomous system coordination, swarm communication p
 
 ## recent_wins
 - IBJJF European Championship 2025 - Gold Medal
-- Blue belt promotion on the podium in Lisbon
+- Blue belt promotion
 - Chainbytes infrastructure scaling to new markets
 
 ## links
