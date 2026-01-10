@@ -20,17 +20,13 @@ export default async function QueriesPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-[var(--background)] p-8">
+      <div className="p-8">
         <div className="max-w-6xl mx-auto">
           <h1 className="text-2xl font-bold text-[var(--text-primary)] mb-4">
-            Eric Engine Queries
+            <span className="text-[var(--accent-cyan)]">{'>'}</span> Query Logs
           </h1>
           <div className="p-4 bg-red-500/10 border border-red-500/30 rounded-lg text-red-400">
             <p>Error loading data: {error}</p>
-            <p className="text-sm mt-2">
-              Make sure POSTGRES_URL is set and the database is initialized.
-              Run: <code className="bg-[var(--background-alt)] px-1 rounded">npm run db:setup</code>
-            </p>
           </div>
         </div>
       </div>
@@ -38,19 +34,16 @@ export default async function QueriesPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[var(--background)] p-8">
+    <div className="p-8">
       <div className="max-w-6xl mx-auto space-y-8">
         {/* Header */}
-        <div className="flex items-center justify-between">
+        <div>
           <h1 className="text-2xl font-bold text-[var(--text-primary)]">
-            <span className="text-[var(--accent-cyan)]">{'>'}</span> Eric Engine Queries
+            <span className="text-[var(--accent-cyan)]">{'>'}</span> Query Logs
           </h1>
-          <a
-            href="/admin"
-            className="text-[var(--text-secondary)] hover:text-[var(--accent-cyan)] transition-colors"
-          >
-            Back to Admin
-          </a>
+          <p className="text-[var(--text-secondary)] mt-1">
+            All queries to the Eric Engine
+          </p>
         </div>
 
         {/* Stats Cards */}
