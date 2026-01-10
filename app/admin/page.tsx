@@ -7,15 +7,22 @@ export default async function AdminDashboard() {
   let stats = { total: 0, byMode: {} as Record<string, number>, today: 0, thisWeek: 0 };
   let recentQueries: any[] = [];
   let error: string | null = null;
+  let debug: any = {};
 
   try {
-    [stats, recentQueries] = await Promise.all([
+    const [statsResult, queriesResult] = await Promise.all([
       getQueryStats(),
       getRecentQueries(5),
     ]);
+    stats = statsResult;
+    recentQueries = queriesResult;
+    debug = { statsTotal: stats.total, queriesCount: recentQueries.length, firstQuery: recentQueries[0] };
   } catch (e) {
     error = e instanceof Error ? e.message : 'Failed to load data';
+    debug = { error: e instanceof Error ? e.stack : String(e) };
   }
+
+  console.log('[Admin] Debug:', JSON.stringify(debug));
 
   return (
     <div className="p-8">
@@ -28,6 +35,11 @@ export default async function AdminDashboard() {
           <p className="text-[var(--text-secondary)] mt-1">
             Eric Engine Admin Panel
           </p>
+        </div>
+
+        {/* Debug info */}
+        <div className="p-2 bg-yellow-500/10 border border-yellow-500/30 rounded text-yellow-400 text-xs font-mono">
+          Debug: {JSON.stringify(debug)}
         </div>
 
         {error ? (
