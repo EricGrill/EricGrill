@@ -2,8 +2,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { getAllPosts } from "@/lib/posts";
 import { PostCard } from "@/components/PostCard";
-import { TwitterFeed, TwitterFollowCTA } from "@/components/TwitterFeed";
 import { JsonLd, generateWebSiteSchema } from "@/components/JsonLd";
+import { SocialChannels } from "@/components/SocialChannels";
 
 export default function Home() {
   const webSiteSchema = generateWebSiteSchema();
@@ -148,38 +148,8 @@ export default function Home() {
         </section>
       )}
 
-      {/* Twitter Section */}
-      <section className="py-20 px-6 md:px-12 relative">
-        <div className="absolute inset-0">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-accent-magenta/5 rounded-full blur-[100px]" />
-        </div>
-
-        <div className="max-w-2xl mx-auto relative z-10">
-          <div className="p-8 md:p-12 border border-border bg-background-card/50 backdrop-blur-sm">
-            <span className="font-mono text-sm text-accent-cyan mb-4 block text-center">
-              {"// "}<span className="text-text-primary">latest_transmissions</span>
-            </span>
-
-            <h2 className="font-mono text-2xl md:text-3xl font-bold text-text-primary mb-4 text-center">
-              Follow on <span className="text-accent-magenta">X</span>
-            </h2>
-
-            <p className="text-text-secondary mb-8 text-center">
-              Real-time thoughts on AI, Bitcoin, and building things. Let&apos;s connect.
-            </p>
-
-            <TwitterFollowCTA />
-
-            {/* Latest Tweets */}
-            <div className="mt-8 pt-8 border-t border-border">
-              <span className="font-mono text-xs text-text-secondary block mb-4">
-                {"// "}recent_posts
-              </span>
-              <TwitterFeed />
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Social Channels Section - Twitter + YouTube */}
+      <SocialChannels />
       </div>
     </>
   );

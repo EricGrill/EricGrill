@@ -31,6 +31,9 @@ export function Footer() {
             <FooterLink href="https://x.com/EricGrill" external>
               X
             </FooterLink>
+            <FooterLink href="https://www.youtube.com/@EricGrill" external>
+              YouTube
+            </FooterLink>
             <FooterLink href="https://github.com/EricGrill" external>
               GitHub
             </FooterLink>
