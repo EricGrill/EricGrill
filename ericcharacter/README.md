@@ -46,6 +46,11 @@ The Eric character embodies these interests/themes that can be incorporated into
 |----------|-------------|------------|------------|
 | eric-base.jpeg | Original character at tech workstation | 852KB | 2025-01-10 |
 | eric-lightning-encrypted.png | Eric at cyberpunk workstation with Lightning Network monitors, Bitcoin symbols, neon blue/orange lighting | 1.4MB | 2025-01-10 |
+| jiu-jitsu-teaches-debugging-hero.png | Eric in blue gi meditating on mats with debugging flowcharts floating above | 1.6MB | 2025-01-10 |
+| garmin-autopilot-trust-hero.png | Pilot in Rockwell Commander cockpit with Garmin autopilot engaged, hands hovering near yoke | 1.0MB | 2025-01-10 |
+| rockwell-commander-flying-hero.png | Eric doing pre-flight inspection with code-symbol checklist, golden hour lighting | 1.5MB | 2025-01-10 |
+| bitcoin-2025-outlook-hero.png | Eric at futuristic trading workstation with Bitcoin charts, orange/gold palette | 0.8MB | 2025-01-10 |
+| claude-code-intro-hero.png | Eric coding with AI assistant interface, cyberpunk neon lighting | 1.1MB | 2025-01-10 |
 
 ## Usage Guidelines
 
