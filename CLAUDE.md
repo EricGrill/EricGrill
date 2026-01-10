@@ -1,5 +1,16 @@
 # Project Instructions for Claude
 
+## Blog Images
+
+**ALWAYS use nano-banana to generate images for blog posts.** Every blog post needs:
+- Hero image (16:9 format) referenced in frontmatter as `heroImage`
+- 2-4 section images throughout the article
+- Consistent cyberpunk/tech aesthetic with dark backgrounds, cyan/magenta accents
+
+Image prompts should specify: "no text or words" to keep images clean.
+
+Save images to: `/public/images/blog/[post-slug]-[image-name].png`
+
 ## Writing Style Rules
 
 When writing blog posts or any content for this site:
