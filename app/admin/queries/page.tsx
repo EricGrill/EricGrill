@@ -3,10 +3,10 @@ import { getRecentQueries, getQueryStats, getTopSources } from '@/lib/engine/db'
 export const dynamic = 'force-dynamic';
 
 export default async function QueriesPage() {
-  let queries = [];
-  let stats = { total: 0, byMode: {}, today: 0, thisWeek: 0 };
+  let queries: any[] = [];
+  let stats: { total: number; byMode: Record<string, number>; today: number; thisWeek: number } = { total: 0, byMode: {}, today: 0, thisWeek: 0 };
   let topSources: { source: string; count: number }[] = [];
-  let error = null;
+  let error: string | null = null;
 
   try {
     [queries, stats, topSources] = await Promise.all([
