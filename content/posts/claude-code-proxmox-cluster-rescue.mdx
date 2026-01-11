@@ -36,7 +36,9 @@ I would have eventually gotten things working well enough. But Claude Code did i
 
 ![Building MCP tools](/images/blog/claude-code-proxmox-cluster-rescue-tools.png)
 
-This whole experience became the genesis for a couple of MCP tools I've been building. The **MCP Proxmox Admin** tool came directly from needing programmatic access to Proxmox operations. And the **MCP Multi-Agent SSH** tool was born from necessity. I had different servers that Claude needed to connect to, sometimes using the API, sometimes using SSH. I ended up using both approaches, though SSH was easier to get working initially.
+This whole experience became the genesis for a couple of MCP tools I've been building. The **[MCP Proxmox Admin](https://github.com/EricGrill/mcp-proxmox-admin)** tool came directly from needing programmatic access to Proxmox operations. And the **[MCP Multi-Agent SSH](https://github.com/EricGrill/mcp-multi-agent-ssh)** tool was born from necessity. I had different servers that Claude needed to connect to, sometimes using the API, sometimes using SSH. I ended up using both approaches, though SSH was easier to get working initially.
+
+Both tools are available in my [agents-skills-plugins](https://github.com/EricGrill/agents-skills-plugins) collection.
 
 The multi-SSH capability turned out to be critical. Corosync was having all sorts of issues with ghost nodes, reset failures, and machines that needed reboots in a specific sequence. Claude was able to orchestrate across multiple servers simultaneously, something that would have taken me hours of terminal switching and careful coordination.
 
