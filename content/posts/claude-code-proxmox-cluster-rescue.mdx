@@ -1,0 +1,67 @@
+---
+title: "Claude Code Rescued My Proxmox Cluster (And Hacked Into My Own Laptop)"
+date: "2025-01-09"
+topics: ["claude-code", "proxmox", "homelab", "mcp", "automation"]
+excerpt: "When an old laptop rejoined my Proxmox cluster and broke everything, I let Claude Code SSH in to fix it. What happened next genuinely surprised me."
+heroImage: "/images/blog/claude-code-proxmox-cluster-rescue-hero.png"
+---
+
+> **Explore my tools:** [agents-skills-plugins](https://github.com/EricGrill/agents-skills-plugins)
+
+Two days ago I made a classic homelab mistake. I powered on an old laptop that had been part of my Proxmox cluster ages ago. It had been sitting dormant for probably two years. When it came back online, it immediately tried to rejoin the cluster.
+
+That did not go well.
+
+## The Nightmare Begins
+
+![Broken cluster visualization](/images/blog/claude-code-proxmox-cluster-rescue-broken.png)
+
+The laptop had been renamed at some point. I didn't have the password anymore. There was no way I could get into it. I tried everything I could think of, but I was locked out of my own machine.
+
+Worse, by bringing it back onto the network, I managed to break one of my other Proxmox servers. The one that had originally been connected to this laptop started acting strange. I began seeing weird behavior across the cluster.
+
+Anyone who has used Proxmox knows exactly what this means. You can just forget your whole day. Diagnosing problems in Proxmox, although they happen infrequently, is an absolute nightmare when they do occur. And when you're dealing with Corosync cluster issues? That's a whole different level of pain.
+
+## Letting Claude Take the Wheel
+
+I was staring at broken cluster states, ghost nodes, and sync failures. Then I thought: what if I just let Claude Code handle this?
+
+I gave it SSH access to my servers and told it to figure out what was wrong.
+
+Within minutes it was navigating between my Proxmox nodes, diagnosing the cluster state, and formulating a plan. It removed the old laptop from the cluster configuration. It got all the drives working together again. The NAS came back online. Everything got put back together, and honestly, it was better than I could have done myself.
+
+I would have eventually gotten things working well enough. But Claude Code did it properly.
+
+## Building Tools Along the Way
+
+![Building MCP tools](/images/blog/claude-code-proxmox-cluster-rescue-tools.png)
+
+This whole experience became the genesis for a couple of MCP tools I've been building. The **MCP Proxmox Admin** tool came directly from needing programmatic access to Proxmox operations. And the **MCP Multi-Agent SSH** tool was born from necessity. I had different servers that Claude needed to connect to, sometimes using the API, sometimes using SSH. I ended up using both approaches, though SSH was easier to get working initially.
+
+The multi-SSH capability turned out to be critical. Corosync was having all sorts of issues with ghost nodes, reset failures, and machines that needed reboots in a specific sequence. Claude was able to orchestrate across multiple servers simultaneously, something that would have taken me hours of terminal switching and careful coordination.
+
+## The Surprise That Sent Me Down a Rabbit Hole
+
+![AI hacking visualization](/images/blog/claude-code-proxmox-cluster-rescue-hack.png)
+
+Here's where things got interesting. One of the VMs I run on my Proxmox servers is Kali Linux. That machine had problems too during this whole cluster meltdown, so Claude ended up connecting to it as part of the troubleshooting.
+
+What I didn't expect was what came next.
+
+Claude noticed the Kali VM was there. It recognized what Kali is. And then it used that machine to connect to the locked laptop.
+
+I couldn't see exactly what it was doing in real time. But within about a minute, it was inside the laptop as if it was unlocked. Whatever vulnerability it exploited was apparently trivial on a machine that hadn't been updated in two years.
+
+Then it fixed the laptop. Brought it back online. Got it resyncing with the cluster.
+
+I never would have done that. My plan was to format the hard drive and start over because I didn't have the password. But Claude just went in, fixed what needed fixing, and had everything resyncing within a couple of minutes.
+
+## What This Means
+
+This experience has sent me down a completely separate rabbit hole that I'll write about separately. The fact that Claude Code, given access to the right tools and a permissive environment, can autonomously perform penetration testing and use those skills for legitimate system administration is genuinely fascinating.
+
+It also raises some obvious questions about security, authorization, and what we're really building when we give AI agents access to powerful tools. But for my homelab? It saved me an entire day of frustration and got my cluster running better than before.
+
+The combination of skills I had already built in Claude Code, plus the new MCP tools that came out of this experience, meant I could orchestrate a complex multi-server recovery that would have been tedious and error-prone if done manually.
+
+Sometimes you just have to let the AI cook.
