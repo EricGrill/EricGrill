@@ -1,0 +1,129 @@
+---
+title: "One File to Rule Them All: Portable AI Memory with Memvid"
+date: "2026-01-11"
+topics: ["ai", "programming"]
+excerpt: "I was tired of spinning up separate vector databases, RAG servers, and state services for every project. Memvid solves that with a single portable file."
+heroImage: "/images/blog/memvid-portable-ai-memory-hero.png"
+---
+
+> **Get the tool:**
+> - [MCP Memvid State Service](https://github.com/EricGrill/mcp-memvid-state-service) — Single-file AI memory with vector search
+> - [All my tools](https://github.com/EricGrill/agents-skills-plugins) — Full collection of agents, skills, and plugins
+
+<details>
+<summary>Quick Start: Add to your Claude config</summary>
+
+```json
+{
+  "mcpServers": {
+    "memvid": {
+      "command": "npx",
+      "args": ["mcp-memvid"],
+      "env": {
+        "OLLAMA_HOST": "http://localhost:11434"
+      }
+    }
+  }
+}
+```
+
+</details>
+
+I have been deep in the vector database rabbit hole lately. Qdrant, Pinecone, Chroma, pgvector. Structured databases for metadata. RAG pipelines. State management services. Every project seems to need some combination of these things, and every time I end up spinning up separate servers, separate processes, managing connections, dealing with persistence.
+
+Sometimes I'm sharing them between projects. Sometimes I'm hosting them remotely. Sometimes they're local. It's a constant juggling act, and honestly? It's a pain in the neck.
+
+## The Problem with Distributed Memory
+
+![Infrastructure chaos](/images/blog/memvid-portable-ai-memory-chaos.png)
+
+Every AI application I build needs some form of memory. Context from previous conversations. Knowledge bases that can be searched semantically. State that persists between sessions. The standard approach is to reach for a vector database, maybe add Redis for caching, throw in some full-text search capability.
+
+That means infrastructure. Docker containers. Database connections. API keys. Cloud services with metered billing. For a production system, maybe that makes sense. But for experimentation? For agents that need to be portable? For decentralized bots that might need to carry their memory with them? The overhead is brutal.
+
+## Enter Memvid
+
+Memvid takes a radically different approach. Everything lives in a single `.mv2` file. Vector embeddings, full-text indices, metadata, timestamps. All of it. One file that you can copy, move, deploy, or back up like any other file on your system.
+
+I wrapped it in an MCP server so Claude Code and other AI tools can use it directly. The result is a memory layer that travels with your agent.
+
+## What You Get
+
+The service provides three types of search out of the box:
+
+**Semantic search** uses vector embeddings to find conceptually similar content. Ask "how does authentication work" and it finds relevant memories even if they never mention the word "authentication."
+
+**Lexical search** uses BM25 for traditional keyword matching. Sometimes you need exact terms, not fuzzy concepts.
+
+**Temporal queries** let you retrieve memories by time. "Show me everything from the last hour" or "what did we discuss yesterday" become trivial.
+
+All three modes work against the same portable file. No separate services. No connection strings. No infrastructure.
+
+## Local-First Embeddings
+
+Here's what really sold me on this approach. On Linux and macOS, embeddings run locally using built-in models. No API calls. No OpenAI bill. No sending data to external services.
+
+```javascript
+store_memory({
+  capsule: "project-context",
+  text: "The payment system uses Stripe webhooks for async confirmation",
+  title: "Payment Architecture",
+  tags: ["payments", "stripe", "webhooks"],
+  enable_embedding: true,
+  embedding_model: "bge-small"
+})
+```
+
+That embedding happens right on your machine. The memory gets stored in your local `.mv2` file. Nothing leaves your system unless you explicitly configure an external provider.
+
+If you want better quality embeddings, you can point it at Ollama or OpenAI. But the default local mode means you can use this on an airgapped machine if you need to.
+
+## Portable Agents
+
+![Portable AI agent](/images/blog/memvid-portable-ai-memory-portable.png)
+
+This is the part that excites me most. Imagine a decentralized bot that carries its own memory. Not memory stored on some server that the bot connects to. Memory that travels with the agent itself.
+
+The capsule files live in a predictable location:
+
+```
+~/.local/share/memvid/capsules/
+├── agent-context.mv2
+├── knowledge-base.mv2
+└── session-cache.mv2
+```
+
+You can have multiple capsules for different purposes. Copy them to another machine. Bundle them with a deployment. The agent's knowledge goes wherever the agent goes.
+
+## The MCP Interface
+
+I built ten tools into the MCP server:
+
+| Category | Tools |
+|----------|-------|
+| **Storage** | `store_memory`, `delete_capsule` |
+| **Search** | `semantic_search`, `text_search`, `smart_search`, `recent_memories` |
+| **Management** | `list_capsules`, `create_capsule`, `capsule_info` |
+| **Config** | `embedding_config` |
+
+The `smart_search` tool combines semantic and lexical search automatically. Ask a question in natural language and it figures out the best approach.
+
+```javascript
+smart_search({
+  capsule: "knowledge-base",
+  query: "JWT token expiration settings",
+  limit: 5
+})
+```
+
+## Why This Matters
+
+I've been building with vector databases for a while now. They're powerful tools. But they come with operational overhead that doesn't always make sense.
+
+When I'm prototyping an agent, I don't want to spin up Qdrant. When I'm building something that needs to be portable, I don't want to depend on cloud services. When I'm working offline, I don't want to be blocked by network connectivity.
+
+Memvid gives me all the capabilities I actually use from vector databases, packaged in a way that respects how I actually work. One file. One service. Zero infrastructure.
+
+For production systems with millions of vectors and multiple concurrent users, you probably still want a dedicated database. But for everything else? This is the sweet spot.
+
+Sometimes the best architecture is the simplest one that solves your problem.
