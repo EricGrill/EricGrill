@@ -16,6 +16,7 @@ export interface PostMeta {
   excerpt: string;
   readingTime: string;
   heroImage?: string;
+  featured?: boolean;
 }
 
 export interface Post extends PostMeta {
@@ -44,9 +45,16 @@ export function getAllPosts(): PostMeta[] {
         excerpt: data.excerpt || "",
         readingTime: readingTime(content).text,
         heroImage: data.heroImage || undefined,
+        featured: data.featured || false,
       };
     })
-    .sort((a, b) => (a.date > b.date ? -1 : 1));
+    .sort((a, b) => {
+      // Featured posts come first
+      if (a.featured && !b.featured) return -1;
+      if (!a.featured && b.featured) return 1;
+      // Then sort by date
+      return a.date > b.date ? -1 : 1;
+    });
 
   return posts;
 }
