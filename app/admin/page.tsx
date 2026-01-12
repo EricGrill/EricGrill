@@ -77,19 +77,26 @@ export default async function AdminDashboard() {
                 </div>
               </Link>
 
-              <div className="p-6 bg-[var(--background-card)] border border-[var(--border)] border-dashed
-                rounded-lg opacity-50">
+              <Link
+                href="/cms/"
+                className="group p-6 bg-[var(--background-card)] border border-[var(--border)]
+                  rounded-lg hover:border-[var(--accent-magenta)] transition-all"
+              >
                 <div className="flex items-center justify-between">
                   <div>
-                    <h2 className="text-lg font-medium text-[var(--text-secondary)]">
+                    <h2 className="text-lg font-medium text-[var(--text-primary)] group-hover:text-[var(--accent-magenta)]">
                       Content Management
                     </h2>
                     <p className="text-sm text-[var(--text-secondary)] mt-1">
-                      Coming soon...
+                      Edit blog posts with Sveltia CMS
                     </p>
                   </div>
+                  <svg className="w-6 h-6 text-[var(--text-secondary)] group-hover:text-[var(--accent-magenta)]"
+                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
                 </div>
-              </div>
+              </Link>
             </div>
 
             {/* Recent Activity */}
