@@ -1,8 +1,8 @@
 ---
-title: "Building a Bitcoin-Native Prediction Market: Why I'm Revisiting OP_RETURN"
+title: "I Built Prediction Markets That Need Nothing But Bitcoin"
 date: "2026-01-10"
 topics: ["blockchain", "programming"]
-excerpt: "After weeks of building portable AI memory, wrapping APIs, and orchestrating distributed systems, I kept coming back to the same question: what if we applied these patterns to prediction markets on Bitcoin?"
+excerpt: "Bitcoin-native prediction markets with no oracles or external dependencies. Using OP_RETURN and Taproot to eliminate infrastructure. Here's the hard part."
 heroImage: "/images/blog/decentralized-predictive-market-bitcoin-hero.png"
 ---
 
@@ -14,7 +14,7 @@ The last few weeks have been a blur of building. [Portable AI memory in single f
 
 Each project taught me something about self-contained systems. About eliminating external dependencies. About building things that can travel with their context.
 
-And somewhere in the middle of all that, I kept thinking about Bitcoin.
+And somewhere in the middle of all that, I kept thinking about Bitcoin. I've been building on Bitcoin since 2013, and these patterns keep proving themselves.
 
 ## The Pattern I Keep Seeing
 
@@ -44,7 +44,7 @@ Not Bitcoin as a settlement layer for something built elsewhere. Bitcoin as the 
 
 ## Revisiting OP_RETURN
 
-I wrote recently about [getting Colored Coins working on modern Bitcoin Core](/blog/colored-coins-revival). That project reminded me how much you can do with OP_RETURN, the opcode that lets you embed small data payloads directly into Bitcoin transactions.
+I wrote recently about [getting Colored Coins working on modern Bitcoin Core](/blog/colored-coins-revival), and I've explored [Lightning for encrypted messaging](/blog/lightning-encrypted-message-queue). Those projects reminded me how much you can do with OP_RETURN, the opcode that lets you embed small data payloads directly into Bitcoin transactions.
 
 OP_RETURN gives you 80 bytes per output. That's not much. But it's enough to store a commitment hash. A timestamped anchor. A cryptographic fingerprint of something larger.
 
