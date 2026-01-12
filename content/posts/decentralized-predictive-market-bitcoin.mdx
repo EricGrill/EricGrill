@@ -46,7 +46,7 @@ Not Bitcoin as a settlement layer for something built elsewhere. Bitcoin as the 
 
 I wrote recently about [getting Colored Coins working on modern Bitcoin Core](/blog/colored-coins-revival), and I've explored [Lightning for encrypted messaging](/blog/lightning-encrypted-message-queue). Those projects reminded me how much you can do with OP_RETURN, the opcode that lets you embed small data payloads directly into Bitcoin transactions.
 
-OP_RETURN gives you 80 bytes per output. That's not much. But it's enough to store a commitment hash. A timestamped anchor. A cryptographic fingerprint of something larger.
+OP_RETURN historically gave you 80 bytes per output. That's not much. But it's enough to store a commitment hash. A timestamped anchor. A cryptographic fingerprint of something larger. (And as of Bitcoin Core v30, that limit jumped to 100KB, which changes the design space dramatically. More on that below.)
 
 The key insight is that you don't need to store data on Bitcoin. You need to commit to data on Bitcoin. The actual information lives elsewhere. The blockchain provides the immutable timestamp, the proof that something existed at a specific moment.
 
@@ -120,11 +120,19 @@ These aren't insurmountable. But they need careful design.
 
 ## Why Now
 
-The timing feels right for a few reasons.
+The timing feels right for a few reasons. And one of them just happened.
 
-Bitcoin's OP_RETURN limits were expanded in recent Core releases. Taproot adoption is growing. The tooling for working with Bitcoin script has matured.
+**Bitcoin Core v30 changed everything.** In October 2025, the default OP_RETURN data limit was raised from 80 bytes to 100,000 bytes. That's not a typo. From 80 bytes to 100KB. The update also allows multiple OP_RETURN outputs per transaction.
 
-And prediction markets are having a moment. The 2024 election showed how powerful these markets can be for aggregating information. People are paying attention.
+This was controversial. Critics like Luke Dashjr and Nick Szabo argued it encourages "blockchain bloat," increases node costs, and raises transaction fees for regular users. Some node operators switched to Bitcoin Knots, which maintains the stricter 80-byte limit.
+
+Proponents argue the change aligns default policy with actual consensus limits and enables more sophisticated on-chain applications. Data storage was happening anyway through inscription hacks and UTXO bloat. OP_RETURN is cleaner.
+
+I'm not here to relitigate that debate. But for what I'm building, the implications are significant.
+
+With 80 bytes, you could store a commitment hash. With 100KB, you can store entire market specifications, witness attestations, resolution proofs. The protocol design I outlined above assumed 80-byte constraints. Those constraints are now optional.
+
+Taproot adoption is growing. The tooling for working with Bitcoin script has matured. And prediction markets are having a moment. The 2024 election showed how powerful these markets can be for aggregating information. People are paying attention.
 
 But the platforms that got attention are all centralized in ways that create risk. Regulatory risk. Counterparty risk. Platform risk.
 
