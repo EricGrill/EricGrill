@@ -9,7 +9,8 @@ heroImage: "/images/blog/kali-orchestration-ai-hacker-hero.png"
 > **Get the tools:**
 > - [MCP Kali Orchestration](https://github.com/EricGrill/mcp-kali-orchestration) — 50+ Kali security tools exposed via MCP
 > - [MCP Multi-Agent Server Delegation](https://github.com/EricGrill/mcp-multi-agent-server-delegation) — Spin up isolated VMs for task execution
-> - [All my tools](https://github.com/EricGrill/agents-skills-plugins) — Full collection of agents, skills, and plugins
+> - [MCP Multi-Agent SSH](https://github.com/EricGrill/mcp-multi-agent-ssh) — Orchestrate commands across multiple servers
+> - [Agents, Skills & Plugins Collection](https://github.com/EricGrill/agents-skills-plugins) — Full toolkit of Claude Code extensions
 
 <details>
 <summary>Quick Start: Kali Orchestration config</summary>
@@ -54,6 +55,8 @@ PROXMOX_API_TOKEN_SECRET=your-secret
 
 This post is a follow-up to my [Proxmox cluster rescue story](/blog/claude-code-proxmox-cluster-rescue). If you haven't read that one, the short version is: I accidentally broke my Proxmox cluster, let Claude Code SSH in to fix it, and watched it orchestrate a multi-server recovery better than I could have done myself.
 
+If you're new to Claude Code and this sounds wild, start with my [introduction to Claude Code](/blog/claude-code-intro) for context on why I work this way.
+
 But there was a detail in that story I glossed over. The part where Claude hacked into my own laptop.
 
 ## "Can I Use This Box?"
@@ -76,7 +79,7 @@ I sat there thinking: what if I gave it more than just whatever tools happened t
 
 The Kali Linux distribution comes with hundreds of security tools. Reconnaissance scanners, web application testers, exploitation frameworks, password crackers, post-exploitation utilities. It's the standard toolkit for penetration testers and security researchers.
 
-I decided to wrap as many of these as I could into an MCP server. Not just a few tools. The whole arsenal.
+I decided to wrap as many of these as I could into an MCP server. Not just a few tools. The whole arsenal. This follows the same pattern I used when [wrapping government APIs into a single MCP](/blog/civic-data-api-wrapper): take scattered functionality and consolidate it into one accessible interface.
 
 The result is 50+ tools organized into categories:
 
@@ -122,7 +125,7 @@ Having the tools was one thing. But I wanted more. I wanted Claude to be able to
 
 That's where the multi-agent server delegation comes in.
 
-The delegation server sits between Claude and my Proxmox infrastructure. When Claude needs a new attack VM, it submits a job manifest. The server provisions a fresh VM from a template, executes the task inside the sandbox, streams back results, and destroys the VM when it's done.
+The delegation server sits between Claude and my [Proxmox infrastructure](https://github.com/EricGrill/mcp-proxmox-admin). When Claude needs a new attack VM, it submits a job manifest. The server provisions a fresh VM from a template, executes the task inside the sandbox, streams back results, and destroys the VM when it's done.
 
 ```json
 {
@@ -139,6 +142,8 @@ Claude gets a job ID back immediately. It can check status, retrieve results, or
 ![Coordinated attack swarm](/images/blog/kali-orchestration-ai-hacker-swarm.png)
 
 The real power comes from combining these tools. Claude can spin up multiple Kali instances simultaneously. One doing reconnaissance while another tests web applications. Parallel password attacks against different services. Coordinated exploitation attempts.
+
+This parallel execution model mirrors what I discussed in [spawning autonomous agents](/blog/claude-code-agents). Each Kali instance operates as an independent worker with a specific mission, while the main Claude instance orchestrates the overall strategy.
 
 I've watched Claude orchestrate engagements where it:
 
@@ -176,10 +181,12 @@ Third, isolation is essential. Running security tools in ephemeral VMs isn't jus
 
 If you want to build something similar, here's what you need:
 
-**MCP Kali Orchestration** handles spinning up Kali instances and exposing the security tools. It supports both Docker containers for quick local testing and Proxmox VMs for more realistic environments.
+**[MCP Kali Orchestration](https://github.com/EricGrill/mcp-kali-orchestration)** handles spinning up Kali instances and exposing the security tools. It supports both Docker containers for quick local testing and Proxmox VMs for more realistic environments.
 
-**MCP Multi-Agent Server Delegation** manages job submission, VM lifecycle, and result collection. It integrates with mcp-proxmox-admin for the actual VM provisioning.
+**[MCP Multi-Agent Server Delegation](https://github.com/EricGrill/mcp-multi-agent-server-delegation)** manages job submission, VM lifecycle, and result collection. It integrates with [MCP Proxmox Admin](https://github.com/EricGrill/mcp-proxmox-admin) for the actual VM provisioning.
 
-Both are MIT licensed and available on GitHub. Use them responsibly.
+For SSH-based operations across multiple systems, check out [MCP Multi-Agent SSH](https://github.com/EricGrill/mcp-multi-agent-ssh), which provides similar orchestration capabilities for remote command execution.
+
+All tools are MIT licensed and available in my [agents-skills-plugins collection](https://github.com/EricGrill/agents-skills-plugins). Use them responsibly.
 
 The laptop that started all of this? It's still running in my cluster. Fully updated now. Claude made sure of that before it finished the job.
