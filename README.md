@@ -76,6 +76,7 @@ Model Context Protocol servers that give Claude direct access to infrastructure.
 | [mcp-predictive-market](https://github.com/EricGrill/mcp-predictive-market) | Query 5 prediction markets, arbitrage detection | `8` |
 | [mcp-civic-data](https://github.com/EricGrill/mcp-civic-data) | 7 government APIs: weather, census, NASA, economics | `22` |
 | [mcp-memvid-state-service](https://github.com/EricGrill/mcp-memvid-state-service) | AI memory layer with vector search | `10` |
+| [mcp-market-data](https://github.com/EricGrill/mcp-market-data) | Real-time stock, crypto, forex via Yahoo Finance | `6` |
 
 ---
 
