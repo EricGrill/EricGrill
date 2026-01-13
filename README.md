@@ -19,24 +19,11 @@
 </p>
 
 <p align="center">
+  <a href="#%EF%B8%8F-tech-stack">Tech Stack</a> •
   <a href="#-mcp-servers">MCP Servers</a> •
   <a href="#-bitcoin--decentralized">Bitcoin</a> •
   <a href="#-claude-code">Claude Code</a> •
-  <a href="#-tech-stack">Tech Stack</a> •
-  <a href="#-writing">Writing</a>
-</p>
-
----
-
-## 📊 GitHub Stats
-
-<p align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=EricGrill&show_icons=true&include_all_commits=true&count_private=true&theme=tokyonight&hide_border=true&bg_color=0d1117" alt="GitHub Stats" height="165">
-  <img src="https://streak-stats.demolab.com/?user=EricGrill&theme=tokyonight&hide_border=true&background=0d1117" alt="GitHub Streak" height="165">
-</p>
-
-<p align="center">
-  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=EricGrill&layout=compact&theme=tokyonight&hide_border=true&bg_color=0d1117&title_color=58a6ff&text_color=c9d1d9&langs_count=8" alt="Top Languages">
+  <a href="#%EF%B8%8F-writing">Writing</a>
 </p>
 
 ---
@@ -115,12 +102,6 @@ I write about building with AI, Bitcoin development, and security at **[ericgril
 | [From OP_RETURN to Lightning](https://ericgrill.com/blog/bitcoin-opreturn-to-lightning-journey) | `Bitcoin` |
 | [One File to Rule Them All: Portable AI Memory](https://ericgrill.com/blog/memvid-portable-ai-memory) | `AI` |
 | [Decentralized Predictive Market Bitcoin](https://ericgrill.com/blog/decentralized-predictive-market-bitcoin) | `Bitcoin` |
-
----
-
-<p align="center">
-  <img src="https://github-readme-activity-graph.vercel.app/graph?username=EricGrill&theme=tokyo-night&hide_border=true&bg_color=0d1117&color=58a6ff&line=58a6ff&point=ff6b6b" alt="Activity Graph" width="100%">
-</p>
 
 ---
 
