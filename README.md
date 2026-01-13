@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="ericgrill-banner.png" alt="Banner" width="100%">
+</p>
+
 <h1 align="center">Eric Grill</h1>
 
 <p align="center">
