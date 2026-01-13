@@ -1,6 +1,8 @@
-<h1 align="center">
-  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&weight=600&size=28&duration=3000&pause=1000&color=F7F7F7&center=true&vCenter=true&random=false&width=600&lines=Hey%2C+I'm+Eric+Grill+%F0%9F%91%8B;Builder+%7C+Breaker+%7C+Fixer" alt="Typing SVG" />
-</h1>
+<h1 align="center">Eric Grill</h1>
+
+<p align="center">
+  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&weight=500&size=22&duration=3000&pause=1000&color=58A6FF&center=true&vCenter=true&random=false&width=435&lines=Builder+%7C+Breaker+%7C+Fixer" alt="Typing SVG" />
+</p>
 
 <p align="center">
   <strong>I build software, break assumptions, and fix security problems that usually get ignored until it's too late.</strong>
@@ -25,8 +27,8 @@
 ## 📊 GitHub Stats
 
 <p align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=EricGrill&show_icons=true&theme=tokyonight&hide_border=true&bg_color=0d1117&title_color=58a6ff&icon_color=58a6ff&text_color=c9d1d9" alt="GitHub Stats" height="165">
-  <img src="https://github-readme-streak-stats.herokuapp.com/?user=EricGrill&theme=tokyonight&hide_border=true&background=0d1117&stroke=58a6ff&ring=58a6ff&fire=ff6b6b&currStreakLabel=58a6ff" alt="GitHub Streak" height="165">
+  <img src="https://github-readme-stats.vercel.app/api?username=EricGrill&show_icons=true&include_all_commits=true&count_private=true&theme=tokyonight&hide_border=true&bg_color=0d1117" alt="GitHub Stats" height="165">
+  <img src="https://streak-stats.demolab.com/?user=EricGrill&theme=tokyonight&hide_border=true&background=0d1117" alt="GitHub Streak" height="165">
 </p>
 
 <p align="center">
