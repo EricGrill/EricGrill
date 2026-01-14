@@ -70,6 +70,8 @@ Model Context Protocol servers that give Claude direct access to infrastructure.
 | [mcp-civic-data](https://github.com/EricGrill/mcp-civic-data) | 7 government APIs: weather, census, NASA, economics | `22` |
 | [mcp-memvid-state-service](https://github.com/EricGrill/mcp-memvid-state-service) | AI memory layer with vector search | `10` |
 | [mcp-market-data](https://github.com/EricGrill/mcp-market-data) | Real-time stock, crypto, forex via Yahoo Finance | `6` |
+| [mcp-ipfs](https://github.com/EricGrill/mcp-ipfs) | IPFS decentralized storage, pinning, DAG, DHT | `34` |
+| [quickbooks-online-mcp-server](https://github.com/EricGrill/quickbooks-online-mcp-server) | QuickBooks Online CRUD for invoices, customers, bills | `55` |
 
 ---
 
