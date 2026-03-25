@@ -22,7 +22,8 @@
   <a href="#%EF%B8%8F-tech-stack">Tech Stack</a> •
   <a href="#-mcp-servers">MCP Servers</a> •
   <a href="#-bitcoin--decentralized">Bitcoin</a> •
-  <a href="#-claude-code">Claude Code</a> •
+  <a href="#-claude-code--ai">Claude Code & AI</a> •
+  <a href="#-projects">Projects</a> •
   <a href="#%EF%B8%8F-writing">Writing</a>
 </p>
 
@@ -72,6 +73,7 @@ Model Context Protocol servers that give Claude direct access to infrastructure.
 | [mcp-market-data](https://github.com/EricGrill/mcp-market-data) | Real-time stock, crypto, forex via Yahoo Finance | `6` |
 | [mcp-ipfs](https://github.com/EricGrill/mcp-ipfs) | IPFS decentralized storage, pinning, DAG, DHT | `34` |
 | [quickbooks-online-mcp-server](https://github.com/EricGrill/quickbooks-online-mcp-server) | QuickBooks Online CRUD for invoices, customers, bills | `55` |
+| [fulcrum-mcp](https://github.com/EricGrill/fulcrum-mcp) | Fulcrum AI orchestration — jobs, knowledge, workers, deployments | `50+` |
 
 ---
 
@@ -80,16 +82,30 @@ Model Context Protocol servers that give Claude direct access to infrastructure.
 | Project | Description |
 |---------|-------------|
 | [decentralized-predictive-market-bitcoin](https://github.com/EricGrill/decentralized-predictive-market-bitcoin) | BTC-native prediction market protocol |
+| [permanentspeech](https://github.com/EricGrill/permanentspeech) | Permissionless publishing to Bitcoin via OP_RETURN |
+| [consensusarb](https://github.com/EricGrill/consensusarb) | Belief arbitrage — fuse prediction markets with financial markets |
+| [claim-forge](https://github.com/EricGrill/claim-forge) | IP registration & blockchain timestamping |
 | [mcp-bitcoin-cli](https://github.com/EricGrill/mcp-bitcoin-cli) | Bitcoin blockchain operations via Claude |
 
 ---
 
-## 🤖 Claude Code
+## 🤖 Claude Code & AI
 
 | Project | Description |
 |---------|-------------|
-| [agents-skills-plugins](https://github.com/EricGrill/agents-skills-plugins) | **49 plugins** • 100+ MCP tools • 110+ skills |
+| [agents-skills-plugins](https://github.com/EricGrill/agents-skills-plugins) | Curated collection of Claude Code skills and agents |
+| [fork-my-stack](https://github.com/EricGrill/fork-my-stack) | Full AI assistant setup — gateway, memory, cron, MCP, model routing |
+| [picoclaw-fleet](https://github.com/EricGrill/picoclaw-fleet) | Deploy and orchestrate PicoClaw workers over SSH |
 | [nano-banana](https://github.com/EricGrill/agents-skills-plugins/tree/main/plugins/nano-banana) | Image generation via Gemini API |
+
+---
+
+## 🧪 Projects
+
+| Project | Description |
+|---------|-------------|
+| [scott-adams-interpreter](https://github.com/EricGrill/scott-adams-interpreter) | Web-based interpreter for classic Scott Adams text adventures |
+| [eliza-ts](https://github.com/EricGrill/eliza-ts) | TypeScript implementation of the classic ELIZA chatbot (1966) |
 
 ---
 
@@ -99,11 +115,25 @@ I write about building with AI, Bitcoin development, and security at **[ericgril
 
 | Article | Topic |
 |---------|:-----:|
+| [I Run 30 AI Agents From My Phone](https://ericgrill.com/blog/i-run-30-ai-agents-from-my-phone) | `AI` |
+| [My AI Agent Deleted Everything](https://ericgrill.com/blog/ai-agent-deleted-everything) | `AI` |
+| [Running an AI Agent on a $10 Board vs a Mac Mini](https://ericgrill.com/blog/ai-agent-ten-dollar-board-vs-mac-mini) | `AI` |
+| [I'm Building a Justice System That Doesn't Need the State](https://ericgrill.com/blog/voluntary-justice) | `Bitcoin` |
+| [I Almost Built an AI Hitman. Here's Why I Stopped.](https://ericgrill.com/blog/aegis-ai-hitman-protocol) | `AI` |
+| [15 Minutes to Decentralization: The Zoltaran Speaks Story](https://ericgrill.com/blog/zoltaran-speaks-decentralization) | `Bitcoin` |
+| [I Needed an AI Bookkeeper, So I Gave QuickBooks 143 New Tools](https://ericgrill.com/blog/quickbooks-mcp-ai-bookkeeper) | `AI` |
+| [I Built Prediction Markets That Need Nothing But Bitcoin](https://ericgrill.com/blog/decentralized-predictive-market-bitcoin) | `Bitcoin` |
 | [I Gave Claude Code 50+ Kali Linux Tools](https://ericgrill.com/blog/kali-orchestration-ai-hacker) | `Security` |
 | [Claude Code Rescued My Proxmox Cluster](https://ericgrill.com/blog/claude-code-proxmox-cluster-rescue) | `DevOps` |
 | [From OP_RETURN to Lightning](https://ericgrill.com/blog/bitcoin-opreturn-to-lightning-journey) | `Bitcoin` |
 | [One File to Rule Them All: Portable AI Memory](https://ericgrill.com/blog/memvid-portable-ai-memory) | `AI` |
-| [Decentralized Predictive Market Bitcoin](https://ericgrill.com/blog/decentralized-predictive-market-bitcoin) | `Bitcoin` |
+
+<details>
+<summary><strong>All 53 articles →</strong></summary>
+
+See the full archive at **[ericgrill.com/blog](https://ericgrill.com/blog)**
+
+</details>
 
 ---
 
