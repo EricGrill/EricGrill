@@ -5,11 +5,16 @@
 <h1 align="center">Eric Grill</h1>
 
 <p align="center">
-  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&weight=500&size=22&duration=3000&pause=1000&color=58A6FF&center=true&vCenter=true&random=false&width=435&lines=Builder+%7C+Breaker+%7C+Fixer" alt="Typing SVG" />
+  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&weight=500&size=22&duration=3000&pause=1000&color=58A6FF&center=true&vCenter=true&random=false&width=600&lines=Building+systems+that+survive+when+everything+else+breaks" alt="Typing SVG" />
 </p>
 
 <p align="center">
-  <strong>I build software, break assumptions, and fix security problems that usually get ignored until it's too late.</strong>
+  <strong>Software. Bitcoin. Security. Combat.</strong>
+</p>
+
+<p align="center">
+  Currently building <strong>OpenClaw</strong>, <strong>Voluntary Justice</strong>, <strong>BJJChat</strong>, <strong>ericgrill.com</strong><br>
+  Training for competition prep — next tournament TBD
 </p>
 
 <p align="center">
@@ -19,40 +24,56 @@
 </p>
 
 <p align="center">
-  <a href="#%EF%B8%8F-tech-stack">Tech Stack</a> •
+  <a href="#-three-systems">Three Systems</a> •
+  <a href="#-lab-experiments">Lab</a> •
   <a href="#-mcp-servers">MCP Servers</a> •
   <a href="#-bitcoin--decentralized">Bitcoin</a> •
   <a href="#-claude-code--ai">Claude Code & AI</a> •
-  <a href="#-projects">Projects</a> •
-  <a href="#%EF%B8%8F-writing">Writing</a>
+  <a href="#-writing">Writing</a>
 </p>
 
 ---
 
-## 🛠️ Tech Stack
+## 🎯 Three Systems
 
-<p align="center">
-  <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript">
-  <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python">
-  <img src="https://img.shields.io/badge/Rust-000000?style=for-the-badge&logo=rust&logoColor=white" alt="Rust">
-  <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white" alt="Node.js">
-  <img src="https://img.shields.io/badge/Bitcoin-F7931A?style=for-the-badge&logo=bitcoin&logoColor=white" alt="Bitcoin">
-</p>
+I build systems for people who refuse to be owned.
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker">
-  <img src="https://img.shields.io/badge/Proxmox-E57000?style=for-the-badge&logo=proxmox&logoColor=white" alt="Proxmox">
-  <img src="https://img.shields.io/badge/Kali_Linux-557C94?style=for-the-badge&logo=kalilinux&logoColor=white" alt="Kali">
-  <img src="https://img.shields.io/badge/Claude-191919?style=for-the-badge&logo=anthropic&logoColor=white" alt="Claude">
-</p>
+### ⚡ Build
+Software, Bitcoin, Security, Automation
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white" alt="Next.js">
-  <img src="https://img.shields.io/badge/Tailwind-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white" alt="Tailwind">
-  <img src="https://img.shields.io/badge/SQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white" alt="SQL">
-  <img src="https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL">
-  <img src="https://img.shields.io/badge/Redis-DC382D?style=for-the-badge&logo=redis&logoColor=white" alt="Redis">
-</p>
+Infrastructure that moves real value. Systems that survive when others fail.
+
+[See what I'm building →](https://ericgrill.com/now)
+
+### 🥋 Fight
+BJJ, Competition, Discipline
+
+IBJJF champion. Training daily. The mats teach what theory cannot.
+
+[Watch the fights →](https://www.youtube.com/@EricGrill)
+
+### ✍️ Write
+Blog, Research, Field Notes
+
+Live experiments. Not tutorials. Dispatches from the edge.
+
+[Read the dispatches →](https://ericgrill.com/blog)
+
+---
+
+## 🧪 Lab Experiments
+
+Enter the lab. Each experiment is live and built to be explored.
+
+| Experiment | Description | Link |
+|------------|-------------|------|
+| **Spar** | Test your ideas against mine. Intellectual sparring powered by AI. | [/spar](https://ericgrill.com/spar) |
+| **Dead Man's Switch** | 30-day proof of life countdown. If the timer hits zero, the final message drops. | [/switch](https://ericgrill.com/switch) |
+| **Ask Eric** | AI-powered Q&A trained on everything I've written. | [/ask-eric](https://ericgrill.com/ask-eric) |
+| **ELIZA** | Chat with the 1966 AI that started it all. | [/eliza](https://ericgrill.com/eliza) |
+| **ZKP Demo** | Zero-knowledge proof Rock-Paper-Scissors. | [/zkp](https://ericgrill.com/zkp) |
+| **Tomb of Horrors** | Terminal text adventure. Navigate the dungeon. | [/adventure](https://ericgrill.com/adventure) |
+| **Mirror** | See what your browser tells every site you visit. | [/mirror](https://ericgrill.com/mirror) |
 
 ---
 
@@ -113,23 +134,25 @@ Model Context Protocol servers that give Claude direct access to infrastructure.
 
 I write about building with AI, Bitcoin development, and security at **[ericgrill.com](https://ericgrill.com)**
 
-| Article | Topic |
-|---------|:-----:|
-| [I Run 30 AI Agents From My Phone](https://ericgrill.com/blog/i-run-30-ai-agents-from-my-phone) | `AI` |
-| [My AI Agent Deleted Everything](https://ericgrill.com/blog/ai-agent-deleted-everything) | `AI` |
-| [Running an AI Agent on a $10 Board vs a Mac Mini](https://ericgrill.com/blog/ai-agent-ten-dollar-board-vs-mac-mini) | `AI` |
-| [I'm Building a Justice System That Doesn't Need the State](https://ericgrill.com/blog/voluntary-justice) | `Bitcoin` |
-| [I Almost Built an AI Hitman. Here's Why I Stopped.](https://ericgrill.com/blog/aegis-ai-hitman-protocol) | `AI` |
-| [15 Minutes to Decentralization: The Zoltaran Speaks Story](https://ericgrill.com/blog/zoltaran-speaks-decentralization) | `Bitcoin` |
-| [I Needed an AI Bookkeeper, So I Gave QuickBooks 143 New Tools](https://ericgrill.com/blog/quickbooks-mcp-ai-bookkeeper) | `AI` |
-| [I Built Prediction Markets That Need Nothing But Bitcoin](https://ericgrill.com/blog/decentralized-predictive-market-bitcoin) | `Bitcoin` |
-| [I Gave Claude Code 50+ Kali Linux Tools](https://ericgrill.com/blog/kali-orchestration-ai-hacker) | `Security` |
-| [Claude Code Rescued My Proxmox Cluster](https://ericgrill.com/blog/claude-code-proxmox-cluster-rescue) | `DevOps` |
-| [From OP_RETURN to Lightning](https://ericgrill.com/blog/bitcoin-opreturn-to-lightning-journey) | `Bitcoin` |
-| [One File to Rule Them All: Portable AI Memory](https://ericgrill.com/blog/memvid-portable-ai-memory) | `AI` |
+| Article | Topic | Date |
+|---------|:-----:|------|
+| [I Built a Voice-to-Agent Pipeline and Stopped Typing Commands](https://ericgrill.com/blog/voxops-voice-agent-pipeline) | `AI` | 2026-04-05 |
+| [I Run 30 AI Agents From My Phone](https://ericgrill.com/blog/i-run-30-ai-agents-from-my-phone) | `AI` | 2026-03-22 |
+| [My AI Agent Deleted Everything](https://ericgrill.com/blog/ai-agent-deleted-everything) | `AI` | 2026-03-18 |
+| [I Used JCodeMunch MCP in My Local LLM Routing Stack](https://ericgrill.com/blog/jcodemunch-mcp-context-engine-for-ai-agents) | `AI` | 2026-03-04 |
+| [Running an AI Agent on a $10 Board vs a Mac Mini](https://ericgrill.com/blog/ai-agent-ten-dollar-board-vs-mac-mini) | `AI` | 2026-02-18 |
+| [I'm Building a Justice System That Doesn't Need the State](https://ericgrill.com/blog/voluntary-justice) | `Bitcoin` | 2026-02-18 |
+| [I Almost Built an AI Hitman. Here's Why I Stopped.](https://ericgrill.com/blog/aegis-ai-hitman-protocol) | `AI` | 2026-02-18 |
+| [15 Minutes to Decentralization: The Zoltaran Speaks Story](https://ericgrill.com/blog/zoltaran-speaks-decentralization) | `Bitcoin` | 2026-02-18 |
+| [I Needed an AI Bookkeeper, So I Gave QuickBooks 143 New Tools](https://ericgrill.com/blog/quickbooks-mcp-ai-bookkeeper) | `AI` | 2026-02-18 |
+| [I Built Prediction Markets That Need Nothing But Bitcoin](https://ericgrill.com/blog/decentralized-predictive-market-bitcoin) | `Bitcoin` | 2026-02-18 |
+| [I Gave Claude Code 50+ Kali Linux Tools](https://ericgrill.com/blog/kali-orchestration-ai-hacker) | `Security` | 2026-02-18 |
+| [Claude Code Rescued My Proxmox Cluster](https://ericgrill.com/blog/claude-code-proxmox-cluster-rescue) | `DevOps` | 2026-02-18 |
+| [From OP_RETURN to Lightning](https://ericgrill.com/blog/bitcoin-opreturn-to-lightning-journey) | `Bitcoin` | 2026-02-18 |
+| [One File to Rule Them All: Portable AI Memory](https://ericgrill.com/blog/memvid-portable-ai-memory) | `AI` | 2026-02-18 |
 
 <details>
-<summary><strong>All 53 articles →</strong></summary>
+<summary><strong>All 54 articles →</strong></summary>
 
 See the full archive at **[ericgrill.com/blog](https://ericgrill.com/blog)**
 
