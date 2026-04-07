@@ -13,7 +13,7 @@
 </p>
 
 <p align="center">
-  Currently building <strong>OpenClaw</strong>, <strong>Voluntary Justice</strong>, <strong>BJJChat</strong>, <strong>ericgrill.com</strong><br>
+  Currently building <strong>VoxOps</strong>, <strong>Agent Sisko</strong>, <strong>OpenClaw</strong>, <strong>BJJChat</strong>, <strong>ericgrill.com</strong><br>
   Training for competition prep — next tournament TBD
 </p>
 
