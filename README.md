@@ -136,6 +136,7 @@ I write about building with AI, Bitcoin development, and security at **[ericgril
 
 | Article | Topic | Date |
 |---------|:-----:|------|
+| [oh-my-codex: The Workflow Layer Codex Needed](https://ericgrill.com/blog/oh-my-codex-workflow-layer) | `AI` | 2026-04-09 |
 | [I Built a Voice-to-Agent Pipeline and Stopped Typing Commands](https://ericgrill.com/blog/voxops-voice-agent-pipeline) | `AI` | 2026-04-05 |
 | [I Run 30 AI Agents From My Phone](https://ericgrill.com/blog/i-run-30-ai-agents-from-my-phone) | `AI` | 2026-03-22 |
 | [My AI Agent Deleted Everything](https://ericgrill.com/blog/ai-agent-deleted-everything) | `AI` | 2026-03-18 |
