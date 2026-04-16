@@ -102,6 +102,7 @@ Model Context Protocol servers that give Claude direct access to infrastructure.
 
 | Project | Description |
 |---------|-------------|
+| [voluntaryjustice](https://github.com/EricGrill/voluntaryjustice) | Decentralized justice system with competitive arbitration and insurance-backed enforcement |
 | [decentralized-predictive-market-bitcoin](https://github.com/EricGrill/decentralized-predictive-market-bitcoin) | BTC-native prediction market protocol |
 | [permanentspeech](https://github.com/EricGrill/permanentspeech) | Permissionless publishing to Bitcoin via OP_RETURN |
 | [consensusarb](https://github.com/EricGrill/consensusarb) | Belief arbitrage — fuse prediction markets with financial markets |
@@ -114,6 +115,7 @@ Model Context Protocol servers that give Claude direct access to infrastructure.
 
 | Project | Description |
 |---------|-------------|
+| [ACRS](https://github.com/EricGrill/ACRS) | Adaptive Cognitive Resource Scheduler — LLM routing decision engine |
 | [agents-skills-plugins](https://github.com/EricGrill/agents-skills-plugins) | Curated collection of Claude Code skills and agents |
 | [fork-my-stack](https://github.com/EricGrill/fork-my-stack) | Full AI assistant setup — gateway, memory, cron, MCP, model routing |
 | [picoclaw-fleet](https://github.com/EricGrill/picoclaw-fleet) | Deploy and orchestrate PicoClaw workers over SSH |
@@ -153,7 +155,7 @@ I write about building with AI, Bitcoin development, and security at **[ericgril
 | [One File to Rule Them All: Portable AI Memory](https://ericgrill.com/blog/memvid-portable-ai-memory) | `AI` | 2026-02-18 |
 
 <details>
-<summary><strong>All 54 articles →</strong></summary>
+<summary><strong>All 55 articles →</strong></summary>
 
 See the full archive at **[ericgrill.com/blog](https://ericgrill.com/blog)**
 
