@@ -138,21 +138,21 @@ I write about building with AI, Bitcoin development, and security at **[ericgril
 
 | Article | Topic | Date |
 |---------|:-----:|------|
-| [oh-my-codex: The Workflow Layer Codex Needed](https://ericgrill.com/blog/oh-my-codex-workflow-layer) | `AI` | 2026-04-09 |
+| [npm install -g @openai/codex oh-my-codex: The Workflow Layer Codex Needed](https://ericgrill.com/blog/oh-my-codex-workflow-layer) | `AI` | 2026-04-09 |
 | [I Built a Voice-to-Agent Pipeline and Stopped Typing Commands](https://ericgrill.com/blog/voxops-voice-agent-pipeline) | `AI` | 2026-04-05 |
 | [I Run 30 AI Agents From My Phone](https://ericgrill.com/blog/i-run-30-ai-agents-from-my-phone) | `AI` | 2026-03-22 |
 | [My AI Agent Deleted Everything](https://ericgrill.com/blog/ai-agent-deleted-everything) | `AI` | 2026-03-18 |
 | [I Used JCodeMunch MCP in My Local LLM Routing Stack](https://ericgrill.com/blog/jcodemunch-mcp-context-engine-for-ai-agents) | `AI` | 2026-03-04 |
 | [Running an AI Agent on a $10 Board vs a Mac Mini](https://ericgrill.com/blog/ai-agent-ten-dollar-board-vs-mac-mini) | `AI` | 2026-02-18 |
-| [I'm Building a Justice System That Doesn't Need the State](https://ericgrill.com/blog/voluntary-justice) | `Bitcoin` | 2026-02-18 |
-| [I Almost Built an AI Hitman. Here's Why I Stopped.](https://ericgrill.com/blog/aegis-ai-hitman-protocol) | `AI` | 2026-02-18 |
-| [15 Minutes to Decentralization: The Zoltaran Speaks Story](https://ericgrill.com/blog/zoltaran-speaks-decentralization) | `Bitcoin` | 2026-02-18 |
-| [I Needed an AI Bookkeeper, So I Gave QuickBooks 143 New Tools](https://ericgrill.com/blog/quickbooks-mcp-ai-bookkeeper) | `AI` | 2026-02-18 |
-| [I Built Prediction Markets That Need Nothing But Bitcoin](https://ericgrill.com/blog/decentralized-predictive-market-bitcoin) | `Bitcoin` | 2026-02-18 |
-| [I Gave Claude Code 50+ Kali Linux Tools](https://ericgrill.com/blog/kali-orchestration-ai-hacker) | `Security` | 2026-02-18 |
-| [Claude Code Rescued My Proxmox Cluster](https://ericgrill.com/blog/claude-code-proxmox-cluster-rescue) | `DevOps` | 2026-02-18 |
-| [From OP_RETURN to Lightning](https://ericgrill.com/blog/bitcoin-opreturn-to-lightning-journey) | `Bitcoin` | 2026-02-18 |
-| [One File to Rule Them All: Portable AI Memory](https://ericgrill.com/blog/memvid-portable-ai-memory) | `AI` | 2026-02-18 |
+| [Running a PicoClaw Fleet from OpenClaw](https://ericgrill.com/blog/picoclaw-fleet-orchestration) | `AI` | 2026-02-18 |
+| [PicoClaw vs OpenClaw: A Code-Level Deep Dive](https://ericgrill.com/blog/picoclaw-vs-openclaw-code-deep-dive) | `AI` | 2026-02-18 |
+| [What You Lose (and Gain) Running PicoClaw Instead of OpenClaw](https://ericgrill.com/blog/picoclaw-vs-openclaw-tradeoffs) | `AI` | 2026-02-18 |
+| [Running Your AI Assistant on Local GPUs for Free](https://ericgrill.com/blog/local-gpu-ai-assistant-free) | `DevOps` | 2026-02-16 |
+| [I Built a Full Gym Management Platform Because the Check-In Was a Clipboard](https://ericgrill.com/blog/bjjchat-full-stack-gym-platform) | `AI` | 2026-02-15 |
+| [I'm Building a Justice System That Doesn't Need the State](https://ericgrill.com/blog/voluntary-justice) | `Bitcoin` | 2026-01-28 |
+| [Signal Over Noise: Why I'm Unreachable and Fine With It](https://ericgrill.com/blog/signal-over-noise) | `AI` | 2026-01-27 |
+| [I Didn't Drift Into Jiu Jitsu. I Engineered Myself Into It.](https://ericgrill.com/blog/engineered-into-jiu-jitsu) | `Jiu-jitsu` | 2026-01-24 |
+| [I Almost Built an AI Hitman. Here's Why I Stopped.](https://ericgrill.com/blog/aegis-ai-hitman-protocol) | `AI` | 2026-01-23 |
 
 <details>
 <summary><strong>All 55 articles →</strong></summary>
