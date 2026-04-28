@@ -5,7 +5,7 @@
 <h1 align="center">Eric Grill</h1>
 
 <p align="center">
-  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&weight=500&size=22&duration=3000&pause=1000&color=58A6FF&center=true&vCenter=true&random=false&width=700&lines=Building+systems+that+survive+when+everything+else+breaks" alt="Typing SVG" />
+  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&weight=500&size=22&duration=3000&pause=1000&color=58A6FF&center=true&vCenter=true&random=false&width=900&lines=Building+systems+that+survive+when+everything+else+breaks" alt="Typing SVG" />
 </p>
 
 <p align="center">
