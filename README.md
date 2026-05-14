@@ -153,6 +153,46 @@ I write about building with AI, Bitcoin development, and security at **[ericgril
 | [Signal Over Noise: Why I'm Unreachable and Fine With It](https://ericgrill.com/blog/signal-over-noise) | `AI` | 2026-01-27 |
 | [I Didn't Drift Into Jiu Jitsu. I Engineered Myself Into It.](https://ericgrill.com/blog/engineered-into-jiu-jitsu) | `Jiu-jitsu` | 2026-01-24 |
 | [I Almost Built an AI Hitman. Here's Why I Stopped.](https://ericgrill.com/blog/aegis-ai-hitman-protocol) | `AI` | 2026-01-23 |
+| [15 Minutes to Decentralization: The Zoltaran Speaks Story](https://ericgrill.com/blog/zoltaran-speaks-decentralization) | `Bitcoin` | 2026-01-22 |
+| [Identity by Default: The Problem Worth Solving](https://ericgrill.com/blog/identity-by-default) | `Bitcoin` | 2026-01-20 |
+| [The Program That Made Me a Developer](https://ericgrill.com/blog/eliza-chatbot-tribute) | `DevOps` | 2026-01-14 |
+| [I Needed an AI Bookkeeper, So I Gave QuickBooks 143 New Tools](https://ericgrill.com/blog/quickbooks-mcp-ai-bookkeeper) | `AI` | 2026-01-14 |
+| [Building a Scott Adams Text Adventure Interpreter at 40,000 Feet](https://ericgrill.com/blog/scott-adams-text-adventure-interpreter) | `DevOps` | 2026-01-14 |
+| [Why I Keep Signing Up for Things That Scare Me](https://ericgrill.com/blog/why-i-keep-signing-up-for-things-that-scare-me) | `Jiu-jitsu` | 2026-01-13 |
+| [I Built Prediction Markets That Need Nothing But Bitcoin](https://ericgrill.com/blog/decentralized-predictive-market-bitcoin) | `Bitcoin` | 2026-01-12 |
+| [I Gave Claude Code 50+ Kali Linux Tools and the Ability to Spawn Attack VMs](https://ericgrill.com/blog/kali-orchestration-ai-hacker) | `AI` | 2026-01-12 |
+| [I Got Tired of Hunting for API Code, So I Made an MCP](https://ericgrill.com/blog/civic-data-api-wrapper) | `AI` | 2026-01-11 |
+| [Claude Code Rescued My Proxmox Cluster (And Hacked Into My Own Laptop)](https://ericgrill.com/blog/claude-code-proxmox-cluster-rescue) | `AI` | 2026-01-11 |
+| [One File to Rule Them All: Portable AI Memory with Memvid](https://ericgrill.com/blog/memvid-portable-ai-memory) | `AI` | 2026-01-11 |
+| [I Got Colored Coins Working on Modern Bitcoin Core. Now What?](https://ericgrill.com/blog/colored-coins-revival) | `Bitcoin` | 2026-01-10 |
+| [Teaching AI Agents to Fly Drones in Formation: A Swarm Coordination Experiment](https://ericgrill.com/blog/ai-drone-swarm-coordination) | `AI` | 2026-01-09 |
+| [From OP_RETURN to Lightning: My Journey Down the Bitcoin Rabbit Hole](https://ericgrill.com/blog/bitcoin-opreturn-to-lightning-journey) | `Bitcoin` | 2026-01-09 |
+| [My Monorepo Builds Took 47 Minutes. Then I Discovered Developer-Essentials.](https://ericgrill.com/blog/developer-essentials-monorepo-guide) | `AI` | 2026-01-09 |
+| [Building a Secure Message Queue on Bitcoin Lightning with Claude Code](https://ericgrill.com/blog/lightning-encrypted-message-queue) | `Bitcoin` | 2026-01-09 |
+| [Stop Coding, Start Thinking: How Claude Code's Brainstorming Superpower Saved Me From Myself](https://ericgrill.com/blog/superpowers-brainstorming-guide) | `AI` | 2026-01-09 |
+| [Spawn an Army: How Claude Code Agents Changed the Way I Think About Coding](https://ericgrill.com/blog/claude-code-agents) | `AI` | 2025-12-20 |
+| [What 2 Years of Jiu-Jitsu Taught Me About Debugging Code](https://ericgrill.com/blog/jiu-jitsu-teaches-debugging) | `Jiu-jitsu` | 2025-12-15 |
+| [Claude Code Hooks: The Event-Driven Automation You Didn't Know You Needed](https://ericgrill.com/blog/claude-code-hooks) | `AI` | 2025-12-10 |
+| [Claude Code Skills: The Missing Manual for Building Reusable AI Workflows](https://ericgrill.com/blog/claude-code-skills) | `AI` | 2025-12-05 |
+| [I Stopped Using My IDE's AI Assistant. Here's What I Switched To.](https://ericgrill.com/blog/claude-code-intro) | `AI` | 2025-12-01 |
+| [What Clicking 'AP' at 3,000 Feet Taught Me About Trusting AI in Code](https://ericgrill.com/blog/garmin-autopilot-trust) | `Aviation` | 2025-11-25 |
+| [Flying a Rockwell Commander Taught Me to Ship Better Code](https://ericgrill.com/blog/rockwell-commander-flying) | `Aviation` | 2025-11-10 |
+| [Hookify: The Tool That Makes Writing Claude Code Hooks Actually Enjoyable](https://ericgrill.com/blog/hookify-tool-guide) | `AI` | 2025-10-28 |
+| [My AI-Generated UIs Looked Like Every Other AI-Generated UI. Then I Found Frontend-Design.](https://ericgrill.com/blog/frontend-design-skill) | `AI` | 2025-10-25 |
+| [Never Lose Your Place Again: Session Persistence for Claude Code](https://ericgrill.com/blog/context-management-plugin) | `AI` | 2025-10-22 |
+| [Conducting the Orchestra: How agent-orchestration Turned Chaos Into Coordination](https://ericgrill.com/blog/agent-orchestration-plugin) | `AI` | 2025-10-19 |
+| [Python & JavaScript Development: The Plugins That Made Me Stop Fighting My Stack](https://ericgrill.com/blog/python-development-plugin) | `AI` | 2025-10-16 |
+| [I Used to Dread Writing Tests and Code Reviews. Now AI Does the Heavy Lifting.](https://ericgrill.com/blog/unit-testing-plugin) | `AI` | 2025-10-13 |
+| [Stop Writing PR Descriptions by Hand: How git-pr-workflows Automates the Tedious Parts of Code Review](https://ericgrill.com/blog/git-pr-workflows-plugin) | `AI` | 2025-10-10 |
+| [From Missed Standups to Seamless Syncs: How AI Transformed My Team's Coordination](https://ericgrill.com/blog/team-collaboration-plugin) | `AI` | 2025-10-07 |
+| [LLM-Application-Dev: The Plugin That Stopped My RAG Hallucinations](https://ericgrill.com/blog/llm-application-dev-plugin) | `AI` | 2025-10-04 |
+| [Database Design That Doesn't Bite: PostgreSQL Architecture with AI](https://ericgrill.com/blog/database-design-plugin) | `AI` | 2025-10-01 |
+| [Anthropic Document Skills: Working with Office Files in Claude Code](https://ericgrill.com/blog/anthropic-document-skills) | `AI` | 2025-09-28 |
+| [Anthropic Design Skills: Visual Creation with Claude Code](https://ericgrill.com/blog/anthropic-design-skills) | `AI` | 2025-09-25 |
+| [Anthropic Builder Skills: Creating Extensions for Claude Code](https://ericgrill.com/blog/anthropic-builder-skills) | `AI` | 2025-09-22 |
+| [Anthropic Communication Skills: Team Messaging with Claude Code](https://ericgrill.com/blog/anthropic-communication-skills) | `AI` | 2025-09-19 |
+| [That Match in Lisbon](https://ericgrill.com/blog/lisbon-gold-rotator-cuff) | `Jiu-jitsu` | 2025-05-14 |
+| [Bitcoin in 2025: A Builder's Perspective](https://ericgrill.com/blog/bitcoin-2025-outlook) | `Bitcoin` | 2025-01-09 |
 
 <details>
 <summary><strong>All 55 articles →</strong></summary>
