@@ -14,7 +14,7 @@
 
 <p align="center">
   Currently building <strong>VoxOps</strong>, <strong>Agent Sisko</strong>, <strong>OpenClaw</strong>, <strong>BJJChat</strong>, <strong>ericgrill.com</strong><br>
-  Training for competition prep — next tournament TBD
+  Training for Competition prep, next tournament TBD
 </p>
 
 <p align="center">
@@ -67,7 +67,7 @@ Enter the lab. Each experiment is live and built to be explored.
 
 | Experiment | Description | Link |
 |------------|-------------|------|
-| **Spar** | Test your ideas against mine. Intellectual sparring powered by AI. | [/spar](https://ericgrill.com/spar) |
+| **Spar With Eric** | Test your ideas against mine. Intellectual sparring powered by AI. | [/spar](https://ericgrill.com/spar) |
 | **Dead Man's Switch** | 30-day proof of life countdown. If the timer hits zero, the final message drops. | [/switch](https://ericgrill.com/switch) |
 | **Ask Eric** | AI-powered Q&A trained on everything I've written. | [/ask-eric](https://ericgrill.com/ask-eric) |
 | **ELIZA** | Chat with the 1966 AI that started it all. | [/eliza](https://ericgrill.com/eliza) |
