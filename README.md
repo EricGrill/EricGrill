@@ -29,6 +29,8 @@
   <a href="#-mcp-servers">MCP Servers</a> •
   <a href="#-bitcoin--decentralized">Bitcoin</a> •
   <a href="#-claude-code--ai">Claude Code & AI</a> •
+  <a href="#-developer-tools">Dev Tools</a> •
+  <a href="#-projects">Projects</a> •
   <a href="#-writing">Writing</a>
 </p>
 
@@ -118,8 +120,23 @@ Model Context Protocol servers that give Claude direct access to infrastructure.
 | [ACRS](https://github.com/EricGrill/ACRS) | Adaptive Cognitive Resource Scheduler — LLM routing decision engine |
 | [agents-skills-plugins](https://github.com/EricGrill/agents-skills-plugins) | Curated collection of Claude Code skills and agents |
 | [fork-my-stack](https://github.com/EricGrill/fork-my-stack) | Full AI assistant setup — gateway, memory, cron, MCP, model routing |
+| [showbible.io](https://github.com/EricGrill/showbible.io) | Open-source AI writers room framework |
+| [agent-router](https://github.com/EricGrill/agent-router) | Linear-driven agent router for private AI coding workflows |
 | [picoclaw-fleet](https://github.com/EricGrill/picoclaw-fleet) | Deploy and orchestrate PicoClaw workers over SSH |
 | [nano-banana](https://github.com/EricGrill/agents-skills-plugins/tree/main/plugins/nano-banana) | Image generation via Gemini API |
+
+---
+
+## 🧰 Developer Tools
+
+Command-line and TUI utilities for day-to-day engineering.
+
+| Tool | Description |
+|------|-------------|
+| [envlens](https://github.com/EricGrill/envlens) | TUI to inspect, compare, and debug environment variables |
+| [promptpantry](https://github.com/EricGrill/promptpantry) | Local git-backed prompt library — CLI and TUI |
+| [repo-librarian](https://github.com/EricGrill/repo-librarian) | Local intelligence workbench for your GitHub repositories |
+| [zellij-ops](https://github.com/EricGrill/zellij-ops) | Zellij session and workflow tooling |
 
 ---
 
@@ -127,6 +144,9 @@ Model Context Protocol servers that give Claude direct access to infrastructure.
 
 | Project | Description |
 |---------|-------------|
+| [StrikeClause](https://github.com/EricGrill/StrikeClause) | AI contract review — analysis, playbooks, exports, review workflows |
+| [eos-meetings](https://github.com/EricGrill/eos-meetings) | AI-powered meeting platform for EOS teams |
+| [marketedge](https://github.com/EricGrill/marketedge) | Prediction-market quant research & dry-run execution workbench |
 | [scott-adams-interpreter](https://github.com/EricGrill/scott-adams-interpreter) | Web-based interpreter for classic Scott Adams text adventures |
 | [eliza-ts](https://github.com/EricGrill/eliza-ts) | TypeScript implementation of the classic ELIZA chatbot (1966) |
 
