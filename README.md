@@ -13,7 +13,8 @@
 </p>
 
 <p align="center">
-  Currently building <strong>VoxOps</strong>, <strong>Agent Sisko</strong>, <strong>OpenClaw</strong>, <strong>BJJChat</strong>, <strong>ericgrill.com</strong><br>
+  Currently building <a href="https://bjjchat.com"><strong>BJJChat</strong></a>, <a href="https://tellforever.com"><strong>TellForever</strong></a>, <a href="https://www.aircraftspa.com"><strong>Aircraft Spa</strong></a>,<br>
+  <a href="https://github.com/EricGrill/nostr-q"><strong>Nostr-Q</strong></a>, <a href="https://github.com/EricGrill/devday"><strong>devday</strong></a>, <a href="https://github.com/EricGrill/linear-scout"><strong>linear-scout</strong></a>, <a href="https://github.com/EricGrill/vox-ops"><strong>VoxOps</strong></a>, <strong>ericgrill.com</strong><br>
   Training for Competition prep, next tournament TBD
 </p>
 
@@ -104,6 +105,7 @@ Model Context Protocol servers that give Claude direct access to infrastructure.
 
 | Project | Description |
 |---------|-------------|
+| [nostr-q](https://github.com/EricGrill/nostr-q) | Message queues and pub/sub over Nostr relays — `nq` CLI + Rust SDK |
 | [voluntaryjustice](https://github.com/EricGrill/voluntaryjustice) | Decentralized justice system with competitive arbitration and insurance-backed enforcement |
 | [decentralized-predictive-market-bitcoin](https://github.com/EricGrill/decentralized-predictive-market-bitcoin) | BTC-native prediction market protocol |
 | [permanentspeech](https://github.com/EricGrill/permanentspeech) | Permissionless publishing to Bitcoin via OP_RETURN |
@@ -117,13 +119,15 @@ Model Context Protocol servers that give Claude direct access to infrastructure.
 
 | Project | Description |
 |---------|-------------|
-| [ACRS](https://github.com/EricGrill/ACRS) | Adaptive Cognitive Resource Scheduler — LLM routing decision engine |
 | [agents-skills-plugins](https://github.com/EricGrill/agents-skills-plugins) | Curated collection of Claude Code skills and agents |
 | [fork-my-stack](https://github.com/EricGrill/fork-my-stack) | Full AI assistant setup — gateway, memory, cron, MCP, model routing |
 | [showbible.io](https://github.com/EricGrill/showbible.io) | Open-source AI writers room framework |
-| [agent-router](https://github.com/EricGrill/agent-router) | Linear-driven agent router for private AI coding workflows |
+| [agent-conquer](https://github.com/EricGrill/agent-conquer) | Control plane for distributed AI agents — live visibility, command, intervention |
 | [picoclaw-fleet](https://github.com/EricGrill/picoclaw-fleet) | Deploy and orchestrate PicoClaw workers over SSH |
+| [agent-personalities-skills](https://github.com/EricGrill/agent-personalities-skills) | AI agent personalities and reusable skills for Claude Code, Codex, and friends |
 | [nano-banana](https://github.com/EricGrill/agents-skills-plugins/tree/main/plugins/nano-banana) | Image generation via Gemini API |
+| ACRS *(private)* | Adaptive Cognitive Resource Scheduler — LLM routing decision engine |
+| agent-router *(private)* | Linear-driven agent router for private AI coding workflows |
 
 ---
 
@@ -133,10 +137,15 @@ Command-line and TUI utilities for day-to-day engineering.
 
 | Tool | Description |
 |------|-------------|
-| [envlens](https://github.com/EricGrill/envlens) | TUI to inspect, compare, and debug environment variables |
-| [promptpantry](https://github.com/EricGrill/promptpantry) | Local git-backed prompt library — CLI and TUI |
-| [repo-librarian](https://github.com/EricGrill/repo-librarian) | Local intelligence workbench for your GitHub repositories |
-| [zellij-ops](https://github.com/EricGrill/zellij-ops) | Zellij session and workflow tooling |
+| [devday](https://github.com/EricGrill/devday) | Shareable engineering status reports from GitHub, Linear, and local git (Rust) |
+| [codemap](https://github.com/EricGrill/codemap) | Local-first CLI that builds agent-ready structured intelligence about JS/TS repos (Rust) |
+| [linear-scout](https://github.com/EricGrill/linear-scout) | Turns recent Linear activity into evidence-backed product recommendations (Go) |
+| [envlens](https://github.com/EricGrill/envlens) | TUI to inspect, compare, and debug environment variables (Rust) |
+| [promptpantry](https://github.com/EricGrill/promptpantry) | Local git-backed prompt library — CLI and TUI (Rust) |
+| repo-librarian *(private)* | Local intelligence workbench for your GitHub repositories |
+| zellij-ops *(private)* | Zellij session and workflow tooling |
+
+Some of these ship via [homebrew-tap](https://github.com/EricGrill/homebrew-tap) — `brew tap ericgrill/tap` currently serves `marketedge`, `prompt-pantry`, and the `voxops` cask.
 
 ---
 
@@ -144,11 +153,18 @@ Command-line and TUI utilities for day-to-day engineering.
 
 | Project | Description |
 |---------|-------------|
-| [StrikeClause](https://github.com/EricGrill/StrikeClause) | AI contract review — analysis, playbooks, exports, review workflows |
-| [eos-meetings](https://github.com/EricGrill/eos-meetings) | AI-powered meeting platform for EOS teams |
+| [BJJChat](https://bjjchat.com) | Full-stack gym management platform — face-recognition check-in, technique library, AI coach *(private repo)* |
+| [TellForever](https://tellforever.com) | AI-guided life story recording — preserve memories through voice interviews *(private repo)* |
+| [Aircraft Spa](https://www.aircraftspa.com) | Premium aircraft detailing — lead intake, customer portal, phone-agent webhooks *(private repo)* |
+| [VoxOps](https://github.com/EricGrill/vox-ops) | Push-to-talk voice → structured action → agent execution. Native macOS, local Whisper |
 | [marketedge](https://github.com/EricGrill/marketedge) | Prediction-market quant research & dry-run execution workbench |
+| [QuantWeather](https://github.com/EricGrill/QuantWeather) | Weather-market screening and paper-trading execution system |
 | [scott-adams-interpreter](https://github.com/EricGrill/scott-adams-interpreter) | Web-based interpreter for classic Scott Adams text adventures |
 | [eliza-ts](https://github.com/EricGrill/eliza-ts) | TypeScript implementation of the classic ELIZA chatbot (1966) |
+| [pomovault](https://github.com/EricGrill/pomovault) | Obsidian plugin — pomodoro tasks, timer, and proof-of-work logs in plain markdown |
+| [getpersonalbrand](https://github.com/EricGrill/getpersonalbrand) | Link-in-bio, about page, and portfolio in one branded personal site |
+| StrikeClause *(private)* | AI contract review — analysis, playbooks, exports, review workflows |
+| eos-meetings *(private)* | AI-powered meeting platform for EOS teams |
 
 ---
 
@@ -158,6 +174,10 @@ I write about building with AI, Bitcoin development, and security at **[ericgril
 
 | Article | Topic | Date |
 |---------|:-----:|------|
+| [Buzz and Linear Became My Whole Workflow](https://ericgrill.com/blog/buzz-linear-workflow-control-plane) | `AI` | 2026-07-29 |
+| [Kimi K3 Just Ended the American AI Monopoly, and We Did It to Ourselves](https://ericgrill.com/blog/kimi-k3-ended-american-ai-monopoly) | `AI` | 2026-07-20 |
+| [I Replaced tmux and iTerm2 With Herdr and Ghostty](https://ericgrill.com/blog/switching-to-herdr-ghostty) | `DevOps` | 2026-07-06 |
+| [I Built a Jiu Jitsu Lab in My Backyard](https://ericgrill.com/blog/jiu-jitsu-lab-barn) | `Jiu-jitsu` | 2026-06-07 |
 | [npm install -g @openai/codex oh-my-codex: The Workflow Layer Codex Needed](https://ericgrill.com/blog/oh-my-codex-workflow-layer) | `AI` | 2026-04-09 |
 | [I Built a Voice-to-Agent Pipeline and Stopped Typing Commands](https://ericgrill.com/blog/voxops-voice-agent-pipeline) | `AI` | 2026-04-05 |
 | [I Run 30 AI Agents From My Phone](https://ericgrill.com/blog/i-run-30-ai-agents-from-my-phone) | `AI` | 2026-03-22 |
@@ -215,7 +235,7 @@ I write about building with AI, Bitcoin development, and security at **[ericgril
 | [Bitcoin in 2025: A Builder's Perspective](https://ericgrill.com/blog/bitcoin-2025-outlook) | `Bitcoin` | 2025-01-09 |
 
 <details>
-<summary><strong>All 55 articles →</strong></summary>
+<summary><strong>All 59 articles →</strong></summary>
 
 See the full archive at **[ericgrill.com/blog](https://ericgrill.com/blog)**
 
