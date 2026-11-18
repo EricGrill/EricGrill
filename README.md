@@ -34,7 +34,7 @@
   <a href="#-claude-code--ai">Claude Code & AI</a> •
   <a href="#-developer-tools">Dev Tools</a> •
   <a href="#-projects">Projects</a> •
-  <a href="#-writing">Writing</a>
+  <a href="#️-writing">Writing</a>
 </p>
 
 ---
