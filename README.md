@@ -15,29 +15,31 @@
 <p align="center">
   Currently building <a href="https://bjjchat.com"><strong>BJJChat</strong></a>, <a href="https://tellforever.com"><strong>TellForever</strong></a>, <a href="https://www.aircraftspa.com"><strong>Aircraft Spa</strong></a>,<br>
   <a href="https://github.com/EricGrill/nostr-q"><strong>Nostr-Q</strong></a>, <a href="https://github.com/EricGrill/devday"><strong>devday</strong></a>, <a href="https://github.com/EricGrill/linear-scout"><strong>linear-scout</strong></a>, <a href="https://github.com/EricGrill/vox-ops"><strong>VoxOps</strong></a>, <strong>ericgrill.com</strong><br>
-  Training for Competition prep, next tournament TBD
+  Training: competition prep, next tournament TBD
 </p>
 
 <p align="center">
   <a href="https://ericgrill.com"><img src="https://img.shields.io/badge/ericgrill.com-000?style=for-the-badge&logo=safari&logoColor=white" alt="Website"></a>
   <a href="https://x.com/EricGrill"><img src="https://img.shields.io/badge/@EricGrill-000?style=for-the-badge&logo=x&logoColor=white" alt="X"></a>
+  <a href="https://www.linkedin.com/in/ericgrill/"><img src="https://img.shields.io/badge/LinkedIn-000?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn"></a>
+  <a href="https://www.youtube.com/@EricGrill"><img src="https://img.shields.io/badge/YouTube-000?style=for-the-badge&logo=youtube&logoColor=white" alt="YouTube"></a>
   <img src="https://komarev.com/ghpvc/?username=EricGrill&style=for-the-badge&color=blueviolet" alt="Profile Views">
 </p>
 
 <p align="center">
-  <a href="#-three-systems">Three Systems</a> •
+  <a href="#-four-systems">Four Systems</a> •
   <a href="#-lab-experiments">Lab</a> •
   <a href="#-mcp-servers">MCP Servers</a> •
   <a href="#-bitcoin--decentralized">Bitcoin</a> •
   <a href="#-claude-code--ai">Claude Code & AI</a> •
   <a href="#-developer-tools">Dev Tools</a> •
   <a href="#-projects">Projects</a> •
-  <a href="#-writing">Writing</a>
+  <a href="#️-writing">Writing</a>
 </p>
 
 ---
 
-## 🎯 Three Systems
+## 🎯 Four Systems
 
 I build systems for people who refuse to be owned.
 
@@ -51,7 +53,7 @@ Infrastructure that moves real value. Systems that survive when others fail.
 ### 🥋 Fight
 BJJ, Competition, Discipline
 
-IBJJF champion. Training daily. The mats teach what theory cannot.
+2025 IBJJF Europeans white belt gold. Now a two-stripe blue belt. Training daily. The mats teach what theory cannot.
 
 [Watch the fights →](https://www.youtube.com/@EricGrill)
 
@@ -62,21 +64,32 @@ Live experiments. Not tutorials. Dispatches from the edge.
 
 [Read the dispatches →](https://ericgrill.com/blog)
 
+### ✈️ Fly
+Routes, Aircraft, Field Notes
+
+Past flights, a week after they happen. Aviation dispatches live with the map.
+
+[Open the flight map →](https://ericgrill.com/fly)
+
 ---
 
 ## 🧪 Lab Experiments
 
-Enter the lab. Each experiment is live and built to be explored.
+Enter the lab. Each experiment is live and built to be explored. The [full lab index](https://ericgrill.com/lab) has every experiment and demo.
 
 | Experiment | Description | Link |
 |------------|-------------|------|
 | **Spar With Eric** | Test your ideas against mine. Intellectual sparring powered by AI. | [/spar](https://ericgrill.com/spar) |
 | **Dead Man's Switch** | 30-day proof of life countdown. If the timer hits zero, the final message drops. | [/switch](https://ericgrill.com/switch) |
 | **Ask Eric** | AI-powered Q&A trained on everything I've written. | [/ask-eric](https://ericgrill.com/ask-eric) |
+| **Brainstorm** | Turn a raw idea into a structured product requirements document. | [/brainstorm](https://ericgrill.com/brainstorm) |
+| **Eric Reacts** | Paste an article URL and get a direct reaction grounded in my writing. | [/react](https://ericgrill.com/react) |
+| **Challenges** | Pressure-test my strongest positions with clear counter-arguments. | [/challenges](https://ericgrill.com/challenges) |
 | **ELIZA** | Chat with the 1966 AI that started it all. | [/eliza](https://ericgrill.com/eliza) |
 | **ZKP Demo** | Zero-knowledge proof Rock-Paper-Scissors. | [/zkp](https://ericgrill.com/zkp) |
 | **Tomb of Horrors** | Terminal text adventure. Navigate the dungeon. | [/adventure](https://ericgrill.com/adventure) |
 | **Mirror** | See what your browser tells every site you visit. | [/mirror](https://ericgrill.com/mirror) |
+| **Type Test** | Measure typing speed and accuracy against excerpts from my writing. | [/type-test](https://ericgrill.com/type-test) |
 
 ---
 
@@ -86,18 +99,18 @@ Model Context Protocol servers that give Claude direct access to infrastructure.
 
 | Server | Description | Tools |
 |--------|-------------|:-----:|
-| [mcp-proxmox-admin](https://github.com/EricGrill/mcp-proxmox-admin) | Manage VMs, containers, snapshots via natural language | `16` |
-| [mcp-kali-orchestration](https://github.com/EricGrill/mcp-kali-orchestration) | 50+ security tools for authorized pentesting | `50+` |
+| [mcp-proxmox-admin](https://github.com/EricGrill/mcp-proxmox-admin) | Manage VMs, containers, snapshots via natural language | `22` |
+| [mcp-kali-orchestration](https://github.com/EricGrill/mcp-kali-orchestration) | 46 security tool wrappers plus Kali VM lifecycle, for authorized pentesting | `52` |
 | [mcp-bitcoin-cli](https://github.com/EricGrill/mcp-bitcoin-cli) | OP_RETURN, BRC-20, on-chain timestamps | `16` |
-| [mcp-multi-agent-ssh](https://github.com/EricGrill/mcp-multi-agent-ssh) | Persistent SSH with AES-256-GCM encrypted credentials | `8` |
+| [mcp-multi-agent-ssh](https://github.com/EricGrill/mcp-multi-agent-ssh) | Persistent SSH with AES-256-GCM encrypted credentials | `9` |
 | [mcp-multi-agent-server-delegation](https://github.com/EricGrill/mcp-multi-agent-server-delegation) | Task delegation to isolated Proxmox VMs | `5` |
-| [mcp-predictive-market](https://github.com/EricGrill/mcp-predictive-market) | Query 5 prediction markets, arbitrage detection | `8` |
-| [mcp-civic-data](https://github.com/EricGrill/mcp-civic-data) | 7 government APIs: weather, census, NASA, economics | `22` |
+| [mcp-predictive-market](https://github.com/EricGrill/mcp-predictive-market) | Query 5 prediction markets, arbitrage detection, correlation and cluster analysis | `11` |
+| [mcp-civic-data](https://github.com/EricGrill/mcp-civic-data) | 45+ public and government data sources: weather, hazards, census, NASA, economics, aviation | `172` |
 | [mcp-memvid-state-service](https://github.com/EricGrill/mcp-memvid-state-service) | AI memory layer with vector search | `10` |
 | [mcp-market-data](https://github.com/EricGrill/mcp-market-data) | Real-time stock, crypto, forex via Yahoo Finance | `6` |
-| [mcp-ipfs](https://github.com/EricGrill/mcp-ipfs) | IPFS decentralized storage, pinning, DAG, DHT | `34` |
-| [quickbooks-online-mcp-server](https://github.com/EricGrill/quickbooks-online-mcp-server) | QuickBooks Online CRUD for invoices, customers, bills | `55` |
-| [fulcrum-mcp](https://github.com/EricGrill/fulcrum-mcp) | Fulcrum AI orchestration — jobs, knowledge, workers, deployments | `50+` |
+| [mcp-ipfs](https://github.com/EricGrill/mcp-ipfs) | IPFS decentralized storage, pinning, DAG, DHT | `32` |
+| [quickbooks-online-mcp-server](https://github.com/EricGrill/quickbooks-online-mcp-server) | QuickBooks Online CRUD for invoices, customers, bills | `50` |
+| [fulcrum-mcp](https://github.com/EricGrill/fulcrum-mcp) | Fulcrum AI orchestration — jobs, workers, knowledge search | `8` |
 
 ---
 
@@ -125,6 +138,7 @@ Model Context Protocol servers that give Claude direct access to infrastructure.
 | [agent-conquer](https://github.com/EricGrill/agent-conquer) | Control plane for distributed AI agents — live visibility, command, intervention |
 | [picoclaw-fleet](https://github.com/EricGrill/picoclaw-fleet) | Deploy and orchestrate PicoClaw workers over SSH |
 | [agent-personalities-skills](https://github.com/EricGrill/agent-personalities-skills) | AI agent personalities and reusable skills for Claude Code, Codex, and friends |
+| [agent-voice](https://github.com/EricGrill/agent-voice) | Give any LLM agent a cloned voice: its reply in, one spoken line out, via an OmniVoice TTS server |
 | [nano-banana](https://github.com/EricGrill/agents-skills-plugins/tree/main/plugins/nano-banana) | Image generation via Gemini API |
 | ACRS *(private)* | Adaptive Cognitive Resource Scheduler — LLM routing decision engine |
 | agent-router *(private)* | Linear-driven agent router for private AI coding workflows |
@@ -142,10 +156,11 @@ Command-line and TUI utilities for day-to-day engineering.
 | [linear-scout](https://github.com/EricGrill/linear-scout) | Turns recent Linear activity into evidence-backed product recommendations (Go) |
 | [envlens](https://github.com/EricGrill/envlens) | TUI to inspect, compare, and debug environment variables (Rust) |
 | [promptpantry](https://github.com/EricGrill/promptpantry) | Local git-backed prompt library — CLI and TUI (Rust) |
+| [rundown](https://github.com/EricGrill/rundown) | Turn your GitHub stars into a local research library — CLI/TUI with Claude, Gemini, or Codex (Python) |
 | repo-librarian *(private)* | Local intelligence workbench for your GitHub repositories |
 | zellij-ops *(private)* | Zellij session and workflow tooling |
 
-Some of these ship via [homebrew-tap](https://github.com/EricGrill/homebrew-tap) — `brew tap ericgrill/tap` currently serves `marketedge`, `prompt-pantry`, and the `voxops` cask.
+Some of these ship via [homebrew-tap](https://github.com/EricGrill/homebrew-tap) — `brew tap ericgrill/tap` currently serves `marketedge`, `prompt-pantry`, `rundown`, and the `voxops` cask.
 
 ---
 
@@ -153,8 +168,8 @@ Some of these ship via [homebrew-tap](https://github.com/EricGrill/homebrew-tap)
 
 | Project | Description |
 |---------|-------------|
-| [BJJChat](https://bjjchat.com) | Full-stack gym management platform — face-recognition check-in, technique library, AI coach *(private repo)* |
-| [TellForever](https://tellforever.com) | AI-guided life story recording — preserve memories through voice interviews *(private repo)* |
+| [BJJChat](https://bjjchat.com) | Log your training, follow your progress, run your academy — free for every academy, coach and student *(private repo)* |
+| [TellForever](https://tellforever.com) | Preserve a loved one's voice and stories in their own words — guided, private, built for ALS and MND families *(private repo)* |
 | [Aircraft Spa](https://www.aircraftspa.com) | Premium aircraft detailing — lead intake, customer portal, phone-agent webhooks *(private repo)* |
 | [VoxOps](https://github.com/EricGrill/vox-ops) | Push-to-talk voice → structured action → agent execution. Native macOS, local Whisper |
 | [marketedge](https://github.com/EricGrill/marketedge) | Prediction-market quant research & dry-run execution workbench |
@@ -164,7 +179,7 @@ Some of these ship via [homebrew-tap](https://github.com/EricGrill/homebrew-tap)
 | [pomovault](https://github.com/EricGrill/pomovault) | Obsidian plugin — pomodoro tasks, timer, and proof-of-work logs in plain markdown |
 | [getpersonalbrand](https://github.com/EricGrill/getpersonalbrand) | Link-in-bio, about page, and portfolio in one branded personal site |
 | StrikeClause *(private)* | AI contract review — analysis, playbooks, exports, review workflows |
-| eos-meetings *(private)* | AI-powered meeting platform for EOS teams |
+| QuarterRock *(private)* | AI-powered meeting platform for EOS teams |
 
 ---
 
@@ -174,6 +189,11 @@ I write about building with AI, Bitcoin development, and security at **[ericgril
 
 | Article | Topic | Date |
 |---------|:-----:|------|
+| [The Same $30 Stick, Disarmed, on the Aviation Bench](https://ericgrill.com/blog/sticks3-aviation-bench) | `Aviation` | 2026-11-14 |
+| [Claude Finishes, and One Line Comes Out of the Speaker](https://ericgrill.com/blog/claude-finishes-one-line) | `AI` | 2026-11-14 |
+| [I Built a BJJ Round Timer on a $30 ESP32](https://ericgrill.com/blog/sticks3-bjj-round-timer) | `Jiu-jitsu` | 2026-11-12 |
+| [I Don't Merge Agent PRs Without a Council](https://ericgrill.com/blog/i-dont-merge-agent-prs-without-a-council) | `AI` | 2026-11-12 |
+| [Alexa Was Collecting My Tasks. Nothing Was Getting Done.](https://ericgrill.com/blog/alexa-todoist-voice-capture) | `AI` | 2026-10-10 |
 | [Buzz and Linear Became My Whole Workflow](https://ericgrill.com/blog/buzz-linear-workflow-control-plane) | `AI` | 2026-07-29 |
 | [Kimi K3 Just Ended the American AI Monopoly, and We Did It to Ourselves](https://ericgrill.com/blog/kimi-k3-ended-american-ai-monopoly) | `AI` | 2026-07-20 |
 | [I Replaced tmux and iTerm2 With Herdr and Ghostty](https://ericgrill.com/blog/switching-to-herdr-ghostty) | `DevOps` | 2026-07-06 |
@@ -235,7 +255,7 @@ I write about building with AI, Bitcoin development, and security at **[ericgril
 | [Bitcoin in 2025: A Builder's Perspective](https://ericgrill.com/blog/bitcoin-2025-outlook) | `Bitcoin` | 2025-01-09 |
 
 <details>
-<summary><strong>All 59 articles →</strong></summary>
+<summary><strong>Full archive →</strong></summary>
 
 See the full archive at **[ericgrill.com/blog](https://ericgrill.com/blog)**
 
@@ -244,7 +264,7 @@ See the full archive at **[ericgrill.com/blog](https://ericgrill.com/blog)**
 ---
 
 <p align="center">
-  <i>Elizabethtown, PA • <a href="https://github.com/EricGrill">Chainbytes LLC</a></i>
+  <i>Elizabethtown, PA • <a href="https://www.chainbytes.com">Chainbytes LLC</a></i>
 </p>
 
 <p align="center">
